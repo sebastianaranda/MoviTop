@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--    CUSTOM COLOR PALETTE      -->
+    <color name="black">#383838</color>
+    <color name="black_39">#62000000</color>
+    <color name="dark_blue_grey">#091920</color>
+    <color name="black_39_0">#00000000</color>
+    <color name="slate">#3c5663</color>
+    <color name="ice_blue">#e1f5ff</color>
+    <color name="black_90">#e6000000</color>
+    <color name="white">#ffffff</color>
+    <color name="bg_genre_movie">#CC1E2B31</color>
+    <color name="bg_main_activity">#1b1b1b</color>
+    <color name="bg_toolbar">#151515</color>
+    <color name="gray">#80FFFFFF</color>
+</resources>

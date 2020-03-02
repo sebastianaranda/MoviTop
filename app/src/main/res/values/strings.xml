@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MoviTop</string>
+
+    <!-- DRAWER -->
+    <string name="txt_drawer_open">Abrir menu lateral</string>
+    <string name="txt_drawer_close">Cerrar menu lateral</string>
+</resources>

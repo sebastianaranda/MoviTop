@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.MainActivity">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/main_activity_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:orientation="vertical"
+        android:background="@color/bg_main_activity">
+
+        <FrameLayout
+            android:id="@+id/main_activity_fragment_movies_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black_90"
+        app:titleTextColor="@color/white"
+        app:menu="@menu/toolbar_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
