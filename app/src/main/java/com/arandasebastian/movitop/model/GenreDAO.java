@@ -18,21 +18,20 @@ public class GenreDAO extends GenreRetrofitDAO {
         super(BASE_URL);
     }
 
-    public void getGenres(String api_key, final ResultListener<List<Genre>> controllerListerner){
+    public void getGenres(String api_key, final ResultListener<List<Genre>> controllerListener){
         Call<GenreContainer> call = genreService.getGenresListFromAPI(api_key);
 
         call.enqueue(new Callback<GenreContainer>() {
             @Override
             public void onResponse(Call<GenreContainer> call, Response<GenreContainer> response) {
                 GenreContainer genreContainer = response.body();
-                controllerListerner.finish(genreContainer.getGenreList());
+                controllerListener.finish(genreContainer.getGenreList());
             }
 
             @Override
             public void onFailure(Call<GenreContainer> call, Throwable t) {
-                Log.d("ERROR","Falló el pedido de genres");
+                Log.d("ERROR","Falló el pedido de generos");
             }
         });
-
     }
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -43,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements MoviesListFragmen
 
     @Override
     public void changeMovieToDetails(Movie selectedMovie) {
-        //Intent intent = new Intent(MainActivity.this,ImageDetailsActivity.class);
-        //Bundle bundle = new Bundle();
-        //bundle.putSerializable(ImageDetailsActivity.KEY_IMAGE,selectedImage);
-        //intent.putExtras(bundle);
-        //startActivity(intent);
-        Toast.makeText(this, selectedMovie.getMovieTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,MovieDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MovieDetailsActivity.KEY_MOVIE,selectedMovie);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        //Toast.makeText(this, selectedMovie.getMovieTitle(), Toast.LENGTH_SHORT).show();
     }
 }

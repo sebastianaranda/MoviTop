@@ -13,7 +13,10 @@ import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
 import com.bumptech.glide.Glide;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
@@ -21,15 +24,22 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Movie> movieList;
     private MovieAdapterListener movieAdapterListener;
     private List<Genre> genreList;
+    private List<Integer> integerList;
 
     public MovieAdapter(MovieAdapterListener movieAdapterListener) {
         this.movieList = new ArrayList<>();
         this.genreList = new ArrayList<>();
+        this.integerList = new ArrayList<>();
         this.movieAdapterListener = movieAdapterListener;
     }
 
     public void addNewMovies(List<Movie> newMovies){
         this.movieList.addAll(newMovies);
+        notifyDataSetChanged();
+    }
+
+    public void addNewGenres(List<Genre> newGenres){
+        this.genreList.addAll(newGenres);
         notifyDataSetChanged();
     }
 
@@ -61,8 +71,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         private ImageView imgPoster;
         private TextView txtTitle, txtGenre;
         private String posterURL = "https://image.tmdb.org/t/p/w500";
-        private GenreController genreController;
-
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,7 +89,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         private void bindMovie(Movie movie){
+
             txtTitle.setText(movie.getMovieTitle());
+
+            txtGenre.setText(genreList.get(0).getName());
+
             Glide.with(itemView)
                     .load(posterURL+movie.getMoviePoster())
                     .into(imgPoster);

@@ -51,7 +51,9 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
         movieAdapter = new MovieAdapter(this);
 
         movieController = new MovieController();
+        genreController = new GenreController();
 
+        getGenres();
         getMovies();
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -80,6 +82,21 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
             });
         }
     }
+
+    public void getGenres(){
+        genreController.getGenresFromDAO(new ResultListener<List<Genre>>() {
+            @Override
+            public void finish(List<Genre> result) {
+                if (result.size() != 0){
+                    movieAdapter.addNewGenres(result);
+                    movieAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+
+
 
     @Override
     public void getMovieFromAdapter(Movie movie) {

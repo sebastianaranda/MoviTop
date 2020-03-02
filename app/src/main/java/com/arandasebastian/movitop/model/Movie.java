@@ -15,19 +15,19 @@ public class Movie implements Serializable {
     private String moviePoster;
     private String overview;
     private String release_date;
-    /*@SerializedName("genre_ids")
-    private List<Integer> movieGenre;*/
+    @SerializedName("genre_ids")
+    private List<Integer> movieGenre;
 
     public Movie() {
     }
 
-    public Movie(Integer movieID, String movieTitle, String moviePoster, String overview, String release_date) {
+    public Movie(Integer movieID, String movieTitle, String moviePoster, String overview, String release_date, List<Integer> movieGenre) {
         this.movieID = movieID;
         this.movieTitle = movieTitle;
         this.moviePoster = moviePoster;
         this.overview = overview;
         this.release_date = release_date;
-        //this.movieGenre = movieGenre;
+        this.movieGenre = movieGenre;
     }
 
     public Integer getMovieID() {
@@ -70,11 +70,11 @@ public class Movie implements Serializable {
         this.release_date = release_date;
     }
 
-    /*public Genre getMovieGenre() {
+    public List<Integer> getMovieGenre() {
         return movieGenre;
     }
 
-    public void setMovieGenre(Genre movieGenre) {
+    public void setMovieGenre(List<Integer> movieGenre) {
         this.movieGenre = movieGenre;
-    }*/
+    }
 }

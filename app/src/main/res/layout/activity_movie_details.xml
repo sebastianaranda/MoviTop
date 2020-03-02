@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.MovieDetailsActivity">
+
+    <ImageView
+        android:id="@+id/activity_movie_details_imageview_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"/>
+
+    <View
+        android:id="@+id/activity_movie_details_view_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCFFC800"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_movie_details_cardview"
+        android:layout_width="182dp"
+        android:layout_height="273dp"
+        app:cardCornerRadius="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="?actionBarSize"
+        app:cardElevation="2dp">
+
+        <ImageView
+            android:id="@+id/activity_movie_details_imageview_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/activity_movie_details_textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NOMBRE PELICULA"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:letterSpacing="-0.02"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_movie_details_cardview"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginEnd="37dp"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/activity_movie_details_textview_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2011"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_movie_details_textview_title"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/white"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/activity_movie_details_materialbutton_subscribe"
+        android:layout_width="195dp"
+        android:layout_height="45dp"
+        app:cornerRadius="100dp"
+        android:text="SUSCRIBIRSE"
+        android:layout_marginTop="22dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_movie_details_textview_year"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="@color/transparent"
+        android:textColor="@color/white"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/white"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/activity_movie_details_textview_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:lineHeight="24sp"
+        android:textColor="@color/white"
+        tools:text="kajshjhagskdhjgajhgajdfglkajhgdfkjhsgdfkjhgskjhdgfkjhsgdkfjhgskdjfhgksjdhgfkjshdgfkjhsgdkfjhgsjdhfgsjhdfkjhsgdkhagsdkjhgaskjhdgajklhsd"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="37dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_movie_details_materialbutton_subscribe"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/custom_toolbar_movie_details"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black_90"
+        app:titleTextColor="@color/white"
+        app:menu="@menu/toolbar_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

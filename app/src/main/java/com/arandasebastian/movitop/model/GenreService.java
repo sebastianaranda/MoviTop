@@ -1,10 +1,12 @@
 package com.arandasebastian.movitop.model;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface GenreService {
-    @GET("/genre/movie/list")
+    @GET("/3/genre/movie/list")
     Call<GenreContainer> getGenresListFromAPI(@Query("api_key") String api_key);
 }
