@@ -29,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/black_90"
         app:titleTextColor="@color/white"
-        app:menu="@menu/toolbar_menu"/>
+        app:menu="@menu/toolbar_menu"
+        android:elevation="4dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

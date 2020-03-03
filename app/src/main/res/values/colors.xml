@@ -18,4 +18,5 @@
     <color name="bg_toolbar">#151515</color>
     <color name="gray">#80FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="fullBlack">#000000</color>
 </resources>
