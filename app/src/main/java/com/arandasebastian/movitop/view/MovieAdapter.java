@@ -17,7 +17,9 @@ import com.bumptech.glide.Glide;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -25,12 +27,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private MovieAdapterListener movieAdapterListener;
     private List<Genre> genreList;
     private List<Integer> integerList;
+    private Map<Integer,String> genreMap;
 
     public MovieAdapter(MovieAdapterListener movieAdapterListener) {
         this.movieList = new ArrayList<>();
         this.genreList = new ArrayList<>();
         this.integerList = new ArrayList<>();
         this.movieAdapterListener = movieAdapterListener;
+        this.genreMap = new HashMap<>();
     }
 
     public void addNewMovies(List<Movie> newMovies){
@@ -40,6 +44,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public void addNewGenres(List<Genre> newGenres){
         this.genreList.addAll(newGenres);
+        for (Genre genre: genreList){
+            genreMap.put(genre.getId(),genre.getName());
+        }
         notifyDataSetChanged();
     }
 
@@ -89,11 +96,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         private void bindMovie(Movie movie){
-
             txtTitle.setText(movie.getMovieTitle());
-
-            txtGenre.setText(genreList.get(0).getName());
-
+            txtGenre.setText(genreMap.get(movie.getMovieGenre().get(0)));
             Glide.with(itemView)
                     .load(posterURL+movie.getMoviePoster())
                     .into(imgPoster);
