@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/movie_row_cardview"
-        android:layout_width="335dp"
+        android:layout_width="match_parent"
         android:layout_height="156dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

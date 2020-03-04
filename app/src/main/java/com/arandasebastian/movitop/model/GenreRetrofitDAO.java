@@ -12,7 +12,7 @@ public class GenreRetrofitDAO {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         genreService = retrofit.create(GenreService.class);
     }
+
 }

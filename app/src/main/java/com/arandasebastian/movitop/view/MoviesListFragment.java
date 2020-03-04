@@ -1,27 +1,21 @@
 package com.arandasebastian.movitop.view;
 
-
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.MovieController;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
-
 import java.util.List;
 
 public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAdapterListener {
@@ -33,7 +27,6 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
     private Boolean isLoading = true;
 
     public MoviesListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -46,11 +39,9 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies_list, container, false);
-
         RecyclerView recyclerView = view.findViewById(R.id.fragment_movies_list_recycler);
 
         movieAdapter = new MovieAdapter(this);
-
         movieController = new MovieController();
         genreController = new GenreController();
 
@@ -58,25 +49,19 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
         getMovies();
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
         recyclerView.setLayoutManager(linearLayoutManager);
-
         recyclerView.setAdapter(movieAdapter);
-
-        //TODO: aca va el scroll listener
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 Integer currentPosition = linearLayoutManager.findLastVisibleItemPosition();
                 Integer lastPosition = movieAdapter.getItemCount();
-
                 if (currentPosition >= lastPosition - 5 & isLoading == false){
                     getMovies();
                 }
             }
         });
-
         return view;
     }
 
@@ -91,7 +76,7 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
                         movieAdapter.notifyDataSetChanged();
                         isLoading = false;
                     } else {
-                        Toast.makeText(getContext(), "No hay más películas disponibles", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.txt_nomoremoviesavailables, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -110,9 +95,6 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
         });
     }
 
-
-
-
     @Override
     public void getMovieFromAdapter(Movie movie) {
         fragmentMovieListener.changeMovieToDetails(movie);
@@ -121,4 +103,5 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
     public interface FragmentMovieListener{
         void changeMovieToDetails(Movie selectedMovie);
     }
+
 }

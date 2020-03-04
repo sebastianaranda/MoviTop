@@ -17,10 +17,6 @@ public class MoviesContainer {
         return movieList;
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
-    }
-
     public void addMovie(Movie movie){
         movieList.add(movie);
     }

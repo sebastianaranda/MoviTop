@@ -4,14 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.model.Movie;
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +24,6 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
 
     public void setMovieList(List<Movie> movieList){
         this.movieList = movieList;
-    }
-
-    public void addNewSubscribedMovies(List<Movie> newSubscribedMovies){
-        this.movieList.addAll(newSubscribedMovies);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -60,8 +52,15 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
 
         public SubscribedMovieViewHolder(@NonNull View itemView) {
             super(itemView);
-
             imgPoster = itemView.findViewById(R.id.subscribedmovie_row_imageview_movie_poster);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Movie selectedMovie = movieList.get(getAdapterPosition());
+                    subscribedMovieAdapterListener.getSubcribedMovieFromAdapter(selectedMovie);
+                }
+            });
         }
 
         private void bindSubscribedMovie(Movie movie){
@@ -74,4 +73,5 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
     public interface SubscribedMovieAdapterListener{
         void getSubcribedMovieFromAdapter(Movie movie);
     }
+
 }

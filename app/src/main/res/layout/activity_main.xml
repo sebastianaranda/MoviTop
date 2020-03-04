@@ -15,6 +15,7 @@
         android:background="@color/bg_main_activity">
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/main_activity_fragment_subscribedmovies_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

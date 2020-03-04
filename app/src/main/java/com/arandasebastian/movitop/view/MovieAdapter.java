@@ -1,6 +1,5 @@
 package com.arandasebastian.movitop.view;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.model.Genre;
-import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
-import com.arandasebastian.movitop.utils.ResultListener;
 import com.bumptech.glide.Glide;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +43,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             genreMap.put(genre.getId(),genre.getName());
         }
         notifyDataSetChanged();
-    }
-
-    //TODO Eliminar metodo si no lo voy a usar
-    public List<Movie> getMovieList() {
-        return movieList;
     }
 
     @NonNull
@@ -103,10 +92,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 txtGenre.setText(genreMap.get(movie.getMovieGenre().get(0)));
             }
             catch (Exception e){
-                txtGenre.setText("NO DISPONIBLE");
+                txtGenre.setText(R.string.txt_genre_notavailable);
             }
             Glide.with(itemView)
-                    .load(posterURL+movie.getMoviePoster())
+                    .load( posterURL+movie.getMoviePoster())
                     .into(imgPoster);
         }
     }

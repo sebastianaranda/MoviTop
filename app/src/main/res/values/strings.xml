@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">MoviTop</string>
-
-    <!-- DRAWER -->
-    <string name="txt_drawer_open">Abrir menu lateral</string>
-    <string name="txt_drawer_close">Cerrar menu lateral</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--  CUSTOMS  -->
     <string name="txt_btn_subscribe">SUSCRIBIRME</string>
     <string name="txt_btn_subscribed">SUSCRIPTO</string>
+    <string name="txt_genre_notavailable">NO DISPONIBLE</string>
+    <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
 </resources>

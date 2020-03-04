@@ -13,7 +13,7 @@ public class MovieRetrofitDAO {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         moviesService = retrofit.create(MoviesService.class);
     }
+
 }

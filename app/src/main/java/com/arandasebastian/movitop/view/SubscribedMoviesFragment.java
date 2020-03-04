@@ -1,23 +1,17 @@
 package com.arandasebastian.movitop.view;
 
-
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
-
 import java.util.List;
 
 public class SubscribedMoviesFragment extends Fragment implements SubscribedMovieAdapter.SubscribedMovieAdapterListener {
@@ -26,7 +20,6 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
     private SubscribedMovieAdapter subscribedMovieAdapter;
 
     public SubscribedMoviesFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -46,9 +39,7 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
         firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
-                if (result.size() == 0){
-                    Toast.makeText(getContext(), "NO HAY SUBSCRIPTAS", Toast.LENGTH_SHORT).show();
-                } else {
+                if (result.size() != 0){
                     subscribedMovieAdapter.setMovieList(result);
                     subscribedMovieAdapter.notifyDataSetChanged();
                 }
@@ -66,4 +57,5 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
     public interface FragmentSubscribedMovieListener{
         void changeSubscribedMovieToDetails(Movie selectedMovie);
     }
+
 }

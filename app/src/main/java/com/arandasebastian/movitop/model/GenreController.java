@@ -1,7 +1,6 @@
 package com.arandasebastian.movitop.model;
 
 import com.arandasebastian.movitop.utils.ResultListener;
-
 import java.util.List;
 
 public class GenreController {

@@ -31,24 +31,6 @@ public class FirestoreDAO {
                 .set(moviesContainer);
     }
 
-    private void getSubscribedMovies(){
-        firestore.collection(COLLECTION_MOVIES)
-                .document(DOCUMENT_SUBS_MOVIES)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        moviesContainer = documentSnapshot.toObject(MoviesContainer.class);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        moviesContainer = new MoviesContainer();
-                    }
-                });
-    }
-
     public void getSubscribedMovies(final ResultListener<List<Movie>> controllerListener){
         firestore.collection(COLLECTION_MOVIES)
                 .document(DOCUMENT_SUBS_MOVIES)

@@ -1,7 +1,6 @@
 package com.arandasebastian.movitop.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -39,44 +38,40 @@ public class Movie implements Serializable {
         this.movieID = movieID;
     }
 
-    public String getMovieTitle() {
-        return movieTitle;
-    }
-
     public void setMovieTitle(String movieTitle) {
         this.movieTitle = movieTitle;
-    }
-
-    public String getMoviePoster() {
-        return moviePoster;
     }
 
     public void setMoviePoster(String moviePoster) {
         this.moviePoster = moviePoster;
     }
 
-    public String getOverview() {
-        return overview;
-    }
-
     public void setOverview(String overview) {
         this.overview = overview;
-    }
-
-    public String getRelease_date() {
-        return release_date;
     }
 
     public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
 
-    public List<Integer> getMovieGenre() {
-        return movieGenre;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setMovieGenre(List<Integer> movieGenre) {
-        this.movieGenre = movieGenre;
+    public String getMoviePoster() {
+        return moviePoster;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public List<Integer> getMovieGenre() {
+        return movieGenre;
     }
 
     @Override
@@ -91,6 +86,5 @@ public class Movie implements Serializable {
     public int hashCode() {
         return Objects.hash(movieID);
     }
-
 
 }

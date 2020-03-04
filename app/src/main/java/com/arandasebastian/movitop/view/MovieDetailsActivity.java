@@ -59,7 +59,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
-        txtOverview.setText(selectedMovie.getOverview()+selectedMovie.getOverview()+selectedMovie.getOverview()+selectedMovie.getOverview());
+        txtOverview.setText(selectedMovie.getOverview());
 
         Glide.with(this)
                 .load(posterURL+selectedMovie.getMoviePoster())

@@ -22,7 +22,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_subscribedmovies_list_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
