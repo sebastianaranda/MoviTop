@@ -4,4 +4,9 @@
     <!-- DRAWER -->
     <string name="txt_drawer_open">Abrir menu lateral</string>
     <string name="txt_drawer_close">Cerrar menu lateral</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_btn_subscribe">SUSCRIBIRME</string>
+    <string name="txt_btn_subscribed">SUSCRIPTO</string>
 </resources>

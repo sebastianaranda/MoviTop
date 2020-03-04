@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class Movie implements Serializable {
 
@@ -77,4 +78,19 @@ public class Movie implements Serializable {
     public void setMovieGenre(List<Integer> movieGenre) {
         this.movieGenre = movieGenre;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(movieID, movie.movieID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(movieID);
+    }
+
+
 }

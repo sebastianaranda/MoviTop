@@ -1,5 +1,6 @@
 package com.arandasebastian.movitop.view;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         notifyDataSetChanged();
     }
 
+    //TODO Eliminar metodo si no lo voy a usar
     public List<Movie> getMovieList() {
         return movieList;
     }
@@ -97,7 +99,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         private void bindMovie(Movie movie){
             txtTitle.setText(movie.getMovieTitle());
-            txtGenre.setText(genreMap.get(movie.getMovieGenre().get(0)));
+            try {
+                txtGenre.setText(genreMap.get(movie.getMovieGenre().get(0)));
+            }
+            catch (Exception e){
+                txtGenre.setText("NO DISPONIBLE");
+            }
             Glide.with(itemView)
                     .load(posterURL+movie.getMoviePoster())
                     .into(imgPoster);

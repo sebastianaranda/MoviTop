@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "487185219420",
+    "firebase_url": "https://desafiotecnico-brubank.firebaseio.com",
+    "project_id": "desafiotecnico-brubank",
+    "storage_bucket": "desafiotecnico-brubank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487185219420:android:e7d13dd9ca2c0afcd5cb99",
+        "android_client_info": {
+          "package_name": "com.arandasebastian.movitop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487185219420-r419r80uivi1p7nf66kigl6msf15gcg6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arandasebastian.movitop",
+            "certificate_hash": "9531949c5cb2ce152d37a2d9f2c78299724b3c9c"
+          }
+        },
+        {
+          "client_id": "487185219420-r1do2jap23s2cgknqd958dkv9s97k6ts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCClxiQhwp2wRNl0esvuPBsb2FEN0Z_3EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487185219420-r1do2jap23s2cgknqd958dkv9s97k6ts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

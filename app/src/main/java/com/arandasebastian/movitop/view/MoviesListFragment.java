@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.MovieController;
@@ -63,6 +64,18 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
         recyclerView.setAdapter(movieAdapter);
 
         //TODO: aca va el scroll listener
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Integer currentPosition = linearLayoutManager.findLastVisibleItemPosition();
+                Integer lastPosition = movieAdapter.getItemCount();
+
+                if (currentPosition >= lastPosition - 5 & isLoading == false){
+                    getMovies();
+                }
+            }
+        });
 
         return view;
     }
@@ -77,6 +90,8 @@ public class MoviesListFragment extends Fragment implements MovieAdapter.MovieAd
                         movieAdapter.addNewMovies(result);
                         movieAdapter.notifyDataSetChanged();
                         isLoading = false;
+                    } else {
+                        Toast.makeText(getContext(), "No hay más películas disponibles", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
