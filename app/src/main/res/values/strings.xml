@@ -7,4 +7,6 @@
     <string name="txt_btn_subscribed">SUSCRIPTO</string>
     <string name="txt_genre_notavailable">NO DISPONIBLE</string>
     <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
+    <string name="txt_movie_list_all">TODAS</string>
+    <string name="txt_subscribedmoview_subscribed">SUBSCRIPTAS</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="SUBSCRIPTAS"
+        android:text="@string/txt_subscribedmoview_subscribed"
         android:textColor="@color/gray"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"

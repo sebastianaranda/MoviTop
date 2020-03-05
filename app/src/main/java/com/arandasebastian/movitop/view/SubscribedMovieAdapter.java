@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +16,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +55,7 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
 
     public class SubscribedMovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgPoster;
-        private String posterURL = "https://image.tmdb.org/t/p/w500";
+        private String posterURL = "https://image.tmdb.org/t/p/w342";
         private ProgressBar progressBar;
 
         public SubscribedMovieViewHolder(@NonNull View itemView) {

@@ -26,7 +26,7 @@ import java.util.List;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     public static final String KEY_MOVIE = "key_movie";
-    private String posterURL = "https://image.tmdb.org/t/p/w500";
+    private String posterURL = "https://image.tmdb.org/t/p/w342";
     private ImageView imgBg, imgPoster;
     private View bgView;
     private TextView txtTitle, txtYear, txtOverview;
@@ -78,7 +78,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
                                 swatch = palette.getDarkMutedSwatch();
                                 if (swatch != null){
                                     bgView.setBackgroundColor(swatch.getRgb());
-                                    bgView.setAlpha(.8f);
                                 }
                             }
                         });

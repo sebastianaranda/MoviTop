@@ -18,7 +18,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public class MovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgPoster;
         private TextView txtTitle, txtGenre;
-        private String posterURL = "https://image.tmdb.org/t/p/w500";
+        private String posterURL = "https://image.tmdb.org/t/p/w342";
         private ProgressBar progressBar;
 
         public MovieViewHolder(@NonNull View itemView) {

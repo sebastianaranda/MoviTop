@@ -16,7 +16,8 @@
     <View
         android:id="@+id/activity_movie_details_view_color"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:alpha="0.8"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/activity_movie_details_materialbutton_back"

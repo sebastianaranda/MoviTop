@@ -11,7 +11,7 @@
         android:id="@+id/fragment_movies_list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TODAS"
+        android:text="@string/txt_movie_list_all"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/fragment_movies_list_recycler"
