@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
@@ -18,6 +19,8 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
 
     private FragmentSubscribedMovieListener fragmentSubscribedMovieListener;
     private SubscribedMovieAdapter subscribedMovieAdapter;
+    private View loadingBGView;
+    private ProgressBar progressBar;
 
     public SubscribedMoviesFragment() {
     }
@@ -34,6 +37,10 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
         View view = inflater.inflate(R.layout.fragment_subscribed_movies, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_subscribedmovies_list_recycler);
         subscribedMovieAdapter = new SubscribedMovieAdapter(this);
+        loadingBGView = view.findViewById(R.id.fragment_subscribedmovies_loading_bg);
+        loadingBGView.setVisibility(View.VISIBLE);
+        progressBar = view.findViewById(R.id.fragment_subscribedmovies_progressbar);
+        progressBar.setVisibility(View.VISIBLE);
 
         FirestoreController firestoreController = new FirestoreController();
         firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
@@ -42,6 +49,8 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
                 if (result.size() != 0){
                     subscribedMovieAdapter.setMovieList(result);
                     subscribedMovieAdapter.notifyDataSetChanged();
+                    loadingBGView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -52,6 +61,8 @@ public class SubscribedMoviesFragment extends Fragment implements SubscribedMovi
     @Override
     public void getSubcribedMovieFromAdapter(Movie movie) {
         fragmentSubscribedMovieListener.changeSubscribedMovieToDetails(movie);
+        loadingBGView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     public interface FragmentSubscribedMovieListener{

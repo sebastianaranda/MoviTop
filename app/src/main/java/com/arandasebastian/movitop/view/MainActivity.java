@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity implements MoviesListFragmen
             public void finish(List<Movie> result) {
                 if (result.size() != 0){
                     frameLayoutSubscribed.setVisibility(View.VISIBLE);
+                    attachSubscribedMoviesFragment(new SubscribedMoviesFragment());
                 } else {
                     frameLayoutSubscribed.setVisibility(View.GONE);
                 }
             }
         });
-        attachSubscribedMoviesFragment(new SubscribedMoviesFragment());
         attachMoviesListFragment(new MoviesListFragment());
     }
 
