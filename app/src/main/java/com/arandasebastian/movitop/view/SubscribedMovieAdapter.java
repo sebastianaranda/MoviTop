@@ -68,7 +68,7 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
-                    subscribedMovieAdapterListener.getSubcribedMovieFromAdapter(selectedMovie);
+                    subscribedMovieAdapterListener.getSubscribedMovieFromAdapter(selectedMovie);
                 }
             });
         }
@@ -94,7 +94,7 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
     }
 
     public interface SubscribedMovieAdapterListener{
-        void getSubcribedMovieFromAdapter(Movie movie);
+        void getSubscribedMovieFromAdapter(Movie movie);
     }
 
 }

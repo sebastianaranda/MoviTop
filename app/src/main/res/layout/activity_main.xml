@@ -7,33 +7,44 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/main_activity_main_fragments_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="?actionBarSize"
-        android:background="@color/bg_main_activity">
-
-        <FrameLayout
-            android:visibility="gone"
-            android:id="@+id/main_activity_fragment_subscribedmovies_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <FrameLayout
-            android:id="@+id/main_activity_fragment_movies_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/custom_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/black_90"
-        app:titleTextColor="@color/white"
-        android:elevation="4dp"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="?actionBarSize"/>
+
+    <FrameLayout
+        android:id="@+id/main_activity_fragment_search_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="?actionBarSize"/>
+
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/custom_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/black_90"
+            app:titleTextColor="@color/white"/>
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

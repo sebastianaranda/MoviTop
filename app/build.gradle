@@ -46,4 +46,6 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    //Material Search View
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }

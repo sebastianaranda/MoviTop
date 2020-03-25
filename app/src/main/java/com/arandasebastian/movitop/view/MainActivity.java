@@ -6,74 +6,94 @@ import androidx.fragment.app.Fragment;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
+import com.arandasebastian.movitop.model.SubscribedMovie;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MoviesListFragment.FragmentMovieListener, SubscribedMoviesFragment.FragmentSubscribedMovieListener {
+public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener{
 
-    private FrameLayout frameLayoutSubscribed;
+    private MaterialSearchView searchView;
+    public static final String KEY_SEARCH = "keySearch";
     private FirestoreController firestoreController;
+    private SubscribedMovie subscribedMovie;
+    //private MainFragmentsContainer mainFragmentsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        frameLayoutSubscribed = findViewById(R.id.main_activity_fragment_subscribedmovies_container);
+        firestoreController = new FirestoreController();
+        subscribedMovie = new SubscribedMovie();
+
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.bg_toolbar));
         setSupportActionBar(toolbar);
 
-        firestoreController = new FirestoreController();
+        attachMainFragmentsContainer(new MainFragmentsContainer());
 
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+        searchView = findViewById(R.id.search_view);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
-            public void finish(List<Movie> result) {
-                if (result.size() != 0){
-                    frameLayoutSubscribed.setVisibility(View.VISIBLE);
-                    attachSubscribedMoviesFragment(new SubscribedMoviesFragment());
-                } else {
-                    frameLayoutSubscribed.setVisibility(View.GONE);
+            public boolean onQueryTextSubmit(String query) {
+                if (searchView.isSearchOpen()){
+                    SearchFragment searchFragment = new SearchFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(SearchFragment.KEY_SEARCH, query);
+                    searchFragment.setArguments(bundle);
+                    attachMainFragmentsContainer(searchFragment);
                 }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
             }
         });
-        attachMoviesListFragment(new MoviesListFragment());
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                if (result.size() != 0){
-                    frameLayoutSubscribed.setVisibility(View.VISIBLE);
-                    attachSubscribedMoviesFragment(new SubscribedMoviesFragment());
-                } else {
-                    frameLayoutSubscribed.setVisibility(View.GONE);
-                }
-            }
-        });
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()){
+            searchView.closeSearch();
+            attachMainFragmentsContainer(new MainFragmentsContainer());
+        } else {
+            super.onBackPressed();
+        }
     }
 
-    private void attachMoviesListFragment(Fragment fragment){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        return true;
+    }
+
+
+    private void attachMainFragmentsContainer(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_activity_fragment_movies_container,fragment)
+                .replace(R.id.main_activity_main_fragments_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
-    private void attachSubscribedMoviesFragment(Fragment fragment){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_activity_fragment_subscribedmovies_container,fragment)
-                .commit();
-    }
+
 
     public void changeToDetails(Movie selectedMovie){
         Intent intent = new Intent(MainActivity.this,MovieDetailsActivity.class);
@@ -84,13 +104,26 @@ public class MainActivity extends AppCompatActivity implements MoviesListFragmen
     }
 
     @Override
-    public void changeMovieToDetails(Movie selectedMovie) {
+    public void changeMainFragmentsContainerToDetails(Movie selectedMovie) {
         changeToDetails(selectedMovie);
     }
 
     @Override
-    public void changeSubscribedMovieToDetails(Movie selectedMovie) {
-        changeToDetails(selectedMovie);
+    public void changeSearchFragmentToDetails(Movie selectedMovie, String KeySearch) {
+        //changeToDetails(selectedMovie);
+        switch (KeySearch) {
+            case "AddMovie":
+                /*firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+                    @Override
+                    public void finish(List<Movie> result) {
+                        subscribedMovie.setMovieList(result);
+                    }
+                });*/
+                firestoreController.addMovieToSubscribed(selectedMovie);
+                break;
+            case "GoToMovie":
+                changeToDetails(selectedMovie);
+                break;
+        }
     }
-
 }

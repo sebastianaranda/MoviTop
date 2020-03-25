@@ -8,4 +8,7 @@ public interface MoviesService {
 
     @GET("/3/movie/popular")
     Call<MoviesContainer> getMoviesFromAPI(@Query("api_key") String api_key, @Query("page") Integer page);
+
+    @GET("/3/search/movie")
+    Call<MoviesContainer> searchMoviesFromAPI(@Query("api_key") String api_key, @Query("query") String query, @Query("page") Integer page);
 }

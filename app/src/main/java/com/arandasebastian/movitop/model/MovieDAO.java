@@ -28,4 +28,20 @@ public class MovieDAO extends MovieRetrofitDAO {
         });
     }
 
+    public void searchMovies(String api_key, String query, Integer page, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.searchMoviesFromAPI(api_key, query, page);
+        call.enqueue(new Callback<MoviesContainer>() {
+            @Override
+            public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {
+                MoviesContainer moviesContainer = response.body();
+                controllerListener.finish(moviesContainer.getMovieList());
+            }
+
+            @Override
+            public void onFailure(Call<MoviesContainer> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

@@ -30,6 +30,24 @@ public class MovieController {
         return null;
     }
 
+    public List<Movie> searchMoviesFromDAO(String query, final ResultListener<List<Movie>> viewListener){
+        MovieDAO movieDAO = new MovieDAO();
+        movieDAO.searchMovies(api_key, query, page, new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                if (limit == null){
+                    limit = result.size();
+                }
+                if (result.size() < limit){
+                    checkForMoreMovies = false;
+                }
+                page = page + 1;
+                viewListener.finish(result);
+            }
+        });
+        return null;
+    }
+
     public Boolean getCheckForMoreMovies() {
         return checkForMoreMovies;
     }
