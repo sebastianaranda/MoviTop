@@ -1,19 +1,15 @@
 package com.arandasebastian.movitop.view;
 
-
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.controller.MovieController;
@@ -22,7 +18,6 @@ import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovie;
 import com.arandasebastian.movitop.utils.ResultListener;
-
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchedMovieAdapter.SearchedMovieAdapterListener {
@@ -34,14 +29,10 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     private SearchedMovieAdapter searchedMovieAdapter;
     private GenreController genreController;
     private MovieController movieController;
-
     private SubscribedMovie subscribedMovie;
-
     private FirestoreController firestoreController;
-    private Boolean isSubscribed;
 
     public SearchFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -51,25 +42,27 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         firestoreController = new FirestoreController();
         subscribedMovie = new SubscribedMovie();
-
         Bundle bundle = getArguments();
         query = (String) bundle.getSerializable(KEY_SEARCH);
-
         RecyclerView recyclerView = view.findViewById(R.id.fragment_search_movies_list_recycler);
         searchedMovieAdapter = new SearchedMovieAdapter(this);
         movieController = new MovieController();
         genreController = new GenreController();
-
         getSubscribed();
         getGenres();
         searchMovies(query);
-
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(searchedMovieAdapter);
@@ -79,7 +72,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
                 super.onScrolled(recyclerView, dx, dy);
                 Integer currentPosition = linearLayoutManager.findLastVisibleItemPosition();
                 Integer lastPosition = searchedMovieAdapter.getItemCount();
-                if (currentPosition >= lastPosition - 5 & isLoading == false){
+                if (currentPosition >= lastPosition - 5 & !isLoading){
                     searchMovies(query);
                 }
             }
@@ -87,7 +80,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
         return view;
     }
 
-    public void searchMovies(String query){
+    private void searchMovies(String query){
         isLoading = true;
         if (movieController.getCheckForMoreMovies()){
             movieController.searchMoviesFromDAO(query, new ResultListener<List<Movie>>() {
@@ -105,7 +98,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
         }
     }
 
-    public void getGenres(){
+    private void getGenres(){
         genreController.getGenresFromDAO(new ResultListener<List<Genre>>() {
             @Override
             public void finish(List<Genre> result) {
@@ -117,7 +110,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
         });
     }
 
-    public void getSubscribed(){
+    private void getSubscribed(){
         firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
@@ -130,13 +123,18 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
         });
     }
 
+    public void updateList(){
+        getSubscribed();
+        searchedMovieAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void getSearchedMovieFromAdapter(Movie selectedMovie, String KeySearch) {
         searchFragmentListener.changeSearchFragmentToDetails(selectedMovie, KeySearch);
-
     }
 
     public interface  SearchFragmentListener{
         void changeSearchFragmentToDetails(Movie selectedMovie, String KeySearch);
     }
+
 }

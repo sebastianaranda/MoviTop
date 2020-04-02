@@ -8,10 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
@@ -23,32 +19,26 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener{
 
     private MaterialSearchView searchView;
-    public static final String KEY_SEARCH = "keySearch";
     private FirestoreController firestoreController;
     private SubscribedMovie subscribedMovie;
-    //private MainFragmentsContainer mainFragmentsContainer;
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         firestoreController = new FirestoreController();
         subscribedMovie = new SubscribedMovie();
-
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.bg_toolbar));
         setSupportActionBar(toolbar);
-
         attachMainFragmentsContainer(new MainFragmentsContainer());
-
         searchView = findViewById(R.id.search_view);
-
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (searchView.isSearchOpen()){
-                    SearchFragment searchFragment = new SearchFragment();
+                    searchFragment = new SearchFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SearchFragment.KEY_SEARCH, query);
                     searchFragment.setArguments(bundle);
@@ -59,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         });
@@ -84,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         return true;
     }
 
-
     private void attachMainFragmentsContainer(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()
@@ -92,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                 .addToBackStack(null)
                 .commit();
     }
-
-
 
     public void changeToDetails(Movie selectedMovie){
         Intent intent = new Intent(MainActivity.this,MovieDetailsActivity.class);
@@ -110,20 +96,22 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
 
     @Override
     public void changeSearchFragmentToDetails(Movie selectedMovie, String KeySearch) {
-        //changeToDetails(selectedMovie);
+        final Movie movie = selectedMovie;
         switch (KeySearch) {
             case "AddMovie":
-                /*firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+                firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
                     @Override
                     public void finish(List<Movie> result) {
                         subscribedMovie.setMovieList(result);
+                        firestoreController.addMovieToSubscribed(movie);
+                        searchFragment.updateList();
                     }
-                });*/
-                firestoreController.addMovieToSubscribed(selectedMovie);
+                });
                 break;
             case "GoToMovie":
                 changeToDetails(selectedMovie);
                 break;
         }
     }
+
 }

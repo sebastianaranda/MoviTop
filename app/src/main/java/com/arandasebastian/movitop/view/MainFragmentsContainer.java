@@ -1,23 +1,17 @@
 package com.arandasebastian.movitop.view;
 
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.controller.MovieController;
@@ -25,7 +19,6 @@ import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
-
 import java.util.List;
 
 public class MainFragmentsContainer extends Fragment implements SubscribedMovieAdapter.SubscribedMovieAdapterListener, MovieAdapter.MovieAdapterListener {
@@ -34,19 +27,15 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     private SubscribedMovieAdapter subscribedMovieAdapter;
     private View loadingBGView;
     private ProgressBar progressBar;
-
     private MovieController movieController;
     private GenreController genreController;
     private MovieAdapter movieAdapter;
     private Boolean isLoading = true;
-
     private TextView txtSubscribedTitle;
-
     private FirestoreController firestoreController;
     private RecyclerView subscribedRecyclerView;
 
     public MainFragmentsContainer() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,7 +60,6 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
                 }
             }
         });
-
     }
 
     @Override
@@ -79,12 +67,9 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_fragments_container, container, false);
 
-        //SUBSCRIBED MOVIES
         subscribedRecyclerView = view.findViewById(R.id.main_fragment_subscribedmovies_list_recycler);
         subscribedMovieAdapter = new SubscribedMovieAdapter(this);
-
         txtSubscribedTitle = view.findViewById(R.id.main_fragment_subscribedmovies_list_title);
-
         loadingBGView = view.findViewById(R.id.main_fragment_subscribedmovies_loading_bg);
         loadingBGView.setVisibility(View.VISIBLE);
         progressBar = view.findViewById(R.id.main_fragment_subscribedmovies_progressbar);
@@ -109,13 +94,10 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
         });
         subscribedRecyclerView.setAdapter(subscribedMovieAdapter);
 
-        //LIST MOVIES
         RecyclerView listMoviesRecyclerView = view.findViewById(R.id.main_fragment_movies_list_recycler);
-
         movieAdapter = new MovieAdapter(this);
         movieController = new MovieController();
         genreController = new GenreController();
-
         getGenres();
         getMovies();
 
@@ -128,7 +110,7 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
                 super.onScrolled(recyclerView, dx, dy);
                 Integer currentPosition = linearLayoutManager.findLastVisibleItemPosition();
                 Integer lastPosition = movieAdapter.getItemCount();
-                if (currentPosition >= lastPosition - 5 & isLoading == false){
+                if (currentPosition >= lastPosition - 5 & !isLoading){
                     getMovies();
                 }
             }
@@ -171,7 +153,6 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
         mainFragmentsContainerListener.changeMainFragmentsContainerToDetails(selectedMovie);
         loadingBGView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
-
     }
 
     @Override

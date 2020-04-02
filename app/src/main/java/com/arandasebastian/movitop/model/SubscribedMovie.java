@@ -12,4 +12,5 @@ public class SubscribedMovie {
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
     }
+
 }

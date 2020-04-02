@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
-import com.arandasebastian.movitop.model.SubscribedMovie;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -86,7 +85,6 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
 
         public SearchedMovieViewHolder(@NonNull View itemView) {
             super(itemView);
-
             imgPoster = itemView.findViewById(R.id.search_movie_row_imageview_poster);
             txtTitle = itemView.findViewById(R.id.search_movie_row_textview_title);
             txtGenre = itemView.findViewById(R.id.search_movie_row_textview_genre);
@@ -97,6 +95,7 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
                 public void onClick(View v) {
                     String keySearch = "AddMovie";
                     Movie selectedMovie = movieList.get(getAdapterPosition());
+                    updateBtnAdd(selectedMovie);
                     searchedMovieAdapterListener.getSearchedMovieFromAdapter(selectedMovie,keySearch);
                 }
             });
@@ -135,11 +134,18 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
                         }
                     })
                     .into(imgPoster);
-
             if (subscribedList.contains(movie)){
-                btnAdd.setText("YA ESTA");
+                btnAdd.setText(R.string.txt_btn_searched_movie_adapter_added);
             } else {
-                btnAdd.setText("NO ESTA");
+                btnAdd.setText(R.string.txt_btn_searched_movie_adapter_add);
+            }
+        }
+
+        private void updateBtnAdd(Movie selectedMovie){
+            if (subscribedList.contains(selectedMovie)){
+                btnAdd.setText(R.string.txt_btn_searched_movie_adapter_add);
+            } else {
+                btnAdd.setText(R.string.txt_btn_searched_movie_adapter_added);
             }
         }
     }
@@ -147,4 +153,5 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
     public interface SearchedMovieAdapterListener{
         void getSearchedMovieFromAdapter(Movie selectedMovie, String KeySearch);
     }
+
 }

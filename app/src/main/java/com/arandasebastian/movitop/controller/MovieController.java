@@ -51,4 +51,5 @@ public class MovieController {
     public Boolean getCheckForMoreMovies() {
         return checkForMoreMovies;
     }
+
 }

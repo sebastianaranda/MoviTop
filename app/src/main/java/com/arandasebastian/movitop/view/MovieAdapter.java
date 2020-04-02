@@ -28,13 +28,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Movie> movieList;
     private MovieAdapterListener movieAdapterListener;
     private List<Genre> genreList;
-    private List<Integer> integerList;
     private Map<Integer,String> genreMap;
 
     public MovieAdapter(MovieAdapterListener movieAdapterListener) {
         this.movieList = new ArrayList<>();
         this.genreList = new ArrayList<>();
-        this.integerList = new ArrayList<>();
         this.movieAdapterListener = movieAdapterListener;
         this.genreMap = new HashMap<>();
     }
