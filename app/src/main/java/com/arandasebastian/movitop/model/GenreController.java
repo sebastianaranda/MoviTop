@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GenreController {
 
-    private String api_key = "208ca80d1e219453796a7f9792d16776";
+    private String api_key = "0cf053dd57b977f8a13b6a244510cfc1";
 
     public List<Genre> getGenresFromDAO(final ResultListener<List<Genre>> viewListener){
         GenreDAO genreDAO = new GenreDAO();
