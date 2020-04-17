@@ -1,38 +1,64 @@
 package com.arandasebastian.movitop.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovie;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener{
+public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener {
 
     private MaterialSearchView searchView;
     private FirestoreController firestoreController;
     private SubscribedMovie subscribedMovie;
     private SearchFragment searchFragment;
+    private ViewPager viewPager;
+    private List<Fragment> fragmentList;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bottomNavigationView = findViewById(R.id.main_activity_bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_home_bottom);
+
         firestoreController = new FirestoreController();
         subscribedMovie = new SubscribedMovie();
+
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.bg_toolbar));
         setSupportActionBar(toolbar);
-        attachMainFragmentsContainer(new MainFragmentsContainer());
+
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new SubscribedMoviesFragment());
+        fragmentList.add(new MainFragmentsContainer());
+        fragmentList.add(new SubscribedMoviesFragment());
+
+        viewPager = findViewById(R.id.main_activity_viewpager);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(1);
+
+
+
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -52,6 +78,64 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                 return false;
             }
         });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        bottomNavigationView.getMenu().findItem(R.id.item_subscribed_bottom).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigationView.getMenu().findItem(R.id.item_home_bottom).setChecked(true);
+                        break;
+                    case 2:
+                        bottomNavigationView.getMenu().findItem(R.id.item_profile_bottom).setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                if (searchView.isSearchOpen()){
+                    searchView.closeSearch();
+                    removeFragment();
+                    switch (menuItem.getItemId()){
+                        case R.id.item_subscribed_bottom:
+                            viewPager.setCurrentItem(0);
+                            Toast.makeText(MainActivity.this, "SUBSCRIBED", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.item_home_bottom:
+                            viewPager.setCurrentItem(1);
+                            Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.item_profile_bottom:
+                            viewPager.setCurrentItem(2);
+                            Toast.makeText(MainActivity.this, "PROFILE", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    public void removeFragment(){
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("search");
+        if (fragment != null){
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 
     @Override
@@ -76,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     private void attachMainFragmentsContainer(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_activity_main_fragments_container, fragment)
+                .replace(R.id.main_activity_fragment_search_container, fragment,"search")
                 .addToBackStack(null)
                 .commit();
     }
@@ -114,4 +198,8 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         }
     }
 
+    @Override
+    public void changeSubscribedMoviesFragmentToDetails(Movie selectedMovie) {
+        changeToDetails(selectedMovie);
+    }
 }

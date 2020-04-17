@@ -12,7 +12,7 @@
         android:id="@+id/main_fragment_subscribedmovies_list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="@string/txt_subscribedmoview_subscribed"
         android:textColor="@color/gray"
         android:textSize="12sp"
@@ -22,8 +22,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_fragment_subscribedmovies_list_recycler"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -73,6 +73,7 @@
         tools:listitem="@layout/movie_row"
         android:layout_marginStart="21dp"
         android:layout_marginEnd="21dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_fragment_movies_list_title"/>

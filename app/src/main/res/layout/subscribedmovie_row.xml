@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/subscribedmovie_row_imageview_movie_poster"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
+            android:layout_width="67dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"/>
 
         <ProgressBar

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="SUBSCRIBED"
+        android:icon="@drawable/ic_favorite_border_24dp"
+        android:id="@+id/item_subscribed_bottom"
+        />
+    <item
+        android:title="HOME"
+        android:icon="@drawable/ic_home_24dp"
+        android:id="@+id/item_home_bottom"
+        />
+    <item
+        android:title="PROFILE"
+        android:icon="@drawable/ic_person_outline_24dp"
+        android:id="@+id/item_profile_bottom"
+        />
+</menu>
