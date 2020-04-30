@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
@@ -56,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(1);
-
-
 
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -104,27 +100,23 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
             }
         });
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if (searchView.isSearchOpen()){
                     searchView.closeSearch();
-                    removeFragment();
-                    switch (menuItem.getItemId()){
-                        case R.id.item_subscribed_bottom:
-                            viewPager.setCurrentItem(0);
-                            Toast.makeText(MainActivity.this, "SUBSCRIBED", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.item_home_bottom:
-                            viewPager.setCurrentItem(1);
-                            Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.item_profile_bottom:
-                            viewPager.setCurrentItem(2);
-                            Toast.makeText(MainActivity.this, "PROFILE", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
+                }
+                removeFragment();
+                switch (menuItem.getItemId()){
+                    case R.id.item_subscribed_bottom:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.item_home_bottom:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.item_profile_bottom:
+                        viewPager.setCurrentItem(2);
+                        break;
                 }
                 return true;
             }
@@ -134,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     public void removeFragment(){
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("search");
         if (fragment != null){
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            getSupportFragmentManager().beginTransaction().detach(fragment).commit();
         }
     }
 

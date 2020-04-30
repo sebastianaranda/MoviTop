@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/movie_row_cardview"
@@ -15,8 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:cardElevation="1dp"
         app:cardCornerRadius="15dp"
-        android:background="@drawable/movie_row_gradient_bg"
-        android:layout_marginTop="20dp">
+        android:background="@drawable/movie_row_gradient_bg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
