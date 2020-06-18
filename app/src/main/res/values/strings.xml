@@ -8,7 +8,7 @@
     <string name="txt_genre_notavailable">NO DISPONIBLE</string>
     <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
     <string name="txt_movie_list_all">TODAS</string>
-    <string name="txt_subscribedmoview_subscribed">SUBSCRIPTAS</string>
+    <string name="txt_topratedmovies_title">MAS VALORADAS</string>
     <string name="txt_btn_searched_movie_adapter_added">AGREGADO</string>
     <string name="txt_btn_searched_movie_adapter_add">AGREGAR</string>
 </resources>

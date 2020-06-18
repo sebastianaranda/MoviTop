@@ -47,19 +47,6 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     @Override
     public void onResume() {
         super.onResume();
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                if (result.size() != 0){
-                    subscribedMovieAdapter.setMovieList(result);
-                    subscribedMovieAdapter.notifyDataSetChanged();
-                    loadingBGView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                    txtSubscribedTitle.setVisibility(View.VISIBLE);
-                    subscribedRecyclerView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
     @Override
@@ -76,30 +63,30 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
         progressBar.setVisibility(View.VISIBLE);
 
         firestoreController = new FirestoreController();
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                if (result.size() != 0){
-                    subscribedMovieAdapter.setMovieList(result);
-                    subscribedMovieAdapter.notifyDataSetChanged();
-                    loadingBGView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    txtSubscribedTitle.setVisibility(View.GONE);
-                    subscribedRecyclerView.setVisibility(View.GONE);
-                    loadingBGView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
-        subscribedRecyclerView.setAdapter(subscribedMovieAdapter);
 
         RecyclerView listMoviesRecyclerView = view.findViewById(R.id.main_fragment_movies_list_recycler);
         movieAdapter = new MovieAdapter(this);
         movieController = new MovieController();
         genreController = new GenreController();
+        getTopRatedMovies();
+
         getGenres();
         getMovies();
+        getTopRatedMovies();
+        final LinearLayoutManager linearLayoutManagerTop = (LinearLayoutManager) subscribedRecyclerView.getLayoutManager();
+        subscribedRecyclerView.setLayoutManager(linearLayoutManagerTop);
+        subscribedRecyclerView.setAdapter(subscribedMovieAdapter);
+        subscribedRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Integer currentPositionTop = linearLayoutManagerTop.findLastVisibleItemPosition();
+                Integer lastPositionTop = subscribedMovieAdapter.getItemCount();
+                if (currentPositionTop >= lastPositionTop - 5 & !isLoading){
+                    getTopRatedMovies();
+                }
+            }
+        });
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) listMoviesRecyclerView.getLayoutManager();
         listMoviesRecyclerView.setLayoutManager(linearLayoutManager);
@@ -147,19 +134,38 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
             }
         });
     }
+    public void getTopRatedMovies(){
+        isLoading = true;
+        if (movieController.getCheckForMoreTopRatedMovies()){
+            movieController.getTopRatedMoviesFromDAO(new ResultListener<List<Movie>>() {
+                @Override
+                public void finish(List<Movie> result) {
+                    if (result.size() != 0){
+                        subscribedMovieAdapter.addNewTopRatedMovies(result);
+                        subscribedMovieAdapter.notifyDataSetChanged();
+                        isLoading = false;
+                        loadingBGView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        Toast.makeText(getContext(), "No hay mas peliculas", Toast.LENGTH_SHORT).show();
+                        txtSubscribedTitle.setVisibility(View.GONE);
+                        subscribedRecyclerView.setVisibility(View.GONE);
+                        loadingBGView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     public void getSubscribedMovieFromAdapter(Movie selectedMovie) {
         mainFragmentsContainerListener.changeMainFragmentsContainerToDetails(selectedMovie);
-        loadingBGView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void getMovieFromAdapter(Movie selectedMovie) {
         mainFragmentsContainerListener.changeMainFragmentsContainerToDetails(selectedMovie);
-        loadingBGView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     public interface MainFragmentsContainerListener{

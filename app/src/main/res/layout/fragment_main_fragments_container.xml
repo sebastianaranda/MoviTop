@@ -7,13 +7,13 @@
     tools:context=".view.MainFragmentsContainer"
     android:background="@color/bg_main_activity">
 
-    <!--  SUBSCRIBED MOVIES  -->
+    <!--  TOP RATED MOVIES  -->
     <TextView
         android:id="@+id/main_fragment_subscribedmovies_list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/txt_subscribedmoview_subscribed"
+        android:text="@string/txt_topratedmovies_title"
         android:textColor="@color/gray"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"

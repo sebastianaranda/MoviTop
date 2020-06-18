@@ -33,6 +33,11 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
         this.movieList = movieList;
     }
 
+    public void addNewTopRatedMovies(List<Movie> newMovies){
+        this.movieList.addAll(newMovies);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public SubscribedMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
