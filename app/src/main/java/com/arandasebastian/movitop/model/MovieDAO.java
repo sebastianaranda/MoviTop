@@ -14,8 +14,8 @@ public class MovieDAO extends MovieRetrofitDAO {
         super(BASE_URL);
     }
 
-    public void getPopularMovies(String api_key, Integer page, final ResultListener<List<Movie>> controllerListener){
-        Call<MoviesContainer> call = moviesService.getMoviesFromAPI(api_key,page);
+    public void getPopularMovies(String api_key,String language, Integer page, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.getMoviesFromAPI(api_key,language,page);
         call.enqueue(new Callback<MoviesContainer>() {
             @Override
             public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {
@@ -28,8 +28,8 @@ public class MovieDAO extends MovieRetrofitDAO {
         });
     }
 
-    public void getTopRatedMovies(String api_key, Integer pageTop, final ResultListener<List<Movie>> controllerListener){
-        Call<MoviesContainer> call = moviesService.getTopRatedMovies(api_key,pageTop);
+    public void getTopRatedMovies(String api_key,String language, Integer pageTop, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.getTopRatedMovies(api_key,language,pageTop);
         call.enqueue(new Callback<MoviesContainer>() {
             @Override
             public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {
@@ -43,8 +43,8 @@ public class MovieDAO extends MovieRetrofitDAO {
         });
     }
 
-    public void searchMovies(String api_key, String query, Integer page, final ResultListener<List<Movie>> controllerListener){
-        Call<MoviesContainer> call = moviesService.searchMoviesFromAPI(api_key, query, page);
+    public void searchMovies(String api_key, String language, String query, Integer page, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.searchMoviesFromAPI(api_key, language, query, page);
         call.enqueue(new Callback<MoviesContainer>() {
             @Override
             public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {

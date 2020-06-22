@@ -32,6 +32,9 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     private SubscribedMovie subscribedMovie;
     private FirestoreController firestoreController;
 
+    //TODO: BORRAR FORZADO DE LENGUAJE
+    private String language = "es-US";
+
     public SearchFragment() {
     }
 
@@ -83,7 +86,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     private void searchMovies(String query){
         isLoading = true;
         if (movieController.getCheckForMoreMovies()){
-            movieController.searchMoviesFromDAO(query, new ResultListener<List<Movie>>() {
+            movieController.searchMoviesFromDAO(language,query, new ResultListener<List<Movie>>() {
                 @Override
                 public void finish(List<Movie> result) {
                     if (result.size() != 0){

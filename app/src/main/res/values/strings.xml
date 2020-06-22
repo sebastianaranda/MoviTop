@@ -1,14 +1,19 @@
 <resources>
     <string name="app_name">MoviTop</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--  CUSTOMS  -->
-    <string name="txt_btn_subscribe">SUSCRIBIRME</string>
-    <string name="txt_btn_subscribed">SUSCRIPTO</string>
-    <string name="txt_genre_notavailable">NO DISPONIBLE</string>
-    <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
-    <string name="txt_movie_list_all">TODAS</string>
-    <string name="txt_topratedmovies_title">MAS VALORADAS</string>
-    <string name="txt_btn_searched_movie_adapter_added">AGREGADO</string>
-    <string name="txt_btn_searched_movie_adapter_add">AGREGAR</string>
+    <string name="txt_btn_subscribe">SUBSCRIBE</string>
+    <string name="txt_btn_subscribed">SUBSCRIBED</string>
+    <string name="txt_genre_notavailable">NOT AVAILABLE</string>
+    <string name="txt_nomoremoviesavailables">No more movies available</string>
+    <string name="txt_movie_list_all">ALL</string>
+    <string name="txt_topratedmovies_title">TOP RATED</string>
+    <string name="txt_btn_searched_movie_adapter_added">ADDED</string>
+    <string name="txt_btn_searched_movie_adapter_add">ADD</string>
+    <string name="txt_menu_bottom_bar_subscribed">SUBSCRIBED</string>
+    <string name="txt_menu_bottom_bar_home">HOME</string>
+    <string name="txt_menu_bottom_bar_profile">PROFILE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

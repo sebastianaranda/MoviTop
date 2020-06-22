@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.LoginFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_login"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/fragment_login_txt_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="50dp"
+        android:text="Correo electrónico"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_login_text_input_layout_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fragment_login_txt_email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginHorizontal="50dp"
+        android:background="@color/white">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_login_text_input_edit_text_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/fragment_login_txt_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fragment_login_text_input_layout_email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="50dp"
+        android:text="Contraseña"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_login_text_input_layout_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fragment_login_txt_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginHorizontal="50dp"
+        android:background="@color/white">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_login_text_input_edit_text_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_material_button_login"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:elevation="2dp"
+        android:text="LOGIN"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="4dp"
+        android:backgroundTint="@color/colorAccent"
+        app:rippleColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/fragment_login_text_input_layout_password"
+        app:layout_constraintTop_toBottomOf="@id/fragment_login_text_input_layout_password"
+        app:layout_constraintRight_toLeftOf="@id/fragment_login_material_button_register"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_material_button_register"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:elevation="2dp"
+        android:text="REGISTRAR"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="4dp"
+        android:backgroundTint="@color/colorAccent"
+        app:rippleColor="@color/black"
+        app:layout_constraintRight_toRightOf="@id/fragment_login_text_input_layout_password"
+        app:layout_constraintTop_toBottomOf="@id/fragment_login_text_input_layout_password"
+        app:layout_constraintLeft_toRightOf="@id/fragment_login_material_button_login"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

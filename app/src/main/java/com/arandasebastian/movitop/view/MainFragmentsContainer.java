@@ -35,6 +35,9 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     private FirestoreController firestoreController;
     private RecyclerView subscribedRecyclerView;
 
+    //TODO: BORRAR FORZADO DE LENGUAJE
+    private String language = "es-US";
+
     public MainFragmentsContainer() {
     }
 
@@ -108,7 +111,7 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     public void getMovies(){
         isLoading = true;
         if (movieController.getCheckForMoreMovies()){
-            movieController.getPopularMoviesFromDAO(new ResultListener<List<Movie>>() {
+            movieController.getPopularMoviesFromDAO(language, new ResultListener<List<Movie>>() {
                 @Override
                 public void finish(List<Movie> result) {
                     if (result.size() != 0){
@@ -137,7 +140,7 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     public void getTopRatedMovies(){
         isLoading = true;
         if (movieController.getCheckForMoreTopRatedMovies()){
-            movieController.getTopRatedMoviesFromDAO(new ResultListener<List<Movie>>() {
+            movieController.getTopRatedMoviesFromDAO(language, new ResultListener<List<Movie>>() {
                 @Override
                 public void finish(List<Movie> result) {
                     if (result.size() != 0){

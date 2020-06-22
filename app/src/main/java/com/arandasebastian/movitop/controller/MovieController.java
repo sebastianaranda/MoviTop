@@ -8,15 +8,16 @@ import java.util.List;
 public class MovieController {
 
     private String api_key = "0cf053dd57b977f8a13b6a244510cfc1";
+    private String language = "es-US";
     private Integer page = 1;
     private Integer pageTop = 1;
     private Integer limit = null;
     private Boolean checkForMoreMovies = true;
     private Boolean checkForMoreTopRatedMovies = true;
 
-    public List<Movie> getPopularMoviesFromDAO(final ResultListener<List<Movie>> viewListener){
+    public List<Movie> getPopularMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
-        movieDAO.getPopularMovies(api_key, page, new ResultListener<List<Movie>>() {
+        movieDAO.getPopularMovies(api_key, language, page, new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 if (limit == null){
@@ -32,9 +33,9 @@ public class MovieController {
         return null;
     }
 
-    public List<Movie> getTopRatedMoviesFromDAO(final ResultListener<List<Movie>> viewListener){
+    public List<Movie> getTopRatedMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
-        movieDAO.getTopRatedMovies(api_key, pageTop, new ResultListener<List<Movie>>() {
+        movieDAO.getTopRatedMovies(api_key,language, pageTop, new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 if (limit == null){
@@ -50,9 +51,9 @@ public class MovieController {
         return null;
     }
 
-    public List<Movie> searchMoviesFromDAO(String query, final ResultListener<List<Movie>> viewListener){
+    public List<Movie> searchMoviesFromDAO(String language, String query, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
-        movieDAO.searchMovies(api_key, query, page, new ResultListener<List<Movie>>() {
+        movieDAO.searchMovies(api_key, language, query, page, new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 if (limit == null){

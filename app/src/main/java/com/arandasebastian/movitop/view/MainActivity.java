@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         fragmentList = new ArrayList<>();
         fragmentList.add(new SubscribedMoviesFragment());
         fragmentList.add(new MainFragmentsContainer());
-        fragmentList.add(new SubscribedMoviesFragment());
+        fragmentList.add(new LoginFragment());
 
         viewPager = findViewById(R.id.main_activity_viewpager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);

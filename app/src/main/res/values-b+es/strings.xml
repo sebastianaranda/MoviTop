@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MoviTop</string>
+
+    <!--  CUSTOMS  -->
+    <string name="txt_btn_subscribe">SUSCRIBIRME</string>
+    <string name="txt_btn_subscribed">SUSCRIPTO</string>
+    <string name="txt_genre_notavailable">NO DISPONIBLE</string>
+    <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
+    <string name="txt_movie_list_all">TODAS</string>
+    <string name="txt_topratedmovies_title">MÁS VALORADAS</string>
+    <string name="txt_btn_searched_movie_adapter_added">AGREGADA</string>
+    <string name="txt_btn_searched_movie_adapter_add">AGREGAR</string>
+    <string name="txt_menu_bottom_bar_subscribed">FAVORITOS</string>
+    <string name="txt_menu_bottom_bar_home">INICIO</string>
+    <string name="txt_menu_bottom_bar_profile">MI PERFIL</string>
+</resources>
