@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_user_profile"
+    tools:context=".view.UserProfileFragment">
+
+    <ImageView
+        android:id="@+id/fragment_user_profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="matrix"
+        android:src="@drawable/bg_user_profile"
+        app:layout_constraintBottom_toTopOf="@id/fragment_user_profile_guide_horizontal_center"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/fragment_user_profile_user_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_user_placeholder"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_user_profile_guide_horizontal_center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/fragment_user_profile_guide_horizontal_center" />
+
+    <TextView
+        android:id="@+id/fragment_user_profile_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="User Name"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_user_image" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fragment_user_profile_bg_fav"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="25dp"
+        android:backgroundTint="@color/white"
+        android:layout_marginTop="32dp"
+        app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_guide_vertical_left"
+        app:layout_constraintRight_toRightOf="@id/fragment_user_profile_guide_vertical_right"
+        app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_user_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_user_profile_material_button_logout"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorAccent"
+        android:elevation="2dp"
+        android:layout_marginTop="32dp"
+        android:text="Cerrar sesion"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:rippleColor="@color/black" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_user_profile_guide_horizontal_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_user_profile_guide_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_user_profile_guide_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

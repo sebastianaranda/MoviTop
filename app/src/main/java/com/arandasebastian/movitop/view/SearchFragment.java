@@ -16,8 +16,11 @@ import com.arandasebastian.movitop.controller.MovieController;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
-import com.arandasebastian.movitop.model.SubscribedMovie;
+import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchedMovieAdapter.SearchedMovieAdapterListener {
@@ -29,8 +32,10 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     private SearchedMovieAdapter searchedMovieAdapter;
     private GenreController genreController;
     private MovieController movieController;
-    private SubscribedMovie subscribedMovie;
+    private SubscribedMovies subscribedMovies;
     private FirestoreController firestoreController;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     //TODO: BORRAR FORZADO DE LENGUAJE
     private String language = "es-US";
@@ -47,6 +52,8 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     @Override
     public void onResume() {
         super.onResume();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
         updateList();
     }
 
@@ -55,8 +62,11 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
         firestoreController = new FirestoreController();
-        subscribedMovie = new SubscribedMovie();
+        subscribedMovies = new SubscribedMovies();
         Bundle bundle = getArguments();
         query = (String) bundle.getSerializable(KEY_SEARCH);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_search_movies_list_recycler);
@@ -114,16 +124,22 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     }
 
     private void getSubscribed(){
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                if (result.size() != 0){
-                    subscribedMovie.setMovieList(result);
-                    searchedMovieAdapter.addSubscribedList(result);
-                    searchedMovieAdapter.notifyDataSetChanged();
+        if (currentUser != null){
+            firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+                @Override
+                public void finish(List<Movie> result) {
+                    if (result.size() != 0){
+                        subscribedMovies.setMovieList(result);
+                        searchedMovieAdapter.addSubscribedList(result);
+                        searchedMovieAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            },currentUser);
+        } else {
+            subscribedMovies.setMovieList(new ArrayList<Movie>());
+            searchedMovieAdapter.addSubscribedList(subscribedMovies.getMovieList());
+            searchedMovieAdapter.notifyDataSetChanged();
+        }
     }
 
     public void updateList(){

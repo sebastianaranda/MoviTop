@@ -3,6 +3,7 @@ package com.arandasebastian.movitop.controller;
 import com.arandasebastian.movitop.model.FirestoreDAO;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 public class FirestoreController {
@@ -13,17 +14,17 @@ public class FirestoreController {
         this.firestoreDAO = new FirestoreDAO();
     }
 
-    public void addMovieToSubscribed(Movie movie){
-        firestoreDAO.addMovieToSubscribed(movie);
+    public void addMovieToSubscribed(Movie movie, FirebaseUser currentUser){
+        firestoreDAO.addMovieToSubscribed(movie,currentUser);
     }
 
-    public void getSubscribedMoviesList(final ResultListener<List<Movie>> viewListener){
+    public void getSubscribedMoviesList(final ResultListener<List<Movie>> viewListener, FirebaseUser currentUser){
         firestoreDAO.getSubscribedMovies(new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 viewListener.finish(result);
             }
-        });
+        },currentUser);
     }
 
 }

@@ -28,4 +28,8 @@ public class MoviesContainer {
     public Boolean checkMovieOnList(Movie movie){
         return movieList.contains(movie);
     }
+
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
+    }
 }

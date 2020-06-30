@@ -2,8 +2,10 @@ package com.arandasebastian.movitop.model;
 
 import androidx.annotation.NonNull;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
@@ -14,26 +16,35 @@ public class FirestoreDAO {
     public static final String DOCUMENT_SUBS_MOVIES = "SubscribedMovies";
     private FirebaseFirestore firestore;
     private MoviesContainer moviesContainer;
+    private FirebaseUser currentUser;
+    private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 0;
 
     public FirestoreDAO(){
         firestore = FirebaseFirestore.getInstance();
         moviesContainer = new MoviesContainer();
     }
 
-    public void addMovieToSubscribed(Movie movie){
-        if (moviesContainer.checkMovieOnList(movie)){
-            moviesContainer.removeMovie(movie);
-        } else {
+    public void addMovieToSubscribed(Movie movie, FirebaseUser currentUser){
+        getSubscribedMovies(new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                moviesContainer.setMovieList(result);
+            }
+        }, currentUser);
+        if (!moviesContainer.checkMovieOnList(movie)){
             moviesContainer.addMovie(movie);
+        } else {
+            moviesContainer.removeMovie(movie);
         }
         firestore.collection(COLLECTION_MOVIES)
-                .document(DOCUMENT_SUBS_MOVIES)
+                .document(currentUser.getUid())
                 .set(moviesContainer);
     }
 
-    public void getSubscribedMovies(final ResultListener<List<Movie>> controllerListener){
+    public void getSubscribedMovies(final ResultListener<List<Movie>> controllerListener, FirebaseUser currentUser){
         firestore.collection(COLLECTION_MOVIES)
-                .document(DOCUMENT_SUBS_MOVIES)
+                .document(currentUser.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override

@@ -18,6 +18,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +85,9 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
         private MaterialButton btnAdd;
         private String posterURL = "https://image.tmdb.org/t/p/w342";
 
+        private FirebaseUser currentUser;
+        private FirebaseAuth auth;
+
         public SearchedMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPoster = itemView.findViewById(R.id.search_movie_row_imageview_poster);
@@ -90,12 +95,17 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
             txtGenre = itemView.findViewById(R.id.search_movie_row_textview_genre);
             btnAdd = itemView.findViewById(R.id.search_movie_row_materialbutton_add);
 
+            auth = FirebaseAuth.getInstance();
+            currentUser = auth.getCurrentUser();
+
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String keySearch = "AddMovie";
                     Movie selectedMovie = movieList.get(getAdapterPosition());
-                    updateBtnAdd(selectedMovie);
+                    if (currentUser != null){
+                        updateBtnAdd(selectedMovie);
+                    }
                     searchedMovieAdapterListener.getSearchedMovieFromAdapter(selectedMovie,keySearch);
                 }
             });

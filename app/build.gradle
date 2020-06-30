@@ -39,13 +39,17 @@ dependencies {
     //Glide Transformations
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     //CircularImageView
-    //implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
     //Picasso
     //implementation 'com.squareup.picasso:picasso:2.71828'
     //Palette
     implementation 'androidx.palette:palette:1.0.0'
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     //Material Search View
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }

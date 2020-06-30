@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "487185219420",
-    "firebase_url": "https://desafiotecnico-brubank.firebaseio.com",
-    "project_id": "desafiotecnico-brubank",
-    "storage_bucket": "desafiotecnico-brubank.appspot.com"
+    "project_number": "43882795400",
+    "firebase_url": "https://movitop-beb74.firebaseio.com",
+    "project_id": "movitop-beb74",
+    "storage_bucket": "movitop-beb74.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:487185219420:android:e7d13dd9ca2c0afcd5cb99",
+        "mobilesdk_app_id": "1:43882795400:android:e2db01a6b04464d2e5aa3d",
         "android_client_info": {
           "package_name": "com.arandasebastian.movitop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "487185219420-r419r80uivi1p7nf66kigl6msf15gcg6.apps.googleusercontent.com",
+          "client_id": "43882795400-njt7uk6h2dosceg33evmmlc2jpg628g7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.arandasebastian.movitop",
-            "certificate_hash": "9531949c5cb2ce152d37a2d9f2c78299724b3c9c"
+            "certificate_hash": "de777a624f9e673d8f050b5cc530a9435367da80"
           }
         },
         {
-          "client_id": "487185219420-r1do2jap23s2cgknqd958dkv9s97k6ts.apps.googleusercontent.com",
+          "client_id": "43882795400-a324up62beqc6p3udu6t1fmm6r3k3oec.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCClxiQhwp2wRNl0esvuPBsb2FEN0Z_3EI"
+          "current_key": "AIzaSyDvruI1wjbk_NYDR0T3018bI7dOjdCw5Yg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "487185219420-r1do2jap23s2cgknqd958dkv9s97k6ts.apps.googleusercontent.com",
+              "client_id": "43882795400-a324up62beqc6p3udu6t1fmm6r3k3oec.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

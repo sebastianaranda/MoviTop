@@ -12,15 +12,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
-import com.arandasebastian.movitop.model.SubscribedMovie;
+import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.utils.ResultListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -35,7 +39,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private FirestoreController firestoreController;
     private Boolean isSubscribed;
     private Palette.Swatch swatch;
-    private SubscribedMovie subscribedMovie;
+    private SubscribedMovies subscribedMovies;
+    private FirebaseUser currentUser;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +57,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         btnSubscribe = findViewById(R.id.activity_movie_details_materialbutton_subscribe);
         btnBack = findViewById(R.id.activity_movie_details_materialbutton_back);
 
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
         firestoreController = new FirestoreController();
-        subscribedMovie = new SubscribedMovie();
+        subscribedMovies = new SubscribedMovies();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         selectedMovie = (Movie) bundle.getSerializable(KEY_MOVIE);
@@ -89,14 +98,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     }
                 });
 
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                subscribedMovie.setMovieList(result);
-                isSubscribed = result.contains(selectedMovie);
-                updateBtnSubscribed();
-            }
-        });
+        if (currentUser != null){
+            firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+                @Override
+                public void finish(List<Movie> result) {
+                    subscribedMovies.setMovieList(result);
+                    isSubscribed = result.contains(selectedMovie);
+                    updateBtnSubscribed();
+                }
+            }, currentUser);
+        } else {
+            subscribedMovies.setMovieList(new ArrayList<Movie>());
+            isSubscribed = subscribedMovies.getMovieList().contains(selectedMovie);
+            updateBtnSubscribed();
+        }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,9 +123,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firestoreController.addMovieToSubscribed(selectedMovie);
-                isSubscribed = !isSubscribed;
-                updateBtnSubscribed();
+                if (currentUser != null){
+                    firestoreController.addMovieToSubscribed(selectedMovie,currentUser);
+                    isSubscribed = !isSubscribed;
+                    updateBtnSubscribed();
+                }else {
+                    Toast.makeText(MovieDetailsActivity.this, "Necesita iniciar sesion", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

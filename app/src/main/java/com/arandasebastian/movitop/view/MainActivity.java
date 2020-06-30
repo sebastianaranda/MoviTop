@@ -1,6 +1,7 @@
 package com.arandasebastian.movitop.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -10,48 +11,96 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Movie;
-import com.arandasebastian.movitop.model.SubscribedMovie;
+import com.arandasebastian.movitop.model.SubscribedMovies;
+import com.arandasebastian.movitop.model.User;
 import com.arandasebastian.movitop.utils.ResultListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener {
+public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.UserLoginListener {
+
+    private static final String COLLECTION_USERS = "Users";
 
     private MaterialSearchView searchView;
     private FirestoreController firestoreController;
-    private SubscribedMovie subscribedMovie;
+    private SubscribedMovies subscribedMovies;
     private SearchFragment searchFragment;
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private BottomNavigationView bottomNavigationView;
+    private ViewPagerAdapter viewPagerAdapter;
+
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //GOOGLE SIGN IN
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //updateUI(currentUser);
+
         bottomNavigationView = findViewById(R.id.main_activity_bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_home_bottom);
 
         firestoreController = new FirestoreController();
-        subscribedMovie = new SubscribedMovie();
+        subscribedMovies = new SubscribedMovies();
 
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.bg_toolbar));
         setSupportActionBar(toolbar);
 
+
         fragmentList = new ArrayList<>();
-        fragmentList.add(new SubscribedMoviesFragment());
-        fragmentList.add(new MainFragmentsContainer());
-        fragmentList.add(new LoginFragment());
+        if (currentUser == null){
+            fragmentList.add(new SubscribedMoviesFragment());
+            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new LoginFragment());
+        } else {
+            fragmentList.add(new SubscribedMoviesFragment());
+            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new UserProfileFragment());
+        }
+
+
 
         viewPager = findViewById(R.id.main_activity_viewpager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(1);
 
@@ -123,6 +172,22 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         });
     }
 
+    private void updateUI(FirebaseUser user){
+        fragmentList.clear();
+        if (user != null){
+            fragmentList.add(new SubscribedMoviesFragment());
+            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new UserProfileFragment());
+        } else {
+            fragmentList.add(new SubscribedMoviesFragment());
+            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new LoginFragment());
+        }
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(2);
+    }
+
     public void removeFragment(){
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("search");
         if (fragment != null){
@@ -175,14 +240,18 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         final Movie movie = selectedMovie;
         switch (KeySearch) {
             case "AddMovie":
-                firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-                    @Override
-                    public void finish(List<Movie> result) {
-                        subscribedMovie.setMovieList(result);
-                        firestoreController.addMovieToSubscribed(movie);
-                        searchFragment.updateList();
-                    }
-                });
+                if (currentUser != null){
+                    firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+                        @Override
+                        public void finish(List<Movie> result) {
+                            subscribedMovies.setMovieList(result);
+                            firestoreController.addMovieToSubscribed(movie,currentUser);
+                            searchFragment.updateList();
+                        }
+                    },currentUser);
+                } else {
+                    Toast.makeText(this, "Debe iniciar sesion", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case "GoToMovie":
                 changeToDetails(selectedMovie);
@@ -193,5 +262,63 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     @Override
     public void changeSubscribedMoviesFragmentToDetails(Movie selectedMovie) {
         changeToDetails(selectedMovie);
+    }
+
+    @Override
+    public void userLogOut() {
+        FirebaseAuth.getInstance().signOut();
+        updateUI(null);
+    }
+
+    @Override
+    public void userLogin() {
+        loginWithGoogle();
+    }
+
+    private void loginWithGoogle(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account){
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            saveUserLoggedInFirestore();
+                            updateUI(user);
+                        } else {
+                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
+
+    private void saveUserLoggedInFirestore() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail(),currentUser.getPhotoUrl().toString());
+        FirebaseFirestore.getInstance()
+                .collection(COLLECTION_USERS)
+                .document(currentUser.getUid())
+                .set(newUser);
     }
 }
