@@ -136,9 +136,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void updateBtnSubscribed(){
         if (isSubscribed){
-            btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            btnSubscribe.setTextColor(swatch.getRgb());
             btnSubscribe.setText(R.string.txt_btn_subscribed);
+            btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            if (swatch != null){
+                btnSubscribe.setTextColor(swatch.getRgb());
+            } else {
+                btnSubscribe.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
         } else {
             btnSubscribe.setText(R.string.txt_btn_subscribe);
             btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));

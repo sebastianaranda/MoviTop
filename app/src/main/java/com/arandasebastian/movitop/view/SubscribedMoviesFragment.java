@@ -33,6 +33,7 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    private RecyclerView listSubscribedMoviesRecycler;
 
     public SubscribedMoviesFragment() {
     }
@@ -46,6 +47,7 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
     @Override
     public void onResume() {
         super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
         getSubscribedMovies();
     }
 
@@ -57,7 +59,7 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        RecyclerView listSubscribedMoviesRecycler = view.findViewById(R.id.subscribed_movies_fragment_recycler);
+        listSubscribedMoviesRecycler = view.findViewById(R.id.subscribed_movies_fragment_recycler);
         progressBar = view.findViewById(R.id.fragment_subscribedmovies_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -87,16 +89,19 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
                 public void finish(List<Movie> result) {
                     if (result.size() != 0){
                         movieAdapter.setMovieList(result);
-                        movieAdapter.notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
+                        txtEmpty.setVisibility(View.GONE);
                     } else {
+                        movieAdapter.setMovieList(result);
                         txtEmpty.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
                     }
+                    movieAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                    //listSubscribedMoviesRecycler.setAdapter(movieAdapter);
                 }
             },currentUser);
         } else {
             txtEmpty.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 

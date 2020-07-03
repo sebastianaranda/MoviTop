@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
 
     private void saveUserLoggedInFirestore() {
         FirebaseUser currentUser = auth.getCurrentUser();
-        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail(),currentUser.getPhotoUrl().toString());
+        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail(),currentUser.getPhotoUrl().toString().replace("s96-c", "s384-c"));
         FirebaseFirestore.getInstance()
                 .collection(COLLECTION_USERS)
                 .document(currentUser.getUid())

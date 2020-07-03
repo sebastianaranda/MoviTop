@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.controller.FirestoreController;
+import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.User;
+import com.arandasebastian.movitop.utils.ResultListener;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -18,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserProfileFragment extends Fragment {
@@ -25,7 +31,7 @@ public class UserProfileFragment extends Fragment {
     private static final String COLLECTION_USERS = "Users";
 
     private MaterialButton btnLogout;
-    private TextView txtUserName;
+    private TextView txtUserName,txtSubscribedCount;
     private CircleImageView imgUserProfileImage;
     private UserProfileListener userProfileListener;
     private User user;
@@ -33,6 +39,7 @@ public class UserProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private FirebaseStorage storage;
+    private FirestoreController firestoreController;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -53,12 +60,21 @@ public class UserProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
+        firestoreController = new FirestoreController();
 
         btnLogout = view.findViewById(R.id.fragment_user_profile_material_button_logout);
         txtUserName = view.findViewById(R.id.fragment_user_profile_user_name);
+        txtSubscribedCount = view.findViewById(R.id.fragment_user_profile_subscribed_count);
         imgUserProfileImage = view.findViewById(R.id.fragment_user_profile_user_image);
 
         getCurrentUser();
+
+        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                    txtSubscribedCount.setText(String.valueOf(result.size()));
+            }
+        }, currentUser);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

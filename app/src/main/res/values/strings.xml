@@ -2,15 +2,16 @@
     <string name="app_name">MoviTop</string>
 
     <!--  CUSTOMS  -->
-    <string name="txt_btn_subscribe">SUBSCRIBE</string>
-    <string name="txt_btn_subscribed">SUBSCRIBED</string>
-    <string name="txt_genre_notavailable">NOT AVAILABLE</string>
+    <string name="txt_btn_subscribe">Subscribe</string>
+    <string name="txt_btn_subscribed">Subscribed</string>
+    <string name="txt_genre_notavailable">Not available</string>
     <string name="txt_nomoremoviesavailables">No more movies available</string>
-    <string name="txt_movie_list_all">ALL</string>
-    <string name="txt_topratedmovies_title">TOP RATED</string>
-    <string name="txt_btn_searched_movie_adapter_added">ADDED</string>
-    <string name="txt_btn_searched_movie_adapter_add">ADD</string>
+    <string name="txt_movie_list_all">All</string>
+    <string name="txt_topratedmovies_title">Top rated</string>
+    <string name="txt_btn_searched_movie_adapter_added">Added</string>
+    <string name="txt_btn_searched_movie_adapter_add">Add</string>
     <string name="txt_menu_bottom_bar_subscribed">SUBSCRIBED</string>
     <string name="txt_menu_bottom_bar_home">HOME</string>
     <string name="txt_menu_bottom_bar_profile">PROFILE</string>
+    <string name="txt_userprofile_subscribed_count_title">Subscribed</string>
 </resources>

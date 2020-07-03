@@ -101,6 +101,7 @@
                 android:layout_width="195dp"
                 android:layout_height="45dp"
                 app:cornerRadius="100dp"
+                android:textAllCaps="true"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginTop="22dp"
                 app:layout_constraintLeft_toLeftOf="parent"
