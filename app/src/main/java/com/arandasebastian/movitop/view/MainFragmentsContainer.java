@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
-import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.controller.MovieController;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
@@ -32,7 +31,6 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
     private MovieAdapter movieAdapter;
     private Boolean isLoading = true;
     private TextView txtSubscribedTitle;
-    private FirestoreController firestoreController;
     private RecyclerView subscribedRecyclerView;
 
     //TODO: BORRAR FORZADO DE LENGUAJE
@@ -64,8 +62,6 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
         loadingBGView.setVisibility(View.VISIBLE);
         progressBar = view.findViewById(R.id.main_fragment_subscribedmovies_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-
-        firestoreController = new FirestoreController();
 
         RecyclerView listMoviesRecyclerView = view.findViewById(R.id.main_fragment_movies_list_recycler);
         movieAdapter = new MovieAdapter(this);

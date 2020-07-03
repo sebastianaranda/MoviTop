@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
-import com.arandasebastian.movitop.controller.MovieController;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
@@ -26,14 +25,11 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
 
     private SubscribedMoviesFragmentListener subscribedMoviesFragmentListener;
     private FirestoreController firestoreController;
-    private MovieController movieController;
     private GenreController genreController;
     private MovieAdapter movieAdapter;
     private TextView txtEmpty;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private RecyclerView listSubscribedMoviesRecycler;
 
     public SubscribedMoviesFragment() {
     }
@@ -56,10 +52,10 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subscribed_movies, container, false);
 
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        listSubscribedMoviesRecycler = view.findViewById(R.id.subscribed_movies_fragment_recycler);
+        RecyclerView listSubscribedMoviesRecycler = view.findViewById(R.id.subscribed_movies_fragment_recycler);
         progressBar = view.findViewById(R.id.fragment_subscribedmovies_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -68,7 +64,6 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
 
         firestoreController = new FirestoreController();
         movieAdapter = new MovieAdapter(this);
-        movieController = new MovieController();
         genreController = new GenreController();
         getGenres();
         getSubscribedMovies();
@@ -96,7 +91,6 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
                     }
                     movieAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                    //listSubscribedMoviesRecycler.setAdapter(movieAdapter);
                 }
             },currentUser);
         } else {
@@ -120,8 +114,6 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
     @Override
     public void getMovieFromAdapter(Movie selectedMovie) {
         subscribedMoviesFragmentListener.changeSubscribedMoviesFragmentToDetails(selectedMovie);
-        //loadingBGView.setVisibility(View.VISIBLE);
-        //progressBar.setVisibility(View.VISIBLE);
     }
 
     public interface SubscribedMoviesFragmentListener{

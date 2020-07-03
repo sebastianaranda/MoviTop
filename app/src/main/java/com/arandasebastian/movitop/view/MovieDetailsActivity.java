@@ -31,33 +31,31 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     public static final String KEY_MOVIE = "key_movie";
     private String posterURL = "https://image.tmdb.org/t/p/w342";
-    private ImageView imgBg, imgPoster;
+    private ImageView imgPoster;
     private View bgView;
-    private TextView txtTitle, txtYear, txtOverview;
-    private MaterialButton btnSubscribe, btnBack;
+    private MaterialButton btnSubscribe;
     private Movie selectedMovie;
     private FirestoreController firestoreController;
     private Boolean isSubscribed;
     private Palette.Swatch swatch;
     private SubscribedMovies subscribedMovies;
     private FirebaseUser currentUser;
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
+        ImageView imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
         imgPoster = findViewById(R.id.activity_movie_details_imageview_poster);
         bgView = findViewById(R.id.activity_movie_details_view_color);
-        txtTitle = findViewById(R.id.activity_movie_details_textview_title);
-        txtYear = findViewById(R.id.activity_movie_details_textview_year);
-        txtOverview = findViewById(R.id.activity_movie_details_textview_overview);
+        TextView txtTitle = findViewById(R.id.activity_movie_details_textview_title);
+        TextView txtYear = findViewById(R.id.activity_movie_details_textview_year);
+        TextView txtOverview = findViewById(R.id.activity_movie_details_textview_overview);
         btnSubscribe = findViewById(R.id.activity_movie_details_materialbutton_subscribe);
-        btnBack = findViewById(R.id.activity_movie_details_materialbutton_back);
+        MaterialButton btnBack = findViewById(R.id.activity_movie_details_materialbutton_back);
 
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
         firestoreController = new FirestoreController();

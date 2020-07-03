@@ -48,43 +48,31 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     private List<Fragment> fragmentList;
     private BottomNavigationView bottomNavigationView;
     private ViewPagerAdapter viewPagerAdapter;
-
-    private FirebaseFirestore firestore;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //GOOGLE SIGN IN
-        firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        //updateUI(currentUser);
-
         bottomNavigationView = findViewById(R.id.main_activity_bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_home_bottom);
-
         firestoreController = new FirestoreController();
         subscribedMovies = new SubscribedMovies();
 
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.bg_toolbar));
         setSupportActionBar(toolbar);
-
 
         fragmentList = new ArrayList<>();
         if (currentUser == null){
@@ -96,14 +84,10 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
             fragmentList.add(new MainFragmentsContainer());
             fragmentList.add(new UserProfileFragment());
         }
-
-
-
         viewPager = findViewById(R.id.main_activity_viewpager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(1);
-
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override

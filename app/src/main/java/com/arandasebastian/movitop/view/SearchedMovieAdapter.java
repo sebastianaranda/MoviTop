@@ -86,7 +86,6 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
         private String posterURL = "https://image.tmdb.org/t/p/w342";
 
         private FirebaseUser currentUser;
-        private FirebaseAuth auth;
 
         public SearchedMovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,7 +94,7 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
             txtGenre = itemView.findViewById(R.id.search_movie_row_textview_genre);
             btnAdd = itemView.findViewById(R.id.search_movie_row_materialbutton_add);
 
-            auth = FirebaseAuth.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
             currentUser = auth.getCurrentUser();
 
             btnAdd.setOnClickListener(new View.OnClickListener() {
