@@ -72,8 +72,6 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
         listSubscribedMoviesRecycler.setLayoutManager(linearLayoutManager);
         listSubscribedMoviesRecycler.setAdapter(movieAdapter);
 
-
-
         return view;
     }
 

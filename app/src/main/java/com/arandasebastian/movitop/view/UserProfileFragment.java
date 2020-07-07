@@ -27,7 +27,7 @@ public class UserProfileFragment extends Fragment {
 
     private static final String COLLECTION_USERS = "Users";
 
-    private TextView txtUserName,txtSubscribedCount;
+    private TextView txtUserName, txtMoviesFavCount,txtPeopleFavCount,txtSeriesFavCount;
     private CircleImageView imgUserProfileImage;
     private UserProfileListener userProfileListener;
     private User user;
@@ -55,14 +55,19 @@ public class UserProfileFragment extends Fragment {
 
         MaterialButton btnLogout = view.findViewById(R.id.fragment_user_profile_material_button_logout);
         txtUserName = view.findViewById(R.id.fragment_user_profile_user_name);
-        txtSubscribedCount = view.findViewById(R.id.fragment_user_profile_subscribed_count);
+        txtMoviesFavCount = view.findViewById(R.id.fragment_user_profile_fav_movies_count);
+        txtPeopleFavCount = view.findViewById(R.id.fragment_user_profile_fav_people_count);
+        txtSeriesFavCount = view.findViewById(R.id.fragment_user_profile_fav_series_count);
         imgUserProfileImage = view.findViewById(R.id.fragment_user_profile_user_image);
 
         getCurrentUser();
         firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
-                    txtSubscribedCount.setText(String.valueOf(result.size()));
+                txtMoviesFavCount.setText(String.valueOf(result.size()));
+                //TODO: modificar una vez implementado
+                txtPeopleFavCount.setText("Coming Soon...");
+                txtSeriesFavCount.setText("Coming Soon...");
             }
         }, currentUser);
         btnLogout.setOnClickListener(new View.OnClickListener() {

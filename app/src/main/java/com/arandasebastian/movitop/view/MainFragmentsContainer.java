@@ -67,10 +67,9 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
         movieAdapter = new MovieAdapter(this);
         movieController = new MovieController();
         genreController = new GenreController();
-        getTopRatedMovies();
 
         getGenres();
-        getMovies();
+        getNowPlayingMovies();
         getTopRatedMovies();
         final LinearLayoutManager linearLayoutManagerTop = (LinearLayoutManager) subscribedRecyclerView.getLayoutManager();
         subscribedRecyclerView.setLayoutManager(linearLayoutManagerTop);
@@ -97,17 +96,17 @@ public class MainFragmentsContainer extends Fragment implements SubscribedMovieA
                 Integer currentPosition = linearLayoutManager.findLastVisibleItemPosition();
                 Integer lastPosition = movieAdapter.getItemCount();
                 if (currentPosition >= lastPosition - 5 & !isLoading){
-                    getMovies();
+                    getNowPlayingMovies();
                 }
             }
         });
         return view;
     }
 
-    public void getMovies(){
+    public void getNowPlayingMovies(){
         isLoading = true;
         if (movieController.getCheckForMoreMovies()){
-            movieController.getPopularMoviesFromDAO(language, new ResultListener<List<Movie>>() {
+            movieController.getNowPlayingMoviesFromDAO(language, new ResultListener<List<Movie>>() {
                 @Override
                 public void finish(List<Movie> result) {
                     if (result.size() != 0){

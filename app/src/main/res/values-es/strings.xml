@@ -13,5 +13,7 @@
     <string name="txt_menu_bottom_bar_subscribed">FAVORITOS</string>
     <string name="txt_menu_bottom_bar_home">INICIO</string>
     <string name="txt_menu_bottom_bar_profile">MI PERFIL</string>
-    <string name="txt_userprofile_subscribed_count_title">Favoritas</string>
+    <string name="txt_userprofile_fav_movies_count_title">Peliculas favoritas</string>
+    <string name="txt_userprofile_fav_people_count_title">Actores favoritos</string>
+    <string name="txt_userprofile_fav_series_count_title">Series favoritas</string>
 </resources>

@@ -14,8 +14,8 @@ public class MovieDAO extends MovieRetrofitDAO {
         super(BASE_URL);
     }
 
-    public void getPopularMovies(String api_key,String language, Integer page, final ResultListener<List<Movie>> controllerListener){
-        Call<MoviesContainer> call = moviesService.getMoviesFromAPI(api_key,language,page);
+    public void getNowPlayingMovies(String api_key, String language, Integer page, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.getMoviesNowPlayingFromAPI(api_key,language,page);
         call.enqueue(new Callback<MoviesContainer>() {
             @Override
             public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {

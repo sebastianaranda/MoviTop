@@ -15,9 +15,9 @@ public class MovieController {
     private Boolean checkForMoreMovies = true;
     private Boolean checkForMoreTopRatedMovies = true;
 
-    public List<Movie> getPopularMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
+    public List<Movie> getNowPlayingMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
-        movieDAO.getPopularMovies(api_key, language, page, new ResultListener<List<Movie>>() {
+        movieDAO.getNowPlayingMovies(api_key, language, page, new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 if (limit == null){
