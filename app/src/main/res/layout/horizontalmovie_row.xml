@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/subscribedmoviemovie_row_cardview"
+        android:id="@+id/horizontalmovie_row_cardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,13 +17,13 @@
         android:layout_marginStart="21dp">
 
         <ImageView
-            android:id="@+id/subscribedmovie_row_imageview_movie_poster"
+            android:id="@+id/horizontalmovie_row_imageview_movie_poster"
             android:layout_width="67dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"/>
 
         <ProgressBar
-            android:id="@+id/subscribedmovie_row_progressbar"
+            android:id="@+id/horizontalmovie_row_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

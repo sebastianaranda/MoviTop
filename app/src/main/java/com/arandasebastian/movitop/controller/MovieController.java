@@ -1,5 +1,6 @@
 package com.arandasebastian.movitop.controller;
 
+import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.MovieDAO;
 import com.arandasebastian.movitop.utils.ResultListener;
@@ -14,6 +15,7 @@ public class MovieController {
     private Integer limit = null;
     private Boolean checkForMoreMovies = true;
     private Boolean checkForMoreTopRatedMovies = true;
+    private String appendToResponse = "credits";
 
     public List<Movie> getNowPlayingMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
@@ -33,9 +35,9 @@ public class MovieController {
         return null;
     }
 
-    public List<Movie> getTopRatedMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
+    public List<Movie> getUpcomingMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
-        movieDAO.getTopRatedMovies(api_key,language, pageTop, new ResultListener<List<Movie>>() {
+        movieDAO.getUpcomingMovies(api_key,language, pageTop, new ResultListener<List<Movie>>() {
             @Override
             public void finish(List<Movie> result) {
                 if (limit == null){
@@ -75,6 +77,17 @@ public class MovieController {
 
     public Boolean getCheckForMoreTopRatedMovies(){
         return checkForMoreTopRatedMovies;
+    }
+
+    public List<Cast> getCastFromDAO(Integer movieID, final ResultListener<List<Cast>> viewListener){
+        MovieDAO movieDAO = new MovieDAO();
+        movieDAO.getMovieCredits(movieID, api_key, new ResultListener<List<Cast>>() {
+            @Override
+            public void finish(List<Cast> result) {
+                viewListener.finish(result);
+            }
+        });
+        return null;
     }
 
 }

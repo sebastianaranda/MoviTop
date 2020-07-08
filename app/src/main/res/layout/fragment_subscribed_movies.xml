@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="false"
-        tools:listitem="@layout/movie_row"
+        tools:listitem="@layout/principal_movie_row"
         android:layout_marginStart="21dp"
         android:layout_marginEnd="21dp"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -7,7 +7,7 @@
     <string name="txt_genre_notavailable">No dispónible</string>
     <string name="txt_nomoremoviesavailables">No hay más películas disponibles</string>
     <string name="txt_movie_list_all">Todas</string>
-    <string name="txt_topratedmovies_title">Más valoradas</string>
+    <string name="txt_upcomingmovies_title">Próximamente…</string>
     <string name="txt_btn_searched_movie_adapter_added">Agregada</string>
     <string name="txt_btn_searched_movie_adapter_add">Agregar</string>
     <string name="txt_menu_bottom_bar_subscribed">FAVORITOS</string>

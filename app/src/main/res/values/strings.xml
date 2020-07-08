@@ -7,7 +7,7 @@
     <string name="txt_genre_notavailable">Not available</string>
     <string name="txt_nomoremoviesavailables">No more movies available</string>
     <string name="txt_movie_list_all">All</string>
-    <string name="txt_topratedmovies_title">Top rated</string>
+    <string name="txt_upcomingmovies_title">Upcoming…</string>
     <string name="txt_btn_searched_movie_adapter_added">Added</string>
     <string name="txt_btn_searched_movie_adapter_add">Add</string>
     <string name="txt_menu_bottom_bar_subscribed">SUBSCRIBED</string>

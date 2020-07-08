@@ -28,8 +28,8 @@ public class MovieDAO extends MovieRetrofitDAO {
         });
     }
 
-    public void getTopRatedMovies(String api_key,String language, Integer pageTop, final ResultListener<List<Movie>> controllerListener){
-        Call<MoviesContainer> call = moviesService.getTopRatedMovies(api_key,language,pageTop);
+    public void getUpcomingMovies(String api_key, String language, Integer pageTop, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.getUpcomingMovies(api_key,language,pageTop);
         call.enqueue(new Callback<MoviesContainer>() {
             @Override
             public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {
@@ -58,5 +58,21 @@ public class MovieDAO extends MovieRetrofitDAO {
             }
         });
     }
+
+    public void getMovieCredits(Integer movieID, String api_key, final ResultListener<List<Cast>> controllerListener){
+        Call<CastContainer> call = moviesService.getMovieCreditsFromAPI(movieID,api_key);
+        call.enqueue(new Callback<CastContainer>() {
+            @Override
+            public void onResponse(Call<CastContainer> call, Response<CastContainer> response) {
+                CastContainer castContainer = response.body();
+                controllerListener.finish(castContainer.getCastList());
+            }
+
+            @Override
+            public void onFailure(Call<CastContainer> call, Throwable t) {
+            }
+        });
+    }
+
 
 }

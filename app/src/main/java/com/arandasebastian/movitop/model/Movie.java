@@ -17,6 +17,11 @@ public class Movie implements Serializable {
     private String release_date;
     @SerializedName("genre_ids")
     private List<Integer> movieGenre;
+    private Double popularity;
+    private String status;
+    private Double vote_average;
+    @SerializedName("cast")
+    private List<Cast> castList;
 
     public Movie() {
     }
@@ -72,6 +77,38 @@ public class Movie implements Serializable {
 
     public List<Integer> getMovieGenre() {
         return movieGenre;
+    }
+
+    public Double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(Double vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public List<Cast> getCastList() {
+        return castList;
+    }
+
+    public void setCastList(List<Cast> castList) {
+        this.castList = castList;
     }
 
     @Override

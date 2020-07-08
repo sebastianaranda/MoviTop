@@ -19,36 +19,36 @@ import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovieAdapter.SubscribedMovieViewHolder> {
+public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingMovieViewHolder> {
 
     private List<Movie> movieList;
-    private SubscribedMovieAdapterListener subscribedMovieAdapterListener;
+    private UpcomingMovieAdapterListener upcomingMovieAdapterListener;
 
-    public SubscribedMovieAdapter(SubscribedMovieAdapterListener subscribedMovieAdapterListener){
+    public UpcomingMovieAdapter(UpcomingMovieAdapterListener upcomingMovieAdapterListener){
         this.movieList = new ArrayList<>();
-        this.subscribedMovieAdapterListener = subscribedMovieAdapterListener;
+        this.upcomingMovieAdapterListener = upcomingMovieAdapterListener;
     }
 
     public void setMovieList(List<Movie> movieList){
         this.movieList = movieList;
     }
 
-    public void addNewTopRatedMovies(List<Movie> newMovies){
+    public void addNewUpcomingMovies(List<Movie> newMovies){
         this.movieList.addAll(newMovies);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public SubscribedMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UpcomingMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.subscribedmovie_row,parent,false);
-        SubscribedMovieViewHolder subscribedMovieViewHolder = new SubscribedMovieViewHolder(view);
-        return subscribedMovieViewHolder;
+        View view = layoutInflater.inflate(R.layout.horizontalmovie_row,parent,false);
+        UpcomingMovieViewHolder upcomingMovieViewHolder = new UpcomingMovieViewHolder(view);
+        return upcomingMovieViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubscribedMovieViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UpcomingMovieViewHolder holder, int position) {
         Movie movieToShow = movieList.get(position);
         holder.bindSubscribedMovie(movieToShow);
     }
@@ -58,22 +58,22 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
         return movieList.size();
     }
 
-    public class SubscribedMovieViewHolder extends RecyclerView.ViewHolder{
+    public class UpcomingMovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgPoster;
         private String posterURL = "https://image.tmdb.org/t/p/w342";
         private ProgressBar progressBar;
 
-        public SubscribedMovieViewHolder(@NonNull View itemView) {
+        public UpcomingMovieViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgPoster = itemView.findViewById(R.id.subscribedmovie_row_imageview_movie_poster);
-            progressBar = itemView.findViewById(R.id.subscribedmovie_row_progressbar);
+            imgPoster = itemView.findViewById(R.id.horizontalmovie_row_imageview_movie_poster);
+            progressBar = itemView.findViewById(R.id.horizontalmovie_row_progressbar);
             progressBar.setVisibility(View.VISIBLE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
-                    subscribedMovieAdapterListener.getSubscribedMovieFromAdapter(selectedMovie);
+                    upcomingMovieAdapterListener.getUpcomingMovieFromAdapter(selectedMovie);
                 }
             });
         }
@@ -97,8 +97,8 @@ public class SubscribedMovieAdapter extends RecyclerView.Adapter<SubscribedMovie
         }
     }
 
-    public interface SubscribedMovieAdapterListener{
-        void getSubscribedMovieFromAdapter(Movie movie);
+    public interface UpcomingMovieAdapterListener {
+        void getUpcomingMovieFromAdapter(Movie movie);
     }
 
 }

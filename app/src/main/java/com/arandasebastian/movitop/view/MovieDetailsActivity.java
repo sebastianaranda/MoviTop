@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
+import com.arandasebastian.movitop.controller.MovieController;
+import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.utils.ResultListener;
@@ -27,7 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener {
 
     public static final String KEY_MOVIE = "key_movie";
     private String posterURL = "https://image.tmdb.org/t/p/w342";
@@ -41,10 +46,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private SubscribedMovies subscribedMovies;
     private FirebaseUser currentUser;
 
+    private MovieController movieController;
+
+    private List<Cast> castList;
+
+    private RecyclerView castRecyclerView;
+    private CastAdapter castAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        //CAST
+        castRecyclerView = findViewById(R.id.activity_movie_details_recyclerview_actors);
+        castAdapter = new CastAdapter(this);
 
         ImageView imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
         imgPoster = findViewById(R.id.activity_movie_details_imageview_poster);
@@ -58,11 +74,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
+        movieController = new MovieController();
+
+        castList = new ArrayList<>();
+
+
         firestoreController = new FirestoreController();
         subscribedMovies = new SubscribedMovies();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         selectedMovie = (Movie) bundle.getSerializable(KEY_MOVIE);
+
+
+        getCastMovie(selectedMovie);
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) castRecyclerView.getLayoutManager();
+        castRecyclerView.setLayoutManager(linearLayoutManager);
+        castRecyclerView.setAdapter(castAdapter);
+        //TODO: ponerle un scrolllistener
+
 
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
@@ -148,4 +177,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
     }
 
+
+    private void getCastMovie(final Movie selectedMovie){
+        movieController.getCastFromDAO(selectedMovie.getMovieID(), new ResultListener<List<Cast>>() {
+            @Override
+            public void finish(List<Cast> result) {
+                if (result.size() != 0){
+                    castAdapter.addNewCast(result);
+                    castAdapter.notifyDataSetChanged();
+                    selectedMovie.setCastList(result);
+                } else {
+                    Toast.makeText(MovieDetailsActivity.this, "No hay cast disponible", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getCastFromAdapter(Cast selectedCast) {
+        Toast.makeText(this, selectedCast.getName(), Toast.LENGTH_SHORT).show();
+    }
 }
