@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -45,11 +44,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
     private Palette.Swatch swatch;
     private SubscribedMovies subscribedMovies;
     private FirebaseUser currentUser;
-
     private MovieController movieController;
-
     private List<Cast> castList;
-
     private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
 
@@ -58,10 +54,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        //CAST
         castRecyclerView = findViewById(R.id.activity_movie_details_recyclerview_actors);
         castAdapter = new CastAdapter(this);
-
         ImageView imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
         imgPoster = findViewById(R.id.activity_movie_details_imageview_poster);
         bgView = findViewById(R.id.activity_movie_details_view_color);
@@ -73,26 +67,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-
         movieController = new MovieController();
-
         castList = new ArrayList<>();
-
-
         firestoreController = new FirestoreController();
         subscribedMovies = new SubscribedMovies();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         selectedMovie = (Movie) bundle.getSerializable(KEY_MOVIE);
-
-
         getCastMovie(selectedMovie);
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) castRecyclerView.getLayoutManager();
         castRecyclerView.setLayoutManager(linearLayoutManager);
         castRecyclerView.setAdapter(castAdapter);
-        //TODO: ponerle un scrolllistener
-
-
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
         txtOverview.setText(selectedMovie.getOverview());
@@ -100,7 +85,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         Glide.with(this)
                 .load(posterURL+selectedMovie.getMoviePoster())
                 .into(imgBg);
-
         Glide.with(this)
                 .asBitmap()
                 .load(posterURL+selectedMovie.getMoviePoster())
@@ -118,10 +102,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                             }
                         });
                     }
-
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
-
                     }
                 });
 
@@ -139,14 +121,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
             isSubscribed = subscribedMovies.getMovieList().contains(selectedMovie);
             updateBtnSubscribed();
         }
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +135,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                     isSubscribed = !isSubscribed;
                     updateBtnSubscribed();
                 }else {
+                    //TODO reemplazar este Toast
                     Toast.makeText(MovieDetailsActivity.this, "Necesita iniciar sesion", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -177,7 +158,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         }
     }
 
-
     private void getCastMovie(final Movie selectedMovie){
         movieController.getCastFromDAO(selectedMovie.getMovieID(), new ResultListener<List<Cast>>() {
             @Override
@@ -187,7 +167,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                     castAdapter.notifyDataSetChanged();
                     selectedMovie.setCastList(result);
                 } else {
-                    Toast.makeText(MovieDetailsActivity.this, "No hay cast disponible", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetailsActivity.this, R.string.txt_movie_details_nocastavailable, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -197,4 +177,5 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
     public void getCastFromAdapter(Cast selectedCast) {
         Toast.makeText(this, selectedCast.getName(), Toast.LENGTH_SHORT).show();
     }
+
 }

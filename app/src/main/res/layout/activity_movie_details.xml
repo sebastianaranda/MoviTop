@@ -126,9 +126,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_movie_details_materialbutton_subscribe"/>
 
-
-
-            <!--  ACTOR RECYCLER  -->
             <TextView
                 android:id="@+id/activity_movie_details_textview_crew_title"
                 android:layout_width="wrap_content"
@@ -144,7 +141,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_movie_details_recyclerview_actors"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="100dp"
                 android:orientation="horizontal"
@@ -153,7 +150,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_movie_details_textview_crew_title"
                 app:reverseLayout="false"
-                tools:listitem="@layout/horizontalmovie_row" />
+                tools:listitem="@layout/horizontal_cast_row" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

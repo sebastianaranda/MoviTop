@@ -16,4 +16,5 @@
     <string name="txt_userprofile_fav_movies_count_title">Subscribed Movies</string>
     <string name="txt_userprofile_fav_people_count_title">Subscribed People</string>
     <string name="txt_userprofile_fav_series_count_title">Subscribed Series</string>
+    <string name="txt_movie_details_nocastavailable">No crew available for this movie</string>
 </resources>

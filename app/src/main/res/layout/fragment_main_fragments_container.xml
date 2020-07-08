@@ -31,7 +31,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_fragment_upcomingmovies_list_title"
         app:reverseLayout="false"
-        tools:listitem="@layout/horizontalmovie_row" />
+        tools:listitem="@layout/horizontal_movie_row" />
 
     <View
         android:id="@+id/main_fragment_upcomingmovies_loading_bg"

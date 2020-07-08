@@ -42,7 +42,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     @Override
     public UpcomingMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.horizontalmovie_row,parent,false);
+        View view = layoutInflater.inflate(R.layout.horizontal_movie_row,parent,false);
         UpcomingMovieViewHolder upcomingMovieViewHolder = new UpcomingMovieViewHolder(view);
         return upcomingMovieViewHolder;
     }
