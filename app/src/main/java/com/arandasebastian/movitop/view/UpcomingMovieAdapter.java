@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -17,16 +18,22 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingMovieViewHolder> {
 
     private List<Movie> movieList;
     private UpcomingMovieAdapterListener upcomingMovieAdapterListener;
+    private List<Genre> genreList;
+    private Map<Integer,String> genreMap;
 
     public UpcomingMovieAdapter(UpcomingMovieAdapterListener upcomingMovieAdapterListener){
         this.movieList = new ArrayList<>();
         this.upcomingMovieAdapterListener = upcomingMovieAdapterListener;
+        this.genreList = new ArrayList<>();
+        this.genreMap = new HashMap<>();
     }
 
     public void setMovieList(List<Movie> movieList){
@@ -35,6 +42,14 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
 
     public void addNewUpcomingMovies(List<Movie> newMovies){
         this.movieList.addAll(newMovies);
+        notifyDataSetChanged();
+    }
+
+    public void addNewGenres(List<Genre> newGenres){
+        this.genreList.addAll(newGenres);
+        for (Genre genre: genreList){
+            genreMap.put(genre.getId(),genre.getName());
+        }
         notifyDataSetChanged();
     }
 
@@ -73,6 +88,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
+                    selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
                     upcomingMovieAdapterListener.getUpcomingMovieFromAdapter(selectedMovie);
                 }
             });

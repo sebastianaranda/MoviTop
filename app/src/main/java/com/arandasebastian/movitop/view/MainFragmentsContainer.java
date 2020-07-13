@@ -18,6 +18,8 @@ import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragmentsContainer extends Fragment implements UpcomingMovieAdapter.UpcomingMovieAdapterListener, MovieAdapter.MovieAdapterListener {
@@ -127,7 +129,9 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
             public void finish(List<Genre> result) {
                 if (result.size() != 0){
                     movieAdapter.addNewGenres(result);
+                    upcomingMovieAdapter.addNewGenres(result);
                     movieAdapter.notifyDataSetChanged();
+                    upcomingMovieAdapter.notifyDataSetChanged();
                 }
             }
         });

@@ -21,6 +21,12 @@
             android:id="@+id/search_movie_row_imageview_poster"
             android:layout_width="48dp"
             android:layout_height="72dp"/>
+        <ProgressBar
+            android:id="@+id/search_movie_row_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/colorPrimary"/>
     </androidx.cardview.widget.CardView>
 
     <TextView

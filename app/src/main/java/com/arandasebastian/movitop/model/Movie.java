@@ -22,6 +22,7 @@ public class Movie implements Serializable {
     private Double vote_average;
     @SerializedName("cast")
     private List<Cast> castList;
+    private String genreToShow;
 
     public Movie() {
     }
@@ -81,6 +82,18 @@ public class Movie implements Serializable {
 
     public Double getPopularity() {
         return popularity;
+    }
+
+    public void setMovieGenre(List<Integer> movieGenre) {
+        this.movieGenre = movieGenre;
+    }
+
+    public String getGenreToShow() {
+        return genreToShow;
+    }
+
+    public void setGenreToShow(String genreToShow) {
+        this.genreToShow = genreToShow;
     }
 
     public void setPopularity(Double popularity) {

@@ -6,7 +6,7 @@
     <string name="txt_btn_subscribed">Subscribed</string>
     <string name="txt_genre_notavailable">Not available</string>
     <string name="txt_nomoremoviesavailables">No more movies available</string>
-    <string name="txt_movie_list_all">All</string>
+    <string name="txt_main_fragment_nowplayingmovies_list_title">Now playing:</string>
     <string name="txt_upcomingmovies_title">Upcoming…</string>
     <string name="txt_btn_searched_movie_adapter_added">Added</string>
     <string name="txt_btn_searched_movie_adapter_add">Add</string>
@@ -17,4 +17,5 @@
     <string name="txt_userprofile_fav_people_count_title">Subscribed People</string>
     <string name="txt_userprofile_fav_series_count_title">Subscribed Series</string>
     <string name="txt_movie_details_nocastavailable">No crew available for this movie</string>
+    <string name="txt_movie_details_cast_title">Top cast:</string>
 </resources>

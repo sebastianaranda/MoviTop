@@ -58,7 +58,7 @@
         android:id="@+id/main_fragment_movies_list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_movie_list_all"
+        android:text="@string/txt_main_fragment_nowplayingmovies_list_title"
         android:textAllCaps="true"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/main_fragment_upcomingmovies_list_recycler"

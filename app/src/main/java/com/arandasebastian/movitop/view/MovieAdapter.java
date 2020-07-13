@@ -93,6 +93,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
+                    selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
                     movieAdapterListener.getMovieFromAdapter(selectedMovie);
                 }
             });

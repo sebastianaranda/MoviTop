@@ -62,6 +62,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         TextView txtTitle = findViewById(R.id.activity_movie_details_textview_title);
         TextView txtYear = findViewById(R.id.activity_movie_details_textview_year);
         TextView txtOverview = findViewById(R.id.activity_movie_details_textview_overview);
+        TextView txtGenre = findViewById(R.id.activity_movie_details_textview_movie_genre);
         btnSubscribe = findViewById(R.id.activity_movie_details_materialbutton_subscribe);
         MaterialButton btnBack = findViewById(R.id.activity_movie_details_materialbutton_back);
 
@@ -81,31 +82,37 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
         txtOverview.setText(selectedMovie.getOverview());
+        txtGenre.setText(selectedMovie.getGenreToShow());
 
-        Glide.with(this)
-                .load(posterURL+selectedMovie.getMoviePoster())
-                .into(imgBg);
-        Glide.with(this)
-                .asBitmap()
-                .load(posterURL+selectedMovie.getMoviePoster())
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        imgPoster.setImageBitmap(resource);
-                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(@Nullable Palette palette) {
-                                swatch = palette.getDarkMutedSwatch();
-                                if (swatch != null){
-                                    bgView.setBackgroundColor(swatch.getRgb());
+        if (selectedMovie.getMoviePoster() != null){
+            Glide.with(this)
+                    .load(posterURL+selectedMovie.getMoviePoster())
+                    .into(imgBg);
+            Glide.with(this)
+                    .asBitmap()
+                    .load(posterURL+selectedMovie.getMoviePoster())
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            imgPoster.setImageBitmap(resource);
+                            Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(@Nullable Palette palette) {
+                                    swatch = palette.getDarkMutedSwatch();
+                                    if (swatch != null){
+                                        bgView.setBackgroundColor(swatch.getRgb());
+                                    }
                                 }
-                            }
-                        });
-                    }
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+                            });
+                        }
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+                    });
+        } else {
+            imgPoster.setImageResource(R.drawable.img_movie_poster_placeholder);
+            imgBg.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
 
         if (currentUser != null){
             firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {

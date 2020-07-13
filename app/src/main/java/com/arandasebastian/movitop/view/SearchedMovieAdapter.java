@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,12 +84,14 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
         private ImageView imgPoster;
         private TextView txtTitle, txtGenre;
         private MaterialButton btnAdd;
+        private ProgressBar progressBar;
         private String posterURL = "https://image.tmdb.org/t/p/w342";
-
         private FirebaseUser currentUser;
 
         public SearchedMovieViewHolder(@NonNull View itemView) {
             super(itemView);
+            progressBar = itemView.findViewById(R.id.search_movie_row_progressbar);
+            progressBar.setVisibility(View.VISIBLE);
             imgPoster = itemView.findViewById(R.id.search_movie_row_imageview_poster);
             txtTitle = itemView.findViewById(R.id.search_movie_row_textview_title);
             txtGenre = itemView.findViewById(R.id.search_movie_row_textview_genre);
@@ -129,16 +132,19 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
             }
             Glide.with(itemView)
                     .load(posterURL+movie.getMoviePoster())
+                    .placeholder(R.drawable.img_movie_poster_placeholder)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             //TODO agregar progressbar
+                            progressBar.setVisibility(View.GONE);
                             return false;
                         }
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             //TODO agregar progressbar
+                            progressBar.setVisibility(View.GONE);
                             return false;
                         }
                     })
@@ -158,6 +164,8 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
             }
         }
     }
+
+
 
     public interface SearchedMovieAdapterListener{
         void getSearchedMovieFromAdapter(Movie selectedMovie, String KeySearch);

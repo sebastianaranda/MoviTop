@@ -310,4 +310,5 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                 .document(currentUser.getUid())
                 .set(newUser);
     }
+
 }
