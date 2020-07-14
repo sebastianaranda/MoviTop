@@ -17,6 +17,7 @@
         android:layout_marginStart="21dp">
 
         <ImageView
+            android:contentDescription="@string/contentDescription_MoviePoster"
             android:id="@+id/horizontalmovie_row_imageview_movie_poster"
             android:layout_width="67dp"
             android:layout_height="100dp"

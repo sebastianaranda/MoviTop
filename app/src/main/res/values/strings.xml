@@ -18,4 +18,23 @@
     <string name="txt_userprofile_fav_series_count_title">Subscribed Series</string>
     <string name="txt_movie_details_nocastavailable">No crew available for this movie</string>
     <string name="txt_movie_details_cast_title">Top cast:</string>
+    <string name="txt_activity_about_us_attribution">This product uses the TMDb API but is not endorsed or certified by TMDb.</string>
+    <string name="txt_activity_about_us_attribution_title">Attributions:</string>
+    <string name="txt_activity_about_us_app_version">Version: 1.0.1</string>
+    <string name="btn_activity_about_us_contact_me">Contact me</string>
+    <string name="txt_activity_about_us_job_title">Android Developer</string>
+    <string name="txt_activity_about_us_name">Sebastian Aranda</string>
+    <string name="contentDescription_tmdb_api_logo">The Movie Database API logo</string>
+    <string name="contentDescription_MoviePoster">Movie poster</string>
+    <string name="contentDescription_ActorImage">Actor profile image</string>
+    <string name="txt_search_movie_row_materialbuttom_add">Add</string>
+
+
+    <string name="txt_login_layout_error_empty_email">Debes ingresar un e-mail</string>
+    <string name="txt_login_edit_text_error_empty_email">Ingresa un e-mail</string>
+
+    <string name="txt_login_layout_error_empty_password">Debes ingresar una contraseña</string>
+    <string name="txt_login_edit_text_error_empty_password">Ingresa una contraseña</string>
+    <string name="txt_login_layout_error_wrong_email">El email ingresado no es válido</string>
+    <string name="txt_login_layout_error_wrong_password">La contraseña ingresada no es válida</string>
 </resources>

@@ -17,6 +17,7 @@
         app:cardCornerRadius="4dp">
 
         <ImageView
+            android:contentDescription="@string/contentDescription_ActorImage"
             android:id="@+id/horizontal_cast_row_imageview_actor_poster"
             android:layout_width="101dp"
             android:layout_height="150dp"

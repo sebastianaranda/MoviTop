@@ -18,4 +18,23 @@
     <string name="txt_userprofile_fav_series_count_title">Series favoritas</string>
     <string name="txt_movie_details_nocastavailable">No hay actores disponibles para esta película</string>
     <string name="txt_movie_details_cast_title">Actores principales:</string>
+    <string name="txt_activity_about_us_attribution">Esta aplicación utiliza la API TMDb, pero no está avalada ni certificada por TMDb.</string>
+    <string name="txt_activity_about_us_attribution_title">Atribuciones:</string>
+    <string name="txt_activity_about_us_app_version">Versión: 1.0.1</string>
+    <string name="btn_activity_about_us_contact_me">Contactame</string>
+    <string name="txt_activity_about_us_job_title">Desarrollador Android</string>
+    <string name="txt_activity_about_us_name">Sebastian Aranda</string>
+    <string name="contentDescription_tmdb_api_logo">Logo de The Movie Database</string>
+    <string name="contentDescription_MoviePoster">Poster de la película</string>
+    <string name="contentDescription_ActorImage">Imagen de perfil del actor</string>
+    <string name="txt_search_movie_row_materialbuttom_add">Agregar</string>
+
+
+    <string name="txt_login_layout_error_empty_email">Necesitás ingresar un e-mail</string>
+    <string name="txt_login_edit_text_error_empty_email">Ingresá un e-mail</string>
+
+    <string name="txt_login_layout_error_empty_password">Necesitás ingresar una contraseña</string>
+    <string name="txt_login_edit_text_error_empty_password">Ingresá una contraseña</string>
+    <string name="txt_login_layout_error_wrong_email">El email ingresado no es válido</string>
+    <string name="txt_login_layout_error_wrong_password">La contraseña ingresada no es válida</string>
 </resources>

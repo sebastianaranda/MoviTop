@@ -18,6 +18,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="10dp">
         <ImageView
+            android:contentDescription="@string/contentDescription_MoviePoster"
             android:id="@+id/search_movie_row_imageview_poster"
             android:layout_width="48dp"
             android:layout_height="72dp"/>
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         app:cornerRadius="3dp"
-        android:text="AGREGAR"
+        android:text="@string/txt_search_movie_row_materialbuttom_add"
         android:textAllCaps="true"
         android:textSize="12sp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"

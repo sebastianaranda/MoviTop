@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MovieDetailsActivity">
+    tools:context=".view.MovieDetailsActivity"
+    android:background="@color/bg_main_activity">
 
     <ImageView
         android:id="@+id/activity_movie_details_imageview_bg"
@@ -58,6 +59,7 @@
                 app:cardElevation="2dp">
 
                 <ImageView
+                    android:contentDescription="@string/contentDescription_MoviePoster"
                     android:id="@+id/activity_movie_details_imageview_poster"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

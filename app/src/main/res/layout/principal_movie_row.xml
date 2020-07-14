@@ -23,6 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:contentDescription="@string/contentDescription_MoviePoster"
                 android:id="@+id/movie_row_imageview_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

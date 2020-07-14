@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main_activity"
+    tools:context=".view.AboutUsActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/activity_about_us_materialbutton_back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/fullBlack"
+        android:elevation="2dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="2dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/ic_arrow_back_black_24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/activity_about_us_circleImageView_me"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/about_us_me"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_materialbutton_back" />
+
+    <TextView
+        android:id="@+id/activity_about_us_textview_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="37dp"
+        android:gravity="center"
+        android:letterSpacing="-0.02"
+        android:text="@string/txt_activity_about_us_name"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_circleImageView_me" />
+
+    <TextView
+        android:id="@+id/activity_about_us_textview_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="@string/txt_activity_about_us_job_title"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_textview_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/activity_about_us_materialbutton_contactme"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="195dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="@string/btn_activity_about_us_contact_me"
+        android:layout_marginTop="24dp"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textColor="@color/white"
+        app:cornerRadius="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_textview_job"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/activity_about_us_textview_appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/activity_about_us_guideline"
+        android:text="@string/txt_activity_about_us_app_version"
+        android:textStyle="normal"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        android:layout_marginBottom="2dp"/>
+
+    <View
+        android:id="@+id/activity_about_us_separationline"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="24dp"
+        android:alpha="0.2"
+        android:background="#979797"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/activity_about_us_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/activity_about_us_guideline"/>
+
+    <TextView
+        android:id="@+id/activity_about_us_textview_attribution_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/txt_activity_about_us_attribution_title"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/activity_about_us_materialbutton_back"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_separationline" />
+
+    <TextView
+        android:id="@+id/activity_about_us_textview_attribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:singleLine="false"
+        android:text="@string/txt_activity_about_us_attribution"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="@id/activity_about_us_textview_attribution_title"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_textview_attribution_title" />
+
+    <ImageView
+        android:contentDescription="@string/contentDescription_tmdb_api_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_tmdb_blue_short"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_about_us_textview_attribution" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/activity_about_us_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

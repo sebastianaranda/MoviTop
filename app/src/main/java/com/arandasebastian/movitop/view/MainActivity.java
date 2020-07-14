@@ -9,16 +9,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
-import com.arandasebastian.movitop.controller.MovieController;
-import com.arandasebastian.movitop.model.Genre;
-import com.arandasebastian.movitop.model.GenreContainer;
-import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.model.User;
@@ -31,6 +26,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +37,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.UserLoginListener {
+public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener {
 
     private static final String COLLECTION_USERS = "Users";
 
@@ -57,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     private FirebaseUser currentUser;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -260,8 +258,22 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     }
 
     @Override
-    public void userLogin() {
-        loginWithGoogle();
+    public void loginFragmentAction(String keyAction, String username, String password) {
+        switch (keyAction){
+            case "userLogin":
+                loginWithGoogle();
+                break;
+            case "localRegister":
+                createFirebaseUser(username, password);
+                break;
+            case "localLogin":
+                loginWithFirebase(username, password);
+                break;
+            case "aboutUs":
+                Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     private void loginWithGoogle(){
@@ -294,6 +306,9 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                             FirebaseUser user = auth.getCurrentUser();
                             saveUserLoggedInFirestore();
                             updateUI(user);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
+                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
                         } else {
                             Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             updateUI(null);
@@ -309,6 +324,48 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                 .collection(COLLECTION_USERS)
                 .document(currentUser.getUid())
                 .set(newUser);
+    }
+
+    private void saveLocalUserLoggedInFirestore() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail());
+        FirebaseFirestore.getInstance()
+                .collection(COLLECTION_USERS)
+                .document(currentUser.getUid())
+                .set(newUser);
+    }
+
+    private void createFirebaseUser(String email, String password){
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser user = auth.getCurrentUser();
+                            saveLocalUserLoggedInFirestore();
+                            updateUI(user);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
+                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+                        }
+                    }
+                });
+    }
+
+    private void loginWithFirebase(String email, String password){
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser user = auth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
     }
 
 }

@@ -11,10 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MovieDetailsActivity"
+        <activity
+            android:name=".view.AboutUsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".view.MainActivity"/>
+        <activity
+            android:name=".view.MovieDetailsActivity"
             android:parentActivityName=".view.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
