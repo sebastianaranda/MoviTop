@@ -182,7 +182,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
 
     @Override
     public void getCastFromAdapter(Cast selectedCast) {
-        Toast.makeText(this, selectedCast.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MovieDetailsActivity.this,CastActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CastActivity.SELECTED_CAST,selectedCast);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 }

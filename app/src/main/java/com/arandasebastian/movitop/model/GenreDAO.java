@@ -14,8 +14,8 @@ public class GenreDAO extends GenreRetrofitDAO {
         super(BASE_URL);
     }
 
-    public void getGenres(String api_key, final ResultListener<List<Genre>> controllerListener){
-        Call<GenreContainer> call = genreService.getGenresListFromAPI(api_key);
+    public void getGenres(String api_key, String language, final ResultListener<List<Genre>> controllerListener){
+        Call<GenreContainer> call = genreService.getGenresListFromAPI(api_key,language);
         call.enqueue(new Callback<GenreContainer>() {
             @Override
             public void onResponse(Call<GenreContainer> call, Response<GenreContainer> response) {

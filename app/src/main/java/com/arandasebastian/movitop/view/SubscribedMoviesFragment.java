@@ -20,9 +20,11 @@ import com.arandasebastian.movitop.utils.ResultListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
+import java.util.Locale;
 
 public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.MovieAdapterListener {
 
+    private String language;
     private SubscribedMoviesFragmentListener subscribedMoviesFragmentListener;
     private FirestoreController firestoreController;
     private GenreController genreController;
@@ -51,6 +53,8 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subscribed_movies, container, false);
+
+        language = Locale.getDefault().toLanguageTag();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -98,7 +102,7 @@ public class SubscribedMoviesFragment extends Fragment implements MovieAdapter.M
     }
 
     public void getGenres(){
-        genreController.getGenresFromDAO(new ResultListener<List<Genre>>() {
+        genreController.getGenresFromDAO(language, new ResultListener<List<Genre>>() {
             @Override
             public void finish(List<Genre> result) {
                 if (result.size() != 0){

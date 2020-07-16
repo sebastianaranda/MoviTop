@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.CastActivity"
+    android:background="@color/bg_main_activity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/activity_cast_materialbutton_back"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="25dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/ic_arrow_back_black_24dp"
+        android:padding="2dp"
+        android:elevation="2dp"
+        android:backgroundTint="@color/fullBlack"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activity_cast_cardview"
+                android:layout_width="182dp"
+                android:layout_height="273dp"
+                app:cardCornerRadius="6dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="?actionBarSize"
+                app:cardElevation="2dp">
+
+                <ImageView
+                    android:contentDescription="@string/contentDescription_MoviePoster"
+                    android:id="@+id/activity_cast_imageview_profileimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/activity_cast_textview_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="NOMBRE ACTOR"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.02"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_cardview"
+                android:layout_marginTop="22dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="37dp"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/activity_cast_textview_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="2011-01-01"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_name"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/activity_cast_textview_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="San Francisco, California, USA"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_birthday"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textStyle="normal"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/white"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                android:id="@+id/activity_cast_materialbutton_subscribe"
+                android:layout_width="195dp"
+                android:layout_height="45dp"
+                app:cornerRadius="100dp"
+                android:textAllCaps="true"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_location"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textColor="@color/white"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/white"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/activity_cast_textview_biography"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="37dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_materialbutton_subscribe"/>
+
+            <View
+                android:id="@+id/activity_cast_view_bg_movies"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_biography"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/fullBlack"
+                android:layout_marginTop="16dp"
+                android:alpha="0.3"/>
+
+            <TextView
+                android:id="@+id/activity_cast_textview_movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Peliculas protagonizadas"
+                android:textAllCaps="true"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="@+id/activity_cast_view_bg_movies"
+                app:layout_constraintLeft_toLeftOf="@id/activity_cast_textview_biography" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_cast_recyclerview_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_movie_title"
+                app:reverseLayout="false"
+                tools:listitem="@layout/horizontal_movie_row"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

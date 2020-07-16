@@ -21,9 +21,11 @@ import com.arandasebastian.movitop.utils.ResultListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainFragmentsContainer extends Fragment implements UpcomingMovieAdapter.UpcomingMovieAdapterListener, MovieAdapter.MovieAdapterListener {
 
+    private String language;
     private MainFragmentsContainerListener mainFragmentsContainerListener;
     private UpcomingMovieAdapter upcomingMovieAdapter;
     private View loadingBGView;
@@ -34,9 +36,6 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
     private Boolean isLoading = true;
     private TextView txtUpcomingMoviesTitle;
     private RecyclerView upcomingMoviesRecyclerView;
-
-    //TODO: BORRAR FORZADO DE LENGUAJE
-    private String language = "es-US";
 
     public MainFragmentsContainer() {
     }
@@ -56,6 +55,8 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_fragments_container, container, false);
+
+        language = Locale.getDefault().toLanguageTag();
 
         upcomingMoviesRecyclerView = view.findViewById(R.id.main_fragment_upcomingmovies_list_recycler);
         upcomingMovieAdapter = new UpcomingMovieAdapter(this);
@@ -124,7 +125,7 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
     }
 
     public void getGenres(){
-        genreController.getGenresFromDAO(new ResultListener<List<Genre>>() {
+        genreController.getGenresFromDAO(language, new ResultListener<List<Genre>>() {
             @Override
             public void finish(List<Genre> result) {
                 if (result.size() != 0){

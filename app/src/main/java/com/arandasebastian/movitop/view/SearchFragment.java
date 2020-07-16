@@ -22,9 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchFragment extends Fragment implements SearchedMovieAdapter.SearchedMovieAdapterListener {
 
+    private String language;
     public static final String KEY_SEARCH = "query";
     private String query;
     private Boolean isLoading = true;
@@ -36,9 +38,6 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     private FirestoreController firestoreController;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-
-    //TODO: BORRAR FORZADO DE LENGUAJE
-    private String language = "es-US";
 
     public SearchFragment() {
     }
@@ -61,6 +60,8 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        language = Locale.getDefault().toLanguageTag();
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -112,7 +113,7 @@ public class SearchFragment extends Fragment implements SearchedMovieAdapter.Sea
     }
 
     private void getGenres(){
-        genreController.getGenresFromDAO(new ResultListener<List<Genre>>() {
+        genreController.getGenresFromDAO(language, new ResultListener<List<Genre>>() {
             @Override
             public void finish(List<Genre> result) {
                 if (result.size() != 0){

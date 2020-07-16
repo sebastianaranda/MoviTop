@@ -9,7 +9,6 @@ import java.util.List;
 public class MovieController {
 
     private String api_key = "0cf053dd57b977f8a13b6a244510cfc1";
-    private String language = "es-US";
     private Integer page = 1;
     private Integer pageTop = 1;
     private Integer limit = null;

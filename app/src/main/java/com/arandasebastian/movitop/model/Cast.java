@@ -1,5 +1,7 @@
 package com.arandasebastian.movitop.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Cast implements Serializable {
@@ -8,7 +10,8 @@ public class Cast implements Serializable {
     private String character;
     private String credit_id;
     private Integer gender;
-    private Integer id;
+    @SerializedName("id")
+    private Integer personID;
     private String name;
     private Integer order;
     private String profile_path;
@@ -16,12 +19,12 @@ public class Cast implements Serializable {
     public Cast() {
     }
 
-    public Cast(Integer cast_id, String character, String credit_id, Integer gender, Integer id, String name, Integer order, String profile_path) {
+    public Cast(Integer cast_id, String character, String credit_id, Integer gender, Integer personID, String name, Integer order, String profile_path) {
         this.cast_id = cast_id;
         this.character = character;
         this.credit_id = credit_id;
         this.gender = gender;
-        this.id = id;
+        this.personID = personID;
         this.name = name;
         this.order = order;
         this.profile_path = profile_path;
@@ -59,12 +62,12 @@ public class Cast implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPersonID() {
+        return personID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPersonID(Integer personID) {
+        this.personID = personID;
     }
 
     public String getName() {
