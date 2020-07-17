@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MoviTop</string>
+    <!--  API  -->
+    <string name="variable_poster_url">https://image.tmdb.org/t/p/w342</string>
 
     <!--  CUSTOMS  -->
     <string name="txt_btn_subscribe">Subscribe</string>
@@ -29,12 +31,16 @@
     <string name="contentDescription_ActorImage">Actor profile image</string>
     <string name="txt_search_movie_row_materialbuttom_add">Add</string>
 
+    <string name="txt_login_layout_error_empty_email">You must enter an email</string>
+    <string name="txt_login_edit_text_error_empty_email">Please enter an email</string>
 
-    <string name="txt_login_layout_error_empty_email">Debes ingresar un e-mail</string>
-    <string name="txt_login_edit_text_error_empty_email">Ingresa un e-mail</string>
+    <string name="txt_login_layout_error_empty_password">You must enter an password</string>
+    <string name="txt_login_edit_text_error_empty_password">Please enter an password</string>
+    <string name="txt_login_layout_error_wrong_email">The email is not valid</string>
+    <string name="txt_login_layout_error_wrong_password">The password is not valid</string>
 
-    <string name="txt_login_layout_error_empty_password">Debes ingresar una contraseña</string>
-    <string name="txt_login_edit_text_error_empty_password">Ingresa una contraseña</string>
-    <string name="txt_login_layout_error_wrong_email">El email ingresado no es válido</string>
-    <string name="txt_login_layout_error_wrong_password">La contraseña ingresada no es válida</string>
+    <string name="txt_activity_cast_movies_title">Known For</string>
+    <string name="txt_castactivity_birthday_noavailable">Birthday not available</string>
+    <string name="txt_castactivity_location_noavailable">N/A</string>
+    <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.model.APIInterface;
+import com.arandasebastian.movitop.model.Credit;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.bumptech.glide.Glide;
@@ -24,22 +25,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> implements APIInterface {
+public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.CreditsViewHolder> implements APIInterface {
 
-    private List<Movie> movieList;
-    private MovieAdapterListener movieAdapterListener;
+    private List<Credit> creditList;
+    private CreditsAdapterListener creditsAdapterListener;
     private List<Genre> genreList;
     private Map<Integer,String> genreMap;
 
-    public MovieAdapter(MovieAdapterListener movieAdapterListener) {
-        this.movieList = new ArrayList<>();
+    public CreditsAdapter(CreditsAdapterListener creditsAdapterListener){
+        this.creditList = new ArrayList<>();
+        this.creditsAdapterListener = creditsAdapterListener;
         this.genreList = new ArrayList<>();
-        this.movieAdapterListener = movieAdapterListener;
         this.genreMap = new HashMap<>();
     }
 
-    public void addNewMovies(List<Movie> newMovies){
-        this.movieList.addAll(newMovies);
+    public void setCreditList(List<Credit> creditList) {
+        this.creditList = creditList;
+    }
+
+    public void addNewCredits(List<Credit> newCredits){
+        this.creditList.addAll(newCredits);
         notifyDataSetChanged();
     }
 
@@ -51,64 +56,60 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         notifyDataSetChanged();
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
-    }
-
     @NonNull
     @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CreditsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.principal_movie_row,parent,false);
-        MovieViewHolder movieViewHolder = new MovieViewHolder(view);
-        return movieViewHolder;
+        View view = layoutInflater.inflate(R.layout.horizontal_cast_row,parent,false);
+        CreditsViewHolder creditsViewHolder = new CreditsViewHolder(view);
+        return creditsViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Movie movieToShow = movieList.get(position);
-        holder.bindMovie(movieToShow);
+    public void onBindViewHolder(@NonNull CreditsViewHolder holder, int position) {
+        Credit creditToShow = creditList.get(position);
+        holder.bindCredits(creditToShow);
     }
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        return creditList.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imgPoster;
-        private TextView txtTitle, txtGenre;
+    public class CreditsViewHolder extends RecyclerView.ViewHolder{
+        private ImageView imgProfile;
+        private TextView txtName;
         private String posterURL = APIInterface.posterUrl;
         private ProgressBar progressBar;
 
-        public MovieViewHolder(@NonNull View itemView) {
+        public CreditsViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgPoster = itemView.findViewById(R.id.movie_row_imageview_movie_poster);
-            txtTitle = itemView.findViewById(R.id.movie_row_textview_movie_title);
-            txtGenre = itemView.findViewById(R.id.movie_row_textview_movie_genre);
-            progressBar = itemView.findViewById(R.id.movie_row_progressbar);
+            imgProfile = itemView.findViewById(R.id.horizontal_cast_row_imageview_actor_poster);
+            txtName = itemView.findViewById(R.id.horizontalcast_row_textview_actor_name);
+            progressBar = itemView.findViewById(R.id.horizontal_cast_row_progressbar);
             progressBar.setVisibility(View.VISIBLE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Movie selectedMovie = movieList.get(getAdapterPosition());
+                    Credit selectedCredit = creditList.get(getAdapterPosition());
+                    Movie selectedMovie = new Movie(selectedCredit.getMovieID(),
+                            selectedCredit.getMovieTitle(),
+                            selectedCredit.getMoviePoster(),
+                            selectedCredit.getOverview(),
+                            selectedCredit.getRelease_date(),
+                            selectedCredit.getMovieGenre());
                     selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
-                    movieAdapterListener.getMovieFromAdapter(selectedMovie);
+                    creditsAdapterListener.getCreditFromAdapter(selectedMovie);
                 }
             });
         }
 
-        private void bindMovie(Movie movie){
-            txtTitle.setText(movie.getMovieTitle());
-            try {
-                txtGenre.setText(genreMap.get(movie.getMovieGenre().get(0)));
-            }
-            catch (Exception e){
-                txtGenre.setText(R.string.txt_genre_notavailable);
-            }
+        private void bindCredits(Credit credit){
+            txtName.setText(credit.getMovieTitle());
             Glide.with(itemView)
-                    .load( posterURL+movie.getMoviePoster())
+                    .load(posterURL+credit.getMoviePoster())
+                    .placeholder(R.drawable.img_crew_placeholder)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -122,12 +123,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                             return false;
                         }
                     })
-                    .into(imgPoster);
+                    .into(imgProfile);
         }
     }
 
-    public interface MovieAdapterListener{
-        void getMovieFromAdapter(Movie movie);
+    public interface CreditsAdapterListener{
+        void getCreditFromAdapter(Movie movie);
     }
 
 }

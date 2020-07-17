@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.bumptech.glide.Glide;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingMovieViewHolder> {
+public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingMovieViewHolder> implements APIInterface {
 
     private List<Movie> movieList;
     private UpcomingMovieAdapterListener upcomingMovieAdapterListener;
@@ -75,7 +76,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
 
     public class UpcomingMovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgPoster;
-        private String posterURL = "https://image.tmdb.org/t/p/w342";
+        private String posterURL = APIInterface.posterUrl;
         private ProgressBar progressBar;
 
         public UpcomingMovieViewHolder(@NonNull View itemView) {

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.controller.MovieController;
+import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
@@ -31,10 +32,10 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailsActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener {
+public class MovieDetailsActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener, APIInterface {
 
     public static final String KEY_MOVIE = "key_movie";
-    private String posterURL = "https://image.tmdb.org/t/p/w342";
+    private String posterURL = APIInterface.posterUrl;
     private ImageView imgPoster;
     private View bgView;
     private MaterialButton btnSubscribe;

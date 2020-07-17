@@ -18,8 +18,6 @@ import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.utils.ResultListener;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 

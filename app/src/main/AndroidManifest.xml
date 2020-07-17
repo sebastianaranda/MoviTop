@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.CastActivity"></activity>
+        <activity
+            android:name=".view.CastActivity"
+            android:parentActivityName=".view.MovieDetailsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.AboutUsActivity"
             android:parentActivityName=".view.MainActivity"

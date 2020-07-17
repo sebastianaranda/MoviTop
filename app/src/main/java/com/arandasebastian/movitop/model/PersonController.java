@@ -2,9 +2,9 @@ package com.arandasebastian.movitop.model;
 
 import com.arandasebastian.movitop.utils.ResultListener;
 
-public class PersonController {
+public class PersonController implements APIInterface {
 
-    private String api_key = "0cf053dd57b977f8a13b6a244510cfc1";
+    private String api_key = APIInterface.api_key;
 
     public Person getPersonFromDAO(Integer personID, String language, final ResultListener<Person> viewListener){
         PersonDAO personDAO = new PersonDAO();
@@ -16,4 +16,5 @@ public class PersonController {
         });
         return null;
     }
+
 }

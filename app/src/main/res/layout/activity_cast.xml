@@ -47,7 +47,7 @@
                 app:cardElevation="2dp">
 
                 <ImageView
-                    android:contentDescription="@string/contentDescription_MoviePoster"
+                    android:contentDescription="@string/contentDescription_ActorImage"
                     android:id="@+id/activity_cast_imageview_profileimage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -76,7 +76,7 @@
                 android:id="@+id/activity_cast_textview_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="2011-01-01"
+                tools:text="2000-01-01"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_name"
                 app:layout_constraintRight_toRightOf="parent"
@@ -89,7 +89,7 @@
                 android:id="@+id/activity_cast_textview_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="San Francisco, California, USA"
+                tools:text="Ciudad, Estado, Pais"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_birthday"
                 app:layout_constraintRight_toRightOf="parent"
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Peliculas protagonizadas"
+                android:text="@string/txt_activity_cast_movies_title"
                 android:textAllCaps="true"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
@@ -163,7 +163,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_cast_textview_movie_title"
                 app:reverseLayout="false"
-                tools:listitem="@layout/horizontal_movie_row"/>
+                tools:listitem="@layout/horizontal_cast_row"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

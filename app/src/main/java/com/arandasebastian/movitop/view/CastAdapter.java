@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Cast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -20,7 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> implements APIInterface {
 
     private List<Cast> castList;
     private CastAdapterListener castAdapterListener;
@@ -62,7 +63,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     public class CastViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgPoster;
         private TextView txtName;
-        private String posterURL = "https://image.tmdb.org/t/p/w342";
+        private String posterURL = APIInterface.posterUrl;
         private ProgressBar progressBar;
 
         public CastViewHolder(@NonNull final View itemView) {

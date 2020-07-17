@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.bumptech.glide.Glide;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdapter.SearchedMovieViewHolder> {
+public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdapter.SearchedMovieViewHolder> implements APIInterface {
 
     private SearchedMovieAdapterListener searchedMovieAdapterListener;
     private List<Movie> movieList;
@@ -85,7 +86,7 @@ public class SearchedMovieAdapter extends RecyclerView.Adapter<SearchedMovieAdap
         private TextView txtTitle, txtGenre;
         private MaterialButton btnAdd;
         private ProgressBar progressBar;
-        private String posterURL = "https://image.tmdb.org/t/p/w342";
+        private String posterURL = APIInterface.posterUrl;
         private FirebaseUser currentUser;
 
         public SearchedMovieViewHolder(@NonNull View itemView) {

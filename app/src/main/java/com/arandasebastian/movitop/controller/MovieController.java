@@ -1,14 +1,15 @@
 package com.arandasebastian.movitop.controller;
 
+import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.MovieDAO;
 import com.arandasebastian.movitop.utils.ResultListener;
 import java.util.List;
 
-public class MovieController {
+public class MovieController implements APIInterface {
 
-    private String api_key = "0cf053dd57b977f8a13b6a244510cfc1";
+    private String api_key = APIInterface.api_key;
     private Integer page = 1;
     private Integer pageTop = 1;
     private Integer limit = null;
