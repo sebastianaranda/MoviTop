@@ -13,9 +13,12 @@ import java.util.List;
 public class FirestoreDAO {
 
     private static final String COLLECTION_MOVIES = "Movies";
+    private static final String COLLECTION_CAST = "Cast";
+    //TODO: borrar esto si no funciona
     public static final String DOCUMENT_SUBS_MOVIES = "SubscribedMovies";
     private FirebaseFirestore firestore;
     private MoviesContainer moviesContainer;
+    private CastContainer castContainer;
     private FirebaseUser currentUser;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
@@ -23,6 +26,7 @@ public class FirestoreDAO {
     public FirestoreDAO(){
         firestore = FirebaseFirestore.getInstance();
         moviesContainer = new MoviesContainer();
+        castContainer = new CastContainer();
     }
 
     public void addMovieToSubscribed(Movie movie, FirebaseUser currentUser){
@@ -40,6 +44,23 @@ public class FirestoreDAO {
         firestore.collection(COLLECTION_MOVIES)
                 .document(currentUser.getUid())
                 .set(moviesContainer);
+    }
+
+    public void addCastToSubscribed(Cast cast, FirebaseUser currentUser){
+        getSubscribedCast(new ResultListener<List<Cast>>() {
+            @Override
+            public void finish(List<Cast> result) {
+                castContainer.setCastList(result);
+            }
+        }, currentUser);
+        if (!castContainer.checkCastOnList(cast)){
+            castContainer.addCast(cast);
+        } else {
+            castContainer.removeCast(cast);
+        }
+        firestore.collection(COLLECTION_CAST)
+                .document(currentUser.getUid())
+                .set(castContainer);
     }
 
     public void getSubscribedMovies(final ResultListener<List<Movie>> controllerListener, FirebaseUser currentUser){
@@ -61,6 +82,29 @@ public class FirestoreDAO {
                     public void onFailure(@NonNull Exception e) {
                         moviesContainer = new MoviesContainer();
                         controllerListener.finish(moviesContainer.getMovieList());
+                    }
+                });
+    }
+
+    public void getSubscribedCast(final ResultListener<List<Cast>> controllerListener, FirebaseUser currentUser){
+        firestore.collection(COLLECTION_CAST)
+                .document(currentUser.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        castContainer = documentSnapshot.toObject(CastContainer.class);
+                        if (castContainer == null){
+                            castContainer = new CastContainer();
+                        }
+                        controllerListener.finish(castContainer.getCastList());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        castContainer = new CastContainer();
+                        controllerListener.finish(castContainer.getCastList());
                     }
                 });
     }

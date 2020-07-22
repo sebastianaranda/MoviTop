@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
+import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.User;
 import com.arandasebastian.movitop.utils.ResultListener;
@@ -23,16 +26,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements UpcomingMovieAdapter.UpcomingMovieAdapterListener, CastAdapter.CastAdapterListener {
 
     private static final String COLLECTION_USERS = "Users";
 
-    private TextView txtUserName, txtMoviesFavCount,txtPeopleFavCount,txtSeriesFavCount;
+    private TextView txtUserName;
     private CircleImageView imgUserProfileImage;
     private UserProfileListener userProfileListener;
     private User user;
     private FirebaseFirestore firestore;
     private FirebaseUser currentUser;
+
+    private FirestoreController firestoreController;
+    private UpcomingMovieAdapter movieAdapter;
+    private CastAdapter castAdapter;
+    private Movie selectedMovie;
+    private Cast selectedCast;
 
     public UserProfileFragment() {
     }
@@ -44,39 +53,83 @@ public class UserProfileFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getSubscribedMovies(currentUser);
+        getSubscribedCast(currentUser);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        selectedCast = null;
+        selectedMovie = null;
+
+        movieAdapter = new UpcomingMovieAdapter(this);
+        castAdapter = new CastAdapter(this);
+
+        RecyclerView subscribedMoviesRecycler = view.findViewById(R.id.fragment_user_profile_subscribed_movies_list_recycler);
+        RecyclerView subscribedCastRecycler = view.findViewById(R.id.fragment_user_profile_subscribed_cast_list_recycler);
 
         firestore = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        FirestoreController firestoreController = new FirestoreController();
+        getCurrentUser();
+        firestoreController = new FirestoreController();
 
         MaterialButton btnLogout = view.findViewById(R.id.fragment_user_profile_material_button_logout);
         txtUserName = view.findViewById(R.id.fragment_user_profile_user_name);
-        txtMoviesFavCount = view.findViewById(R.id.fragment_user_profile_fav_movies_count);
-        txtPeopleFavCount = view.findViewById(R.id.fragment_user_profile_fav_people_count);
-        txtSeriesFavCount = view.findViewById(R.id.fragment_user_profile_fav_series_count);
         imgUserProfileImage = view.findViewById(R.id.fragment_user_profile_user_image);
 
-        getCurrentUser();
-        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
-            @Override
-            public void finish(List<Movie> result) {
-                txtMoviesFavCount.setText(String.valueOf(result.size()));
-                //TODO: modificar una vez implementado
-                txtPeopleFavCount.setText("Coming Soon...");
-                txtSeriesFavCount.setText("Coming Soon...");
-            }
-        }, currentUser);
+        getSubscribedMovies(currentUser);
+        getSubscribedCast(currentUser);
+
+        LinearLayoutManager linearLayoutManagerMovies = (LinearLayoutManager) subscribedMoviesRecycler.getLayoutManager();
+        subscribedMoviesRecycler.setLayoutManager(linearLayoutManagerMovies);
+        subscribedMoviesRecycler.setAdapter(movieAdapter);
+
+        LinearLayoutManager linearLayoutManagerCast = (LinearLayoutManager) subscribedCastRecycler.getLayoutManager();
+        subscribedCastRecycler.setLayoutManager(linearLayoutManagerCast);
+        subscribedCastRecycler.setAdapter(castAdapter);
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userProfileListener.userLogOut();
+                userProfileListener.userProfileFragmentAction("userLogout",selectedMovie,selectedCast);
             }
         });
         return view;
+    }
+
+
+    private void getSubscribedMovies(FirebaseUser currentUser){
+        firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                if (result.size() != 0){
+                    movieAdapter.addNewUpcomingMovies(result);
+                    movieAdapter.notifyDataSetChanged();
+                }
+            }
+        },currentUser);
+    }
+
+    private void getSubscribedCast(FirebaseUser currentUser){
+        firestoreController.getSubscribedCastList(new ResultListener<List<Cast>>() {
+            @Override
+            public void finish(List<Cast> result) {
+                if (result.size() != 0){
+                    castAdapter.addNewCast(result);
+                    castAdapter.notifyDataSetChanged();
+                }
+            }
+        }, currentUser);
     }
 
     private void getCurrentUser(){
@@ -99,7 +152,18 @@ public class UserProfileFragment extends Fragment {
                 });
     }
 
-    public interface UserProfileListener{
-        void userLogOut();
+    @Override
+    public void getUpcomingMovieFromAdapter(Movie movie) {
+        userProfileListener.userProfileFragmentAction("changeToMovie",selectedMovie,selectedCast);
     }
+
+    @Override
+    public void getCastFromAdapter(Cast selectedCast) {
+        userProfileListener.userProfileFragmentAction("changeToCast",selectedMovie,selectedCast);
+    }
+
+    public interface UserProfileListener{
+        void userProfileFragmentAction(String keyAction, Movie selectedMovie, Cast selectedCast);
+    }
+
 }

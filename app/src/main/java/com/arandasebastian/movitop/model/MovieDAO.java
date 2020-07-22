@@ -43,6 +43,21 @@ public class MovieDAO extends MovieRetrofitDAO {
         });
     }
 
+    public void getPopularMovies(String api_key, String language, Integer page, final ResultListener<List<Movie>> controllerListener){
+        Call<MoviesContainer> call = moviesService.getPopularMoviesFromAPI(api_key, language, page);
+        call.enqueue(new Callback<MoviesContainer>() {
+            @Override
+            public void onResponse(Call<MoviesContainer> call, Response<MoviesContainer> response) {
+                MoviesContainer moviesContainer = response.body();
+                controllerListener.finish(moviesContainer.getMovieList());
+            }
+
+            @Override
+            public void onFailure(Call<MoviesContainer> call, Throwable t) {
+            }
+        });
+    }
+
     public void searchMovies(String api_key, String language, String query, Integer page, final ResultListener<List<Movie>> controllerListener){
         Call<MoviesContainer> call = moviesService.searchMoviesFromAPI(api_key, language, query, page);
         call.enqueue(new Callback<MoviesContainer>() {

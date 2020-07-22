@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/txt_menu_bottom_bar_subscribed"
-        android:icon="@drawable/ic_favorite_border_24dp"
-        android:id="@+id/item_subscribed_bottom"
+        android:title="@string/txt_menu_bottom_bar_popular"
+        android:icon="@drawable/ic_popular_24dp"
+        android:id="@+id/item_popular_bottom"
         />
     <item
         android:title="@string/txt_menu_bottom_bar_home"

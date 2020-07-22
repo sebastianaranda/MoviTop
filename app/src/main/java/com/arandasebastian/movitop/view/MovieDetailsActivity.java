@@ -135,6 +135,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                 onBackPressed();
             }
         });
+
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

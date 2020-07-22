@@ -17,4 +17,19 @@ public class CastContainer {
         return castList;
     }
 
+    public void addCast(Cast cast){
+        castList.add(cast);
+    }
+
+    public void removeCast(Cast cast){
+        castList.remove(cast);
+    }
+
+    public void setCastList(List<Cast> castList) {
+        this.castList = castList;
+    }
+
+    public Boolean checkCastOnList(Cast cast){
+        return castList.contains(cast);
+    }
 }

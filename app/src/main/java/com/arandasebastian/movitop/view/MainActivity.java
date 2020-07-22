@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
+import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.model.User;
@@ -37,7 +38,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainFragmentsContainer.MainFragmentsContainerListener, SearchFragment.SearchFragmentListener, SubscribedMoviesFragment.SubscribedMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener {
 
     private static final String COLLECTION_USERS = "Users";
 
@@ -79,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
 
         fragmentList = new ArrayList<>();
         if (currentUser == null){
-            fragmentList.add(new SubscribedMoviesFragment());
-            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new HomeFragment());
             fragmentList.add(new LoginFragment());
         } else {
-            fragmentList.add(new SubscribedMoviesFragment());
-            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new HomeFragment());
             fragmentList.add(new UserProfileFragment());
         }
         viewPager = findViewById(R.id.main_activity_viewpager);
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.item_subscribed_bottom).setChecked(true);
+                        bottomNavigationView.getMenu().findItem(R.id.item_popular_bottom).setChecked(true);
                         break;
                     case 1:
                         bottomNavigationView.getMenu().findItem(R.id.item_home_bottom).setChecked(true);
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
                 }
                 removeFragment();
                 switch (menuItem.getItemId()){
-                    case R.id.item_subscribed_bottom:
+                    case R.id.item_popular_bottom:
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.item_home_bottom:
@@ -162,12 +163,12 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     private void updateUI(FirebaseUser user){
         fragmentList.clear();
         if (user != null){
-            fragmentList.add(new SubscribedMoviesFragment());
-            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new HomeFragment());
             fragmentList.add(new UserProfileFragment());
         } else {
-            fragmentList.add(new SubscribedMoviesFragment());
-            fragmentList.add(new MainFragmentsContainer());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new HomeFragment());
             fragmentList.add(new LoginFragment());
         }
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     public void onBackPressed() {
         if (searchView.isSearchOpen()){
             searchView.closeSearch();
-            attachMainFragmentsContainer(new MainFragmentsContainer());
+            attachMainFragmentsContainer(new HomeFragment());
         } else {
             super.onBackPressed();
         }
@@ -217,8 +218,16 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
+    public void changeToCast(Cast selectedCast){
+        Intent intent = new Intent(MainActivity.this,CastActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CastActivity.SELECTED_CAST,selectedCast);
+        intent.putExtras(bundle);
+        startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
     @Override
-    public void changeMainFragmentsContainerToDetails(Movie selectedMovie) {
+    public void changeHomeFragmentToDetails(Movie selectedMovie) {
         changeToDetails(selectedMovie);
     }
 
@@ -247,14 +256,8 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
     }
 
     @Override
-    public void changeSubscribedMoviesFragmentToDetails(Movie selectedMovie) {
+    public void changePopularMoviesFragmentToDetails(Movie selectedMovie) {
         changeToDetails(selectedMovie);
-    }
-
-    @Override
-    public void userLogOut() {
-        FirebaseAuth.getInstance().signOut();
-        updateUI(null);
     }
 
     @Override
@@ -272,6 +275,22 @@ public class MainActivity extends AppCompatActivity implements MainFragmentsCont
             case "aboutUs":
                 Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
                 startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void userProfileFragmentAction(String keyAction, Movie selectedMovie, Cast selectedCast) {
+        switch (keyAction){
+            case "userLogout":
+                FirebaseAuth.getInstance().signOut();
+                updateUI(null);
+                break;
+            case "changeToMovie":
+                changeToDetails(selectedMovie);
+                break;
+            case "changeToCast":
+                changeToCast(selectedCast);
                 break;
         }
     }

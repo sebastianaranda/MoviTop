@@ -12,7 +12,7 @@
     <string name="txt_upcomingmovies_title">Upcoming…</string>
     <string name="txt_btn_searched_movie_adapter_added">Added</string>
     <string name="txt_btn_searched_movie_adapter_add">Add</string>
-    <string name="txt_menu_bottom_bar_subscribed">SUBSCRIBED</string>
+    <string name="txt_menu_bottom_bar_popular">POPULAR</string>
     <string name="txt_menu_bottom_bar_home">HOME</string>
     <string name="txt_menu_bottom_bar_profile">PROFILE</string>
     <string name="txt_userprofile_fav_movies_count_title">Subscribed Movies</string>
@@ -43,4 +43,5 @@
     <string name="txt_castactivity_birthday_noavailable">Birthday not available</string>
     <string name="txt_castactivity_location_noavailable">N/A</string>
     <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
+    <string name="txt_current_popular_movies_title">Current popular movies</string>
 </resources>

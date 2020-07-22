@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_user_profile"
+    android:background="@color/bg_main_activity"
     tools:context=".view.UserProfileFragment"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/fragment_user_profile_header"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="matrix"
-            android:src="@drawable/bg_user_profile"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_header_user"
             app:layout_constraintBottom_toTopOf="@id/fragment_user_profile_guide_horizontal_center"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,128 +44,80 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_user_image" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fragment_user_profile_fav_movies_bg"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            app:cardCornerRadius="25dp"
-            android:backgroundTint="@color/white"
-            android:layout_marginTop="32dp"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_guide_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_guide_vertical_right"
+        <!-- RECYCLER PELICULAS -->
+        <View
+            android:id="@+id/fragment_user_profile_view_bg_movierecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/fullBlack"
+            android:alpha="0.3"
+            app:layout_constraintTop_toTopOf="@+id/fragment_user_profile_subscribed_movies_list_title"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_user_profile_subscribed_movies_list_recycler" />
+
+        <TextView
+            android:id="@+id/fragment_user_profile_subscribed_movies_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PELICULAS FAVORITAS"
+            android:textAllCaps="true"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="21dp"
             app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_user_name"
-            app:cardElevation="5dp"/>
+            android:layout_marginTop="12dp"
+            android:paddingTop="8dp" />
 
-        <TextView
-            android:id="@+id/fragment_user_profile_fav_movies_title"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_user_profile_subscribed_movies_list_recycler"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txt_userprofile_fav_movies_count_title"
-            android:textSize="20sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@id/fragment_user_profile_fav_movies_bg"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_movies_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_movies_bg"
-            android:textColor="@color/black"
-            android:elevation="5dp"/>
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_user_profile_subscribed_movies_list_title"
+            app:reverseLayout="false"
+            tools:listitem="@layout/horizontal_movie_row"
+            android:paddingBottom="20dp"/>
+
+        <!-- RECYCLER CAST -->
+        <View
+            android:id="@+id/fragment_user_profile_view_bg_castrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/fullBlack"
+            android:alpha="0.3"
+            app:layout_constraintTop_toTopOf="@+id/fragment_user_profile_subscribed_cast_list_title"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_user_profile_subscribed_cast_list_recycler" />
 
         <TextView
-            android:id="@+id/fragment_user_profile_fav_movies_count"
+            android:id="@+id/fragment_user_profile_subscribed_cast_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="10"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_movies_title"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_movies_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_movies_bg"
-            app:layout_constraintBottom_toBottomOf="@id/fragment_user_profile_fav_movies_bg"
-            android:elevation="5dp"/>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fragment_user_profile_fav_people_bg"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            app:cardCornerRadius="25dp"
-            android:backgroundTint="@color/white"
-            android:layout_marginTop="32dp"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_guide_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_guide_vertical_right"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_movies_bg"
-            app:cardElevation="5dp"/>
-
-        <TextView
-            android:id="@+id/fragment_user_profile_fav_people_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_userprofile_fav_people_count_title"
-            android:textSize="20sp"
+            android:text="ACTORES FAVORITAS"
+            android:layout_marginStart="21dp"
             android:textAllCaps="true"
-            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_subscribed_movies_list_recycler"
+            android:layout_marginTop="21dp"
+            android:paddingTop="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_user_profile_subscribed_cast_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@id/fragment_user_profile_fav_people_bg"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_people_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_people_bg"
-            android:textColor="@color/black"
-            android:elevation="5dp"/>
-
-        <TextView
-            android:id="@+id/fragment_user_profile_fav_people_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="10"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_people_title"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_people_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_people_bg"
-            app:layout_constraintBottom_toBottomOf="@id/fragment_user_profile_fav_people_bg"
-            android:elevation="5dp"/>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fragment_user_profile_fav_series_bg"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            app:cardCornerRadius="25dp"
-            android:backgroundTint="@color/white"
-            android:layout_marginTop="32dp"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_guide_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_guide_vertical_right"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_people_bg"
-            app:cardElevation="5dp"/>
-
-        <TextView
-            android:id="@+id/fragment_user_profile_fav_series_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_userprofile_fav_series_count_title"
-            android:textSize="20sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@id/fragment_user_profile_fav_series_bg"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_series_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_series_bg"
-            android:textColor="@color/black"
-            android:elevation="5dp"/>
-
-        <TextView
-            android:id="@+id/fragment_user_profile_fav_series_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="10"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_series_title"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_user_profile_fav_series_bg"
-            app:layout_constraintRight_toRightOf="@id/fragment_user_profile_fav_series_bg"
-            app:layout_constraintBottom_toBottomOf="@id/fragment_user_profile_fav_series_bg"
-            android:elevation="5dp"/>
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_user_profile_subscribed_cast_list_title"
+            app:reverseLayout="false"
+            tools:listitem="@layout/horizontal_cast_row"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fragment_user_profile_material_button_logout"
@@ -175,14 +127,14 @@
             android:layout_alignParentStart="true"
             android:backgroundTint="@color/colorAccent"
             android:elevation="2dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="Cerrar sesion"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textSize="14sp"
             android:textStyle="bold"
             app:cornerRadius="4dp"
-            app:layout_constraintTop_toBottomOf="@id/fragment_user_profile_fav_series_bg"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_user_profile_subscribed_cast_list_recycler"
             app:layout_constraintRight_toRightOf="parent"
             app:rippleColor="@color/black" />
 

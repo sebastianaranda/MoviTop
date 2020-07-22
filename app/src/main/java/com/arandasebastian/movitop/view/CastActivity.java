@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.arandasebastian.movitop.R;
+import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.APIInterface;
 import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Credit;
@@ -20,6 +23,7 @@ import com.arandasebastian.movitop.model.GenreController;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.Person;
 import com.arandasebastian.movitop.model.PersonController;
+import com.arandasebastian.movitop.model.SubscribedCast;
 import com.arandasebastian.movitop.utils.ResultListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -27,6 +31,10 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,20 +51,29 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
     private CreditsController creditsController;
     private CreditsAdapter creditsAdapter;
     private RecyclerView creditsRecycler;
+    private Boolean isSubscribed;
     private GenreController genreController;
+    private FirebaseUser currentUser;
+    private FirestoreController firestoreController;
+    private MaterialButton btnSubscribe;
+    private SubscribedCast subscribedCast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast);
         language = Locale.getDefault().toLanguageTag();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        firestoreController = new FirestoreController();
+        subscribedCast = new SubscribedCast();
         personController = new PersonController();
         creditsController = new CreditsController();
         creditsRecycler = findViewById(R.id.activity_cast_recyclerview_movies);
         creditsAdapter = new CreditsAdapter(this);
         genreController = new GenreController();
         MaterialButton btnBack = findViewById(R.id.activity_cast_materialbutton_back);
-        MaterialButton btnSubscribe = findViewById(R.id.activity_cast_materialbutton_subscribe);
+        btnSubscribe = findViewById(R.id.activity_cast_materialbutton_subscribe);
         imgProfile = findViewById(R.id.activity_cast_imageview_profileimage);
         txtName = findViewById(R.id.activity_cast_textview_name);
         txtBirthday = findViewById(R.id.activity_cast_textview_birthday);
@@ -65,12 +82,29 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         selectedCast = (Cast) bundle.getSerializable(SELECTED_CAST);
+
         getGenres();
         getPersonDetails(selectedCast.getPersonID(),language);
         getMoviesForActor(selectedCast.getPersonID(),language);
+
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) creditsRecycler.getLayoutManager();
         creditsRecycler.setLayoutManager(linearLayoutManager);
         creditsRecycler.setAdapter(creditsAdapter);
+
+        if (currentUser != null){
+            firestoreController.getSubscribedCastList(new ResultListener<List<Cast>>() {
+                @Override
+                public void finish(List<Cast> result) {
+                    subscribedCast.setCastList(result);
+                    isSubscribed = result.contains(selectedCast);
+                    updateBtnSubscribed();
+                }
+            }, currentUser);
+        } else {
+            subscribedCast.setCastList(new ArrayList<Cast>());
+            isSubscribed = subscribedCast.getCastList().contains(selectedCast);
+            updateBtnSubscribed();
+        }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +112,32 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
                 onBackPressed();
             }
         });
+
+        btnSubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentUser != null){
+                    firestoreController.addCastToSubscribed(selectedCast, currentUser);
+                    isSubscribed = !isSubscribed;
+                    updateBtnSubscribed();
+                } else {
+                    //TODO: sacar este toas
+                    Toast.makeText(CastActivity.this, "Debe iniciar sesion", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void updateBtnSubscribed(){
+        if (isSubscribed){
+            btnSubscribe.setText(R.string.txt_btn_subscribed);
+            btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            btnSubscribe.setTextColor(getResources().getColor(R.color.colorPrimary));
+        } else {
+            btnSubscribe.setText(R.string.txt_btn_subscribe);
+            btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
+            btnSubscribe.setTextColor(getResources().getColor(R.color.white));
+        }
     }
 
     private void getPersonDetails(Integer personID, String language){
@@ -112,7 +172,7 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
                     } else {
                         txtLocation.setText(R.string.txt_castactivity_location_noavailable);
                     }
-                    if (selectedPerson.getBiography() != null){
+                    if (!selectedPerson.getBiography().isEmpty()){
                         txtBio.setText(selectedPerson.getBiography());
                     } else {
                         txtBio.setText(R.string.txt_castactivity_biography_noavailable);

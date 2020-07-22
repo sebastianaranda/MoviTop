@@ -21,10 +21,10 @@ import com.arandasebastian.movitop.utils.ResultListener;
 import java.util.List;
 import java.util.Locale;
 
-public class MainFragmentsContainer extends Fragment implements UpcomingMovieAdapter.UpcomingMovieAdapterListener, MovieAdapter.MovieAdapterListener {
+public class HomeFragment extends Fragment implements UpcomingMovieAdapter.UpcomingMovieAdapterListener, MovieAdapter.MovieAdapterListener {
 
     private String language;
-    private MainFragmentsContainerListener mainFragmentsContainerListener;
+    private HomeFragmentListener homeFragmentListener;
     private UpcomingMovieAdapter upcomingMovieAdapter;
     private View loadingBGView;
     private ProgressBar progressBarUpcomingMovies;
@@ -35,13 +35,13 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
     private TextView txtUpcomingMoviesTitle;
     private RecyclerView upcomingMoviesRecyclerView;
 
-    public MainFragmentsContainer() {
+    public HomeFragment() {
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mainFragmentsContainerListener = (MainFragmentsContainerListener) context;
+        homeFragmentListener = (HomeFragmentListener) context;
     }
 
     @Override
@@ -52,19 +52,18 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main_fragments_container, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         language = Locale.getDefault().toLanguageTag();
 
-        upcomingMoviesRecyclerView = view.findViewById(R.id.main_fragment_upcomingmovies_list_recycler);
+        upcomingMoviesRecyclerView = view.findViewById(R.id.fragment_home_upcomingmovies_list_recycler);
         upcomingMovieAdapter = new UpcomingMovieAdapter(this);
-        txtUpcomingMoviesTitle = view.findViewById(R.id.main_fragment_upcomingmovies_list_title);
-        loadingBGView = view.findViewById(R.id.main_fragment_upcomingmovies_loading_bg);
+        txtUpcomingMoviesTitle = view.findViewById(R.id.fragment_home_upcomingmovies_list_title);
+        loadingBGView = view.findViewById(R.id.fragment_home_upcomingmovies_loading_bg);
         loadingBGView.setVisibility(View.VISIBLE);
-        progressBarUpcomingMovies = view.findViewById(R.id.main_fragment_upcomingmovies_progressbar);
+        progressBarUpcomingMovies = view.findViewById(R.id.fragment_home_upcomingmovies_progressbar);
         progressBarUpcomingMovies.setVisibility(View.VISIBLE);
-
-        RecyclerView listMoviesRecyclerView = view.findViewById(R.id.main_fragment_movies_list_recycler);
+        RecyclerView listMoviesRecyclerView = view.findViewById(R.id.fragment_home_movies_list_recycler);
         movieAdapter = new MovieAdapter(this);
         movieController = new MovieController();
         genreController = new GenreController();
@@ -72,6 +71,7 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
         getGenres();
         getNowPlayingMovies();
         getUpcomingMovies();
+
         final LinearLayoutManager linearLayoutManagerTop = (LinearLayoutManager) upcomingMoviesRecyclerView.getLayoutManager();
         upcomingMoviesRecyclerView.setLayoutManager(linearLayoutManagerTop);
         upcomingMoviesRecyclerView.setAdapter(upcomingMovieAdapter);
@@ -135,6 +135,7 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
             }
         });
     }
+
     public void getUpcomingMovies(){
         isLoading = true;
         if (movieController.getCheckForMoreTopRatedMovies()){
@@ -161,16 +162,16 @@ public class MainFragmentsContainer extends Fragment implements UpcomingMovieAda
 
     @Override
     public void getUpcomingMovieFromAdapter(Movie selectedMovie) {
-        mainFragmentsContainerListener.changeMainFragmentsContainerToDetails(selectedMovie);
+        homeFragmentListener.changeHomeFragmentToDetails(selectedMovie);
     }
 
     @Override
     public void getMovieFromAdapter(Movie selectedMovie) {
-        mainFragmentsContainerListener.changeMainFragmentsContainerToDetails(selectedMovie);
+        homeFragmentListener.changeHomeFragmentToDetails(selectedMovie);
     }
 
-    public interface MainFragmentsContainerListener{
-        void changeMainFragmentsContainerToDetails(Movie selectedMovie);
+    public interface HomeFragmentListener {
+        void changeHomeFragmentToDetails(Movie selectedMovie);
     }
 
 }

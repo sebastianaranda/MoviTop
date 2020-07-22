@@ -53,6 +53,24 @@ public class MovieController implements APIInterface {
         return null;
     }
 
+    public List<Movie> getPopularMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
+        MovieDAO movieDAO = new MovieDAO();
+        movieDAO.getPopularMovies(api_key, language, page, new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                if (limit == null){
+                    limit = result.size();
+                }
+                if (result.size() < limit){
+                    checkForMoreMovies = false;
+                }
+                page = page + 1;
+                viewListener.finish(result);
+            }
+        });
+        return null;
+    }
+
     public List<Movie> searchMoviesFromDAO(String language, String query, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
         movieDAO.searchMovies(api_key, language, query, page, new ResultListener<List<Movie>>() {
