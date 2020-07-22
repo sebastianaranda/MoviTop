@@ -1,5 +1,6 @@
 package com.arandasebastian.movitop.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -36,12 +37,9 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
     private User user;
     private FirebaseFirestore firestore;
     private FirebaseUser currentUser;
-
     private FirestoreController firestoreController;
     private UpcomingMovieAdapter movieAdapter;
     private CastAdapter castAdapter;
-    private Movie selectedMovie;
-    private Cast selectedCast;
 
     public UserProfileFragment() {
     }
@@ -60,16 +58,9 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-        selectedCast = null;
-        selectedMovie = null;
 
         movieAdapter = new UpcomingMovieAdapter(this);
         castAdapter = new CastAdapter(this);
@@ -101,7 +92,7 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userProfileListener.userProfileFragmentAction("userLogout",selectedMovie,selectedCast);
+                userProfileListener.userProfileFragmentAction("userLogout",null,null);
             }
         });
         return view;
@@ -113,7 +104,7 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
             @Override
             public void finish(List<Movie> result) {
                 if (result.size() != 0){
-                    movieAdapter.addNewUpcomingMovies(result);
+                    movieAdapter.setMovieList(result);
                     movieAdapter.notifyDataSetChanged();
                 }
             }
@@ -125,7 +116,7 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
             @Override
             public void finish(List<Cast> result) {
                 if (result.size() != 0){
-                    castAdapter.addNewCast(result);
+                    castAdapter.setCastList(result);
                     castAdapter.notifyDataSetChanged();
                 }
             }
@@ -153,13 +144,13 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
     }
 
     @Override
-    public void getUpcomingMovieFromAdapter(Movie movie) {
-        userProfileListener.userProfileFragmentAction("changeToMovie",selectedMovie,selectedCast);
+    public void getUpcomingMovieFromAdapter(Movie selectedMovie) {
+        userProfileListener.userProfileFragmentAction("changeToMovie",selectedMovie,null);
     }
 
     @Override
     public void getCastFromAdapter(Cast selectedCast) {
-        userProfileListener.userProfileFragmentAction("changeToCast",selectedMovie,selectedCast);
+        userProfileListener.userProfileFragmentAction("changeToCast",null,selectedCast);
     }
 
     public interface UserProfileListener{

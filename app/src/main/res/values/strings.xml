@@ -44,4 +44,5 @@
     <string name="txt_castactivity_location_noavailable">N/A</string>
     <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
     <string name="txt_current_popular_movies_title">Current popular movies</string>
+    <string name="txt_login_required_error">You must be logged in.</string>
 </resources>

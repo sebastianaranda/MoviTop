@@ -14,14 +14,9 @@ public class FirestoreDAO {
 
     private static final String COLLECTION_MOVIES = "Movies";
     private static final String COLLECTION_CAST = "Cast";
-    //TODO: borrar esto si no funciona
-    public static final String DOCUMENT_SUBS_MOVIES = "SubscribedMovies";
     private FirebaseFirestore firestore;
     private MoviesContainer moviesContainer;
     private CastContainer castContainer;
-    private FirebaseUser currentUser;
-    private GoogleSignInClient mGoogleSignInClient;
-    private int RC_SIGN_IN = 0;
 
     public FirestoreDAO(){
         firestore = FirebaseFirestore.getInstance();

@@ -246,7 +246,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                         }
                     },currentUser);
                 } else {
-                    Toast.makeText(this, "Debe iniciar sesion", Toast.LENGTH_SHORT).show();
+                    //TODO sacar este toast
+                    Toast.makeText(this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case "GoToMovie":
@@ -274,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 break;
             case "aboutUs":
                 Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
-                startActivity(intent);
+                startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
                 break;
         }
     }

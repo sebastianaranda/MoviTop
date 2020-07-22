@@ -89,7 +89,9 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
-                    selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
+                    if (selectedMovie.getGenreToShow() == null){
+                        selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
+                    }
                     upcomingMovieAdapterListener.getUpcomingMovieFromAdapter(selectedMovie);
                 }
             });
@@ -115,7 +117,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     }
 
     public interface UpcomingMovieAdapterListener {
-        void getUpcomingMovieFromAdapter(Movie movie);
+        void getUpcomingMovieFromAdapter(Movie selectedMovie);
     }
 
 }

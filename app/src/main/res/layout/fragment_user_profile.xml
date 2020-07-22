@@ -78,7 +78,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_user_profile_subscribed_movies_list_title"
-            app:reverseLayout="false"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
             tools:listitem="@layout/horizontal_movie_row"
             android:paddingBottom="20dp"/>
 
@@ -116,7 +117,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_user_profile_subscribed_cast_list_title"
-            app:reverseLayout="false"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
             tools:listitem="@layout/horizontal_cast_row"/>
 
         <com.google.android.material.button.MaterialButton

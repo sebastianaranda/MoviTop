@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -33,7 +35,6 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -121,8 +122,8 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
                     isSubscribed = !isSubscribed;
                     updateBtnSubscribed();
                 } else {
-                    //TODO: sacar este toas
-                    Toast.makeText(CastActivity.this, "Debe iniciar sesion", Toast.LENGTH_SHORT).show();
+                    //TODO: sacar este toast
+                    Toast.makeText(CastActivity.this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -210,7 +211,7 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
         Bundle bundle = new Bundle();
         bundle.putSerializable(MovieDetailsActivity.KEY_MOVIE,movie);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
 }

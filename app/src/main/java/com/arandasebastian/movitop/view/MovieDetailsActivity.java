@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -145,7 +146,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                     updateBtnSubscribed();
                 }else {
                     //TODO reemplazar este Toast
-                    Toast.makeText(MovieDetailsActivity.this, "Necesita iniciar sesion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetailsActivity.this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -188,7 +189,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         Bundle bundle = new Bundle();
         bundle.putSerializable(CastActivity.SELECTED_CAST,selectedCast);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
 }
