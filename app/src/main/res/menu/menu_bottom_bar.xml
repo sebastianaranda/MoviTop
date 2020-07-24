@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:title="@string/txt_menu_bottom_bar_popular"
-        android:icon="@drawable/ic_popular_24dp"
-        android:id="@+id/item_popular_bottom"
-        />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="@string/txt_menu_bottom_bar_home"
         android:icon="@drawable/ic_home_24dp"
         android:id="@+id/item_home_bottom"
         />
     <item
+        android:title="@string/txt_menu_bottom_bar_popular"
+        android:icon="@drawable/ic_popular_24dp"
+        android:id="@+id/item_popular_bottom"
+        app:labelVisibilityMode="unlabeled"
+        />
+    <item
+        android:title="GENEROS"
+        android:icon="@drawable/ic_genres_24dp"
+        android:id="@+id/item_genres_bottom"
+        app:labelVisibilityMode="unlabeled"
+        />
+    <item
         android:title="@string/txt_menu_bottom_bar_profile"
         android:icon="@drawable/ic_person_outline_24dp"
         android:id="@+id/item_profile_bottom"
+        app:labelVisibilityMode="unlabeled"
         />
 </menu>

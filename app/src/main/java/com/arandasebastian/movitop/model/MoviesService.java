@@ -31,4 +31,11 @@ public interface MoviesService {
     Call<MoviesContainer> getPopularMoviesFromAPI(@Query("api_key") String api_key,
                                                   @Query("language") String language,
                                                   @Query("page") Integer page);
+
+    @GET("/3/discover/movie")
+    Call<MoviesContainer> getMoviesByGenre(@Query("api_key") String api_key,
+                                           @Query("language") String language,
+                                           @Query("sort_by") String sort_by,
+                                           @Query("page") Integer page,
+                                           @Query("with_genres") Integer genre);
 }

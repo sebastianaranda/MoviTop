@@ -45,4 +45,7 @@
     <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
     <string name="txt_current_popular_movies_title">Current popular movies</string>
     <string name="txt_login_required_error">You must be logged in.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

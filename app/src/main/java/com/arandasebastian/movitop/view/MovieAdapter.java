@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.model.APIInterface;
@@ -80,9 +81,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         private TextView txtTitle, txtGenre;
         private String posterURL = APIInterface.posterUrl;
         private ProgressBar progressBar;
+        private CardView genreCardView;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
+            genreCardView = itemView.findViewById(R.id.movie_row_cardview_genre);
             imgPoster = itemView.findViewById(R.id.movie_row_imageview_movie_poster);
             txtTitle = itemView.findViewById(R.id.movie_row_textview_movie_title);
             txtGenre = itemView.findViewById(R.id.movie_row_textview_movie_genre);
@@ -106,6 +109,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             }
             catch (Exception e){
                 txtGenre.setText(R.string.txt_genre_notavailable);
+            }
+            if (txtGenre.getText().toString().isEmpty()){
+                genreCardView.setVisibility(View.GONE);
             }
             Glide.with(itemView)
                     .load( posterURL+movie.getMoviePoster())

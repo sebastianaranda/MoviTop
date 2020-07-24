@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
 import com.arandasebastian.movitop.model.Cast;
+import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
 import com.arandasebastian.movitop.model.User;
@@ -27,6 +28,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -38,7 +40,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener, GenresFragment.GenreFragmentListener {
 
     private static final String COLLECTION_USERS = "Users";
 
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         bottomNavigationView = findViewById(R.id.main_activity_bottom_navigation);
+        //bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
         bottomNavigationView.setSelectedItemId(R.id.item_home_bottom);
         firestoreController = new FirestoreController();
         subscribedMovies = new SubscribedMovies();
@@ -80,18 +83,20 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
         fragmentList = new ArrayList<>();
         if (currentUser == null){
-            fragmentList.add(new PopularMoviesFragment());
             fragmentList.add(new HomeFragment());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new GenresFragment());
             fragmentList.add(new LoginFragment());
         } else {
-            fragmentList.add(new PopularMoviesFragment());
             fragmentList.add(new HomeFragment());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new GenresFragment());
             fragmentList.add(new UserProfileFragment());
         }
         viewPager = findViewById(R.id.main_activity_viewpager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -121,14 +126,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.item_popular_bottom).setChecked(true);
-                        break;
-                    case 1:
                         bottomNavigationView.getMenu().findItem(R.id.item_home_bottom).setChecked(true);
                         break;
-                    case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.item_profile_bottom).setChecked(true);
+                    case 1:
+                        bottomNavigationView.getMenu().findItem(R.id.item_popular_bottom).setChecked(true);
                         break;
+                    case 2:
+                        bottomNavigationView.getMenu().findItem(R.id.item_genres_bottom).setChecked(true);
+                        break;
+                    case 3:
+                        bottomNavigationView.getMenu().findItem(R.id.item_profile_bottom).setChecked(true);
                 }
             }
 
@@ -145,14 +152,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 }
                 removeFragment();
                 switch (menuItem.getItemId()){
-                    case R.id.item_popular_bottom:
+                    case R.id.item_home_bottom:
                         viewPager.setCurrentItem(0);
                         break;
-                    case R.id.item_home_bottom:
+                    case R.id.item_popular_bottom:
                         viewPager.setCurrentItem(1);
                         break;
-                    case R.id.item_profile_bottom:
+                    case R.id.item_genres_bottom:
                         viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.item_profile_bottom:
+                        viewPager.setCurrentItem(3);
                         break;
                 }
                 return true;
@@ -162,18 +172,25 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     private void updateUI(FirebaseUser user){
         fragmentList.clear();
-        if (user != null){
-            fragmentList.add(new PopularMoviesFragment());
+        if (user == null){
             fragmentList.add(new HomeFragment());
-            fragmentList.add(new UserProfileFragment());
-        } else {
             fragmentList.add(new PopularMoviesFragment());
-            fragmentList.add(new HomeFragment());
+            fragmentList.add(new GenresFragment());
             fragmentList.add(new LoginFragment());
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+            viewPager.setAdapter(viewPagerAdapter);
+            viewPager.setCurrentItem(0);
+            bottomNavigationView.getMenu().findItem(R.id.item_home_bottom).setChecked(true);
+        } else {
+            fragmentList.add(new HomeFragment());
+            fragmentList.add(new PopularMoviesFragment());
+            fragmentList.add(new GenresFragment());
+            fragmentList.add(new UserProfileFragment());
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+            viewPager.setAdapter(viewPagerAdapter);
+            viewPager.setCurrentItem(3);
+            bottomNavigationView.getMenu().findItem(R.id.item_profile_bottom).setChecked(true);
         }
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setCurrentItem(2);
     }
 
     public void removeFragment(){
@@ -388,4 +405,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 });
     }
 
+    @Override
+    public void changeToGenreList(Genre selectedGenre) {
+        Intent intent = new Intent(MainActivity.this,MoviesByGenreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MoviesByGenreActivity.KEY_GENRE,selectedGenre);
+        intent.putExtras(bundle);
+        startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 }

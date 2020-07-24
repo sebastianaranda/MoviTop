@@ -16,6 +16,7 @@ public class MovieController implements APIInterface {
     private Boolean checkForMoreMovies = true;
     private Boolean checkForMoreTopRatedMovies = true;
     private String appendToResponse = "credits";
+    private String sort_by = APIInterface.sort_by;
 
     public List<Movie> getNowPlayingMoviesFromDAO(String language, final ResultListener<List<Movie>> viewListener){
         MovieDAO movieDAO = new MovieDAO();
@@ -102,6 +103,24 @@ public class MovieController implements APIInterface {
         movieDAO.getMovieCredits(movieID, api_key, new ResultListener<List<Cast>>() {
             @Override
             public void finish(List<Cast> result) {
+                viewListener.finish(result);
+            }
+        });
+        return null;
+    }
+
+    public List<Movie> getMoviesByGenreFromDAO(final String language, Integer genre, final ResultListener<List<Movie>> viewListener){
+        MovieDAO movieDAO = new MovieDAO();
+        movieDAO.getMoviesByGenre(api_key, language, sort_by, page, genre, new ResultListener<List<Movie>>() {
+            @Override
+            public void finish(List<Movie> result) {
+                if (limit == null){
+                    limit = result.size();
+                }
+                if (result.size() < limit){
+                    checkForMoreMovies = false;
+                }
+                page = page + 1;
                 viewListener.finish(result);
             }
         });
