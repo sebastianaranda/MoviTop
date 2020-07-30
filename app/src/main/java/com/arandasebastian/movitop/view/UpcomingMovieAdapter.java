@@ -89,8 +89,12 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
                 @Override
                 public void onClick(View v) {
                     Movie selectedMovie = movieList.get(getAdapterPosition());
-                    if (selectedMovie.getGenreToShow() == null){
-                        selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
+                    if (selectedMovie.getMovieGenre().isEmpty()){
+                        selectedMovie.setGenreToShow("Genre no Available");
+                    } else {
+                        if (selectedMovie.getGenreToShow() == null){
+                            selectedMovie.setGenreToShow(genreMap.get(selectedMovie.getMovieGenre().get(0)));
+                        }
                     }
                     upcomingMovieAdapterListener.getUpcomingMovieFromAdapter(selectedMovie);
                 }
@@ -100,6 +104,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
         private void bindSubscribedMovie(Movie movie){
             Glide.with(itemView)
                     .load(posterURL+movie.getMoviePoster())
+                    .placeholder(R.drawable.img_movie_poster_placeholder)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

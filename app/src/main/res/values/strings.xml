@@ -33,10 +33,12 @@
 
     <string name="txt_login_layout_error_empty_email">You must enter an email</string>
     <string name="txt_login_edit_text_error_empty_email">Please enter an email</string>
-
+    <string name="txt_login_layout_error_wrong_email">The email is not valid</string>
+    <string name="txt_login_layout_error_empty_name">You must enter an name</string>
+    <string name="txt_login_edit_text_error_empty_name">Please enter a name</string>
+    <string name="txt_login_layout_error_wrong_name">The name is not valid</string>
     <string name="txt_login_layout_error_empty_password">You must enter an password</string>
     <string name="txt_login_edit_text_error_empty_password">Please enter an password</string>
-    <string name="txt_login_layout_error_wrong_email">The email is not valid</string>
     <string name="txt_login_layout_error_wrong_password">The password is not valid</string>
 
     <string name="txt_activity_cast_movies_title">Known For</string>
@@ -45,7 +47,4 @@
     <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
     <string name="txt_current_popular_movies_title">Current popular movies</string>
     <string name="txt_login_required_error">You must be logged in.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

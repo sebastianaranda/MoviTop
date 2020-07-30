@@ -33,10 +33,12 @@
 
     <string name="txt_login_layout_error_empty_email">Necesitás ingresar un e-mail</string>
     <string name="txt_login_edit_text_error_empty_email">Ingresá un e-mail</string>
-
+    <string name="txt_login_layout_error_wrong_email">El email ingresado no es válido</string>
+    <string name="txt_login_layout_error_empty_name">Necesitás ingresar un nombre</string>
+    <string name="txt_login_edit_text_error_empty_name">Ingresá un nombre</string>
+    <string name="txt_login_layout_error_wrong_name">El nombre ingresado no es válido</string>
     <string name="txt_login_layout_error_empty_password">Necesitás ingresar una contraseña</string>
     <string name="txt_login_edit_text_error_empty_password">Ingresá una contraseña</string>
-    <string name="txt_login_layout_error_wrong_email">El email ingresado no es válido</string>
     <string name="txt_login_layout_error_wrong_password">La contraseña ingresada no es válida</string>
 
     <string name="txt_activity_cast_movies_title">Conocido por</string>

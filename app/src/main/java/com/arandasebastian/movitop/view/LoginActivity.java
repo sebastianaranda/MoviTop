@@ -28,8 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
@@ -40,13 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAnalytics firebaseAnalytics;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-
-    private TextInputLayout txtInputLayoutEmail, txtInputLayoutPassword;
-    private TextInputEditText txtInputEditTextEmail, txtInputEditTextPassword;
-    private String username, password;
+    private TextInputLayout txtInputLayoutEmail, txtInputLayoutPassword, txtInputLayoutName;
+    private TextInputEditText txtInputEditTextEmail, txtInputEditTextPassword, txtInputEditTextName;
+    private String email, password, name;
     private MaterialButton btnLogin, btnRegister, btnBack;
     private SignInButton btnGoogleLogin;
-
     private View loadView;
     private ProgressBar loadProgressBar;
 
@@ -63,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.activity_login_materialbutton_back);
         txtInputLayoutEmail = findViewById(R.id.activity_login_text_input_layout_email);
         txtInputEditTextEmail = findViewById(R.id.activity_login_text_input_edit_text_email);
+        txtInputLayoutName = findViewById(R.id.activity_login_text_input_layout_name);
+        txtInputEditTextName = findViewById(R.id.activity_login_text_input_edit_text_name);
         txtInputLayoutPassword = findViewById(R.id.activity_login_text_input_layout_password);
         txtInputEditTextPassword = findViewById(R.id.activity_login_text_input_edit_text_password);
         btnGoogleLogin = findViewById(R.id.sign_in_button);
@@ -75,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        username = "";
+        email = "";
+        name = "";
         password = "";
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +103,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showLoad();
-                username = txtInputEditTextEmail.getText().toString();
+                email = txtInputEditTextEmail.getText().toString();
+                name = txtInputEditTextName.getText().toString();
                 password = txtInputEditTextPassword.getText().toString();
-                if (checkForm(username,password)){
-                    loginWithFirebase(username, password);
+                if (checkForm(email, name, password)){
+                    loginWithFirebase(email, name, password);
                 }
             }
         });
@@ -114,10 +116,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showLoad();
-                username = txtInputEditTextEmail.getText().toString();
+                email = txtInputEditTextEmail.getText().toString();
+                name = txtInputEditTextName.getText().toString();
                 password = txtInputEditTextPassword.getText().toString();
-                if (checkForm(username,password)){
-                    createFirebaseUser(username, password);
+                if (checkForm(email, name, password)){
+                    createFirebaseUser(email, name, password);
                 }
             }
         });
@@ -185,13 +188,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void createFirebaseUser(String email, String password){
+    private void createFirebaseUser(String email, final String name, String password){
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             FirebaseUser user = auth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(name)
+                                    .build();
+                            user.updateProfile(profileUpdates);
                             saveLocalUserLoggedInFirestore();
                             updateUI(user);
                             Bundle bundle = new Bundle();
@@ -214,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                 .set(newUser);
     }
 
-    private void loginWithFirebase(String email, String password){
+    private void loginWithFirebase(String email, String name, String password){
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -231,7 +238,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public Boolean checkForm(String email, String password){
+    public Boolean checkForm(String email, String name, String password){
         Boolean verification = true;
         if (email.isEmpty()){
             txtInputLayoutEmail.setError(getString(R.string.txt_login_layout_error_empty_email));
@@ -243,6 +250,18 @@ public class LoginActivity extends AppCompatActivity {
                 verification = false;
             }else {
                 txtInputLayoutEmail.setError(null);
+            }
+        }
+        if (name.isEmpty()){
+            txtInputLayoutName.setError(getString(R.string.txt_login_layout_error_empty_name));
+            txtInputEditTextName.setHint(getString(R.string.txt_login_edit_text_error_empty_name));
+            verification=false;
+        } else {
+            if (name.length()<2){
+                txtInputLayoutName.setError(getString(R.string.txt_login_layout_error_wrong_name));
+                verification = false;
+            }else {
+                txtInputLayoutName.setError(null);
             }
         }
         if (password.isEmpty()){
@@ -284,4 +303,5 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setEnabled(true);
         btnGoogleLogin.setEnabled(true);
     }
+
 }
