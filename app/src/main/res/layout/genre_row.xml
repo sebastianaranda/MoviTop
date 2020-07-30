@@ -11,14 +11,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="175dp"
         android:layout_height="100dp"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp">
 
         <ImageView
+            android:id="@+id/genre_row_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/bg_genres"
             android:scaleType="centerCrop"/>
 
         <View
@@ -37,6 +37,13 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textAllCaps="true"/>
+
+        <ProgressBar
+            android:id="@+id/genre_row_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/slate"/>
 
     </androidx.cardview.widget.CardView>
 

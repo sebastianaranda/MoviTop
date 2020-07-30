@@ -6,6 +6,7 @@ public class Genre implements Serializable {
 
     private Integer id;
     private String name;
+    private String image;
 
     public Genre(){
     }
@@ -13,6 +14,13 @@ public class Genre implements Serializable {
     public Genre(Integer id, String name) {
         this.id = id;
         this.name = name;
+        this.image = "";
+    }
+
+    public Genre(Integer id, String name, String image) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -27,4 +35,11 @@ public class Genre implements Serializable {
         return name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

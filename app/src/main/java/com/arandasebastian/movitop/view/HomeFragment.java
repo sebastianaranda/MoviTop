@@ -35,6 +35,9 @@ public class HomeFragment extends Fragment implements UpcomingMovieAdapter.Upcom
     private TextView txtUpcomingMoviesTitle;
     private RecyclerView upcomingMoviesRecyclerView;
 
+    private View loadView;
+    private ProgressBar loadProgressBar;
+
     public HomeFragment() {
     }
 
@@ -55,6 +58,10 @@ public class HomeFragment extends Fragment implements UpcomingMovieAdapter.Upcom
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         language = Locale.getDefault().toLanguageTag();
+
+        loadView = view.findViewById(R.id.fragment_home_load_bg);
+        loadProgressBar = view.findViewById(R.id.fragment_home_load_progressbar);
+        showLoad();
 
         upcomingMoviesRecyclerView = view.findViewById(R.id.fragment_home_upcomingmovies_list_recycler);
         upcomingMovieAdapter = new UpcomingMovieAdapter(this);
@@ -114,6 +121,7 @@ public class HomeFragment extends Fragment implements UpcomingMovieAdapter.Upcom
                         movieAdapter.addNewMovies(result);
                         movieAdapter.notifyDataSetChanged();
                         isLoading = false;
+                        hideLoad();
                     } else {
                         Toast.makeText(getContext(), R.string.txt_nomoremoviesavailables, Toast.LENGTH_SHORT).show();
                     }
@@ -158,6 +166,16 @@ public class HomeFragment extends Fragment implements UpcomingMovieAdapter.Upcom
                 }
             });
         }
+    }
+
+    public void showLoad(){
+        loadView.setVisibility(View.VISIBLE);
+        loadProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoad(){
+        loadView.setVisibility(View.GONE);
+        loadProgressBar.setVisibility(View.GONE);
     }
 
     @Override

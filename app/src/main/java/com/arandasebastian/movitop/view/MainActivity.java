@@ -28,7 +28,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -40,7 +39,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, LoginFragment.LoginFragmentListener, GenresFragment.GenreFragmentListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, GenresFragment.GenreFragmentListener {
 
     private static final String COLLECTION_USERS = "Users";
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
             fragmentList.add(new HomeFragment());
             fragmentList.add(new PopularMoviesFragment());
             fragmentList.add(new GenresFragment());
-            fragmentList.add(new LoginFragment());
+            //fragmentList.add(new LoginFragment());
         } else {
             fragmentList.add(new HomeFragment());
             fragmentList.add(new PopularMoviesFragment());
@@ -162,7 +161,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                         viewPager.setCurrentItem(2);
                         break;
                     case R.id.item_profile_bottom:
-                        viewPager.setCurrentItem(3);
+                        if (currentUser != null){
+                            viewPager.setCurrentItem(3);
+                        } else {
+                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        }
                         break;
                 }
                 return true;
@@ -171,12 +174,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     }
 
     private void updateUI(FirebaseUser user){
+        currentUser = auth.getCurrentUser();
         fragmentList.clear();
         if (user == null){
             fragmentList.add(new HomeFragment());
             fragmentList.add(new PopularMoviesFragment());
             fragmentList.add(new GenresFragment());
-            fragmentList.add(new LoginFragment());
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
             viewPager.setAdapter(viewPagerAdapter);
             viewPager.setCurrentItem(0);
@@ -279,25 +282,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     }
 
     @Override
-    public void loginFragmentAction(String keyAction, String username, String password) {
-        switch (keyAction){
-            case "userLogin":
-                loginWithGoogle();
-                break;
-            case "localRegister":
-                createFirebaseUser(username, password);
-                break;
-            case "localLogin":
-                loginWithFirebase(username, password);
-                break;
-            case "aboutUs":
-                Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
-                startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-        }
-    }
-
-    @Override
     public void userProfileFragmentAction(String keyAction, Movie selectedMovie, Cast selectedCast) {
         switch (keyAction){
             case "userLogout":
@@ -311,98 +295,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 changeToCast(selectedCast);
                 break;
         }
-    }
-
-    private void loginWithGoogle(){
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account){
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = auth.getCurrentUser();
-                            saveUserLoggedInFirestore();
-                            updateUI(user);
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
-                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
-                        } else {
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
-
-    private void saveUserLoggedInFirestore() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail(),currentUser.getPhotoUrl().toString().replace("s96-c", "s384-c"));
-        FirebaseFirestore.getInstance()
-                .collection(COLLECTION_USERS)
-                .document(currentUser.getUid())
-                .set(newUser);
-    }
-
-    private void saveLocalUserLoggedInFirestore() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail());
-        FirebaseFirestore.getInstance()
-                .collection(COLLECTION_USERS)
-                .document(currentUser.getUid())
-                .set(newUser);
-    }
-
-    private void createFirebaseUser(String email, String password){
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            FirebaseUser user = auth.getCurrentUser();
-                            saveLocalUserLoggedInFirestore();
-                            updateUI(user);
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
-                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
-                        }
-                    }
-                });
-    }
-
-    private void loginWithFirebase(String email, String password){
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            FirebaseUser user = auth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
     }
 
     @Override

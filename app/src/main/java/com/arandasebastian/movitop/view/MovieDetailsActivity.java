@@ -38,7 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
     public static final String KEY_MOVIE = "key_movie";
     private String posterURL = APIInterface.posterUrl;
     private ImageView imgPoster;
-    private View bgView;
+    private View bgView, bgGenre;
     private MaterialButton btnSubscribe;
     private Movie selectedMovie;
     private FirestoreController firestoreController;
@@ -61,6 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         ImageView imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
         imgPoster = findViewById(R.id.activity_movie_details_imageview_poster);
         bgView = findViewById(R.id.activity_movie_details_view_color);
+        bgGenre = findViewById(R.id.activity_movie_details_bg_genre);
         TextView txtTitle = findViewById(R.id.activity_movie_details_textview_title);
         TextView txtYear = findViewById(R.id.activity_movie_details_textview_year);
         TextView txtOverview = findViewById(R.id.activity_movie_details_textview_overview);
@@ -84,7 +85,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
         txtOverview.setText(selectedMovie.getOverview());
-        txtGenre.setText(selectedMovie.getGenreToShow());
+        if (selectedMovie.getGenreToShow() != null){
+            txtGenre.setText(selectedMovie.getGenreToShow());
+        } else {
+            txtGenre.setVisibility(View.GONE);
+            bgGenre.setVisibility(View.GONE);
+        }
 
         if (selectedMovie.getMoviePoster() != null){
             Glide.with(this)
