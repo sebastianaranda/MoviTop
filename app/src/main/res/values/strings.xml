@@ -47,4 +47,15 @@
     <string name="txt_castactivity_biography_noavailable">Biography not available in the selected language.</string>
     <string name="txt_current_popular_movies_title">Current popular movies</string>
     <string name="txt_login_required_error">You must be logged in.</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="hint_name">Enter your name</string>
+    <string name="activity_login_title_email">Email</string>
+    <string name="activity_login_title_password">Password</string>
+    <string name="activity_register_title_name">Name</string>
+    <string name="activity_login_btn_login">Login</string>
+    <string name="activity_login_btn_register">Sign up</string>
+    <string name="activity_login_btn_aboutus">About us…</string>
+    <string name="activity_register_btn_finish">Finish</string>
+    <string name="txt_error">¡Sorry! - An error has occurred</string>
 </resources>

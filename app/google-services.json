@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "43882795400-8dqmrqjuco13jbvt7odtt0a545n5tguo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arandasebastian.movitop",
+            "certificate_hash": "398b6d85fa3f322dc2edaeffcac642a09eb2ea0b"
+          }
+        },
+        {
           "client_id": "43882795400-bg0niaokdtk9pmtik3s38dfsnhrqpvtm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

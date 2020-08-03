@@ -47,4 +47,15 @@
     <string name="txt_castactivity_biography_noavailable">Biografía no disponible en el idioma seleccionado.</string>
     <string name="txt_current_popular_movies_title">Peliculas populares</string>
     <string name="txt_login_required_error">Debe iniciar sesión</string>
+    <string name="hint_email">Ingresá tu correo electrónico</string>
+    <string name="hint_password">Ingresá tu contraseña</string>
+    <string name="hint_name">Ingresá tu nombre</string>
+    <string name="activity_login_title_email">Correo electrónico</string>
+    <string name="activity_login_title_password">Contraseña</string>
+    <string name="activity_register_title_name">Nombre</string>
+    <string name="activity_login_btn_login">Iniciar Sesión</string>
+    <string name="activity_login_btn_register">Registrarme</string>
+    <string name="activity_login_btn_aboutus">Acerca de…</string>
+    <string name="activity_register_btn_finish">Finalizar</string>
+    <string name="txt_error">Error en inicio de sesión</string>
 </resources>

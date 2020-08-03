@@ -129,7 +129,6 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
                     isSubscribed = !isSubscribed;
                     updateBtnSubscribed();
                 } else {
-                    //TODO: sacar este toast
                     Toast.makeText(CastActivity.this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
             }

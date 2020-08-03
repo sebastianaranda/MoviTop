@@ -160,7 +160,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                     isSubscribed = !isSubscribed;
                     updateBtnSubscribed();
                 }else {
-                    //TODO reemplazar este Toast
                     Toast.makeText(MovieDetailsActivity.this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
             }

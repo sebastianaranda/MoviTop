@@ -28,7 +28,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.regex.Pattern;
 
@@ -175,13 +174,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user){
         if (user == null){
-            Toast.makeText(this, "Error en inicio de sesion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.txt_error, Toast.LENGTH_SHORT).show();
             hideLoad();
         } else {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
-
 
     private void createFirebaseUser(String email, String password){
         auth.createUserWithEmailAndPassword(email, password)
@@ -190,9 +188,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             saveLocalUserLoggedInFirestore();
-                            startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                         } else {
-                            Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, R.string.txt_error, Toast.LENGTH_SHORT).show();
                             hideLoad();
                         }
                     }
@@ -205,7 +202,12 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance()
                 .collection(COLLECTION_USERS)
                 .document(currentUser.getUid())
-                .set(newUser);
+                .set(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+            }
+        });
     }
 
     private void loginWithFirebase(String email, String password){

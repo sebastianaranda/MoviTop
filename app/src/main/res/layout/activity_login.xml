@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="Correo electrónico"
+        android:text="@string/activity_login_title_email"
         android:textColor="@color/white"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:id="@+id/activity_login_text_input_edit_text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo electrónico"
+            android:hint="@string/hint_email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="Contraseña"
+        android:text="@string/activity_login_title_password"
         android:textColor="@color/white"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -87,7 +87,7 @@
             android:id="@+id/activity_login_text_input_edit_text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
+            android:hint="@string/hint_password"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +100,7 @@
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/colorAccent"
         android:elevation="2dp"
-        android:text="LOGIN"
+        android:text="@string/activity_login_btn_login"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textSize="14sp"
@@ -119,7 +119,7 @@
         android:layout_alignParentEnd="true"
         android:backgroundTint="@color/colorAccent"
         android:elevation="2dp"
-        android:text="REGISTRAR"
+        android:text="@string/activity_login_btn_register"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textSize="14sp"
@@ -146,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="Acerca de..."
+        android:text="@string/activity_login_btn_aboutus"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="14sp"

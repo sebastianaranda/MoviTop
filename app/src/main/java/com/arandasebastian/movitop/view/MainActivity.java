@@ -1,7 +1,6 @@
 package com.arandasebastian.movitop.view;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -18,30 +17,16 @@ import com.arandasebastian.movitop.model.Cast;
 import com.arandasebastian.movitop.model.Genre;
 import com.arandasebastian.movitop.model.Movie;
 import com.arandasebastian.movitop.model.SubscribedMovies;
-import com.arandasebastian.movitop.model.User;
 import com.arandasebastian.movitop.utils.ResultListener;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, SearchFragment.SearchFragmentListener, PopularMoviesFragment.PopularMoviesFragmentListener, UserProfileFragment.UserProfileListener, GenresFragment.GenreFragmentListener {
-
-    private static final String COLLECTION_USERS = "Users";
 
     private MaterialSearchView searchView;
     private FirestoreController firestoreController;
@@ -53,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     private ViewPagerAdapter viewPagerAdapter;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private GoogleSignInClient mGoogleSignInClient;
-    private int RC_SIGN_IN = 0;
-    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +46,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         bottomNavigationView = findViewById(R.id.main_activity_bottom_navigation);
-        //bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
         bottomNavigationView.setSelectedItemId(R.id.item_home_bottom);
         firestoreController = new FirestoreController();
         subscribedMovies = new SubscribedMovies();
@@ -85,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
             fragmentList.add(new HomeFragment());
             fragmentList.add(new PopularMoviesFragment());
             fragmentList.add(new GenresFragment());
-            //fragmentList.add(new LoginFragment());
         } else {
             fragmentList.add(new HomeFragment());
             fragmentList.add(new PopularMoviesFragment());
@@ -266,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                         }
                     },currentUser);
                 } else {
-                    //TODO sacar este toast
                     Toast.makeText(this, R.string.txt_login_required_error, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -305,4 +282,5 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
         intent.putExtras(bundle);
         startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
+
 }

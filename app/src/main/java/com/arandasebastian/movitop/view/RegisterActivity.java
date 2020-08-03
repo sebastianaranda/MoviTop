@@ -1,7 +1,6 @@
 package com.arandasebastian.movitop.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         name = "";
         txtInputLayoutName = findViewById(R.id.activity_register_text_input_layout_name);
         txtInputEditTextName = findViewById(R.id.activity_register_text_input_edit_text_name);
@@ -47,18 +45,17 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 name = txtInputEditTextName.getText().toString();
                 if (checkForm(name)){
-                    FirebaseUser user = auth.getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(name)
                             .build();
-                    user.updateProfile(profileUpdates);
-                    User newUser = new User(user.getDisplayName(),user.getEmail());
-                    newUser.setUserName(user.getDisplayName());
+                    currentUser.updateProfile(profileUpdates);
+                    User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail());
+                    newUser.setUserName(currentUser.getDisplayName());
                     FirebaseFirestore.getInstance()
                             .collection(COLLECTION_USERS)
-                            .document(user.getUid())
+                            .document(currentUser.getUid())
                             .set(newUser);
-                    updateUI(user);
+                    updateUI(currentUser);
                     Bundle bundle = new Bundle();
                     bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
@@ -86,9 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user){
         if (user == null){
-            Toast.makeText(this, "Error en inicio de sesion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.txt_error, Toast.LENGTH_SHORT).show();
         } else {
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
         }
     }
+
 }
