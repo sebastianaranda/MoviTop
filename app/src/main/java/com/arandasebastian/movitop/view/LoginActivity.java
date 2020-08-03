@@ -40,9 +40,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAnalytics firebaseAnalytics;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private TextInputLayout txtInputLayoutEmail, txtInputLayoutPassword, txtInputLayoutName;
-    private TextInputEditText txtInputEditTextEmail, txtInputEditTextPassword, txtInputEditTextName;
-    private String email, password, name;
+    private TextInputLayout txtInputLayoutPassword, txtInputLayoutEmail;
+    private TextInputEditText txtInputEditTextPassword, txtInputEditTextEmail;
+    private String email, password;
     private MaterialButton btnLogin, btnRegister, btnBack;
     private SignInButton btnGoogleLogin;
     private View loadView;
@@ -61,8 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.activity_login_materialbutton_back);
         txtInputLayoutEmail = findViewById(R.id.activity_login_text_input_layout_email);
         txtInputEditTextEmail = findViewById(R.id.activity_login_text_input_edit_text_email);
-        txtInputLayoutName = findViewById(R.id.activity_login_text_input_layout_name);
-        txtInputEditTextName = findViewById(R.id.activity_login_text_input_edit_text_name);
         txtInputLayoutPassword = findViewById(R.id.activity_login_text_input_layout_password);
         txtInputEditTextPassword = findViewById(R.id.activity_login_text_input_edit_text_password);
         btnGoogleLogin = findViewById(R.id.sign_in_button);
@@ -76,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         email = "";
-        name = "";
         password = "";
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +101,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showLoad();
                 email = txtInputEditTextEmail.getText().toString();
-                name = txtInputEditTextName.getText().toString();
                 password = txtInputEditTextPassword.getText().toString();
-                if (checkForm(email, name, password)){
-                    loginWithFirebase(email, name, password);
+                if (checkForm(email, password)){
+                    loginWithFirebase(email, password);
                 }
             }
         });
@@ -117,10 +113,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showLoad();
                 email = txtInputEditTextEmail.getText().toString();
-                name = txtInputEditTextName.getText().toString();
                 password = txtInputEditTextPassword.getText().toString();
-                if (checkForm(email, name, password)){
-                    createFirebaseUser(email, name, password);
+                if (checkForm(email, password)){
+                    createFirebaseUser(email, password);
                 }
             }
         });
@@ -183,27 +178,19 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Error en inicio de sesion", Toast.LENGTH_SHORT).show();
             hideLoad();
         } else {
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
 
 
-    private void createFirebaseUser(String email, final String name, String password){
+    private void createFirebaseUser(String email, String password){
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            FirebaseUser user = auth.getCurrentUser();
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(name)
-                                    .build();
-                            user.updateProfile(profileUpdates);
                             saveLocalUserLoggedInFirestore();
-                            updateUI(user);
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
-                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+                            startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                             hideLoad();
@@ -221,13 +208,16 @@ public class LoginActivity extends AppCompatActivity {
                 .set(newUser);
     }
 
-    private void loginWithFirebase(String email, String name, String password){
+    private void loginWithFirebase(String email, String password){
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             FirebaseUser user = auth.getCurrentUser();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
+                            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
                             updateUI(user);
                         } else {
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -238,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public Boolean checkForm(String email, String name, String password){
+    public Boolean checkForm(String email, String password){
         Boolean verification = true;
         if (email.isEmpty()){
             txtInputLayoutEmail.setError(getString(R.string.txt_login_layout_error_empty_email));
@@ -250,18 +240,6 @@ public class LoginActivity extends AppCompatActivity {
                 verification = false;
             }else {
                 txtInputLayoutEmail.setError(null);
-            }
-        }
-        if (name.isEmpty()){
-            txtInputLayoutName.setError(getString(R.string.txt_login_layout_error_empty_name));
-            txtInputEditTextName.setHint(getString(R.string.txt_login_edit_text_error_empty_name));
-            verification=false;
-        } else {
-            if (name.length()<2){
-                txtInputLayoutName.setError(getString(R.string.txt_login_layout_error_wrong_name));
-                verification = false;
-            }else {
-                txtInputLayoutName.setError(null);
             }
         }
         if (password.isEmpty()){

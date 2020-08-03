@@ -32,6 +32,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
     private FirestoreController firestoreController;
     private MaterialButton btnSubscribe;
     private SubscribedCast subscribedCast;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
         setContentView(R.layout.activity_cast);
         language = Locale.getDefault().toLanguageTag();
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         currentUser = auth.getCurrentUser();
         firestoreController = new FirestoreController();
         subscribedCast = new SubscribedCast();
@@ -105,6 +108,11 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
             isSubscribed = subscribedCast.getCastList().contains(selectedCast);
             updateBtnSubscribed();
         }
+
+        Bundle analyticsBundle = new Bundle();
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "cast");
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_ID, selectedCast.getPersonID().toString());
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

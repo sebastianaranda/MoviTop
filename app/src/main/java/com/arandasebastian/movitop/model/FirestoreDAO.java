@@ -2,7 +2,6 @@ package com.arandasebastian.movitop.model;
 
 import androidx.annotation.NonNull;
 import com.arandasebastian.movitop.utils.ResultListener;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;

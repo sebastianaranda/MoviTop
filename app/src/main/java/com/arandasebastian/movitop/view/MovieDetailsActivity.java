@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
@@ -50,12 +51,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
     private List<Cast> castList;
     private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         castRecyclerView = findViewById(R.id.activity_movie_details_recyclerview_actors);
         castAdapter = new CastAdapter(this);
         ImageView imgBg = findViewById(R.id.activity_movie_details_imageview_bg);
@@ -136,6 +139,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
             isSubscribed = subscribedMovies.getMovieList().contains(selectedMovie);
             updateBtnSubscribed();
         }
+
+        Bundle analyticsBundle = new Bundle();
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "movie");
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_ID, selectedMovie.getMovieID().toString());
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
