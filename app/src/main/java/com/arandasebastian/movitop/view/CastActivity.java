@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
@@ -60,10 +61,16 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
     private SubscribedCast subscribedCast;
     private FirebaseAnalytics firebaseAnalytics;
 
+    private View loadView;
+    private ProgressBar loadProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast);
+        loadView = findViewById(R.id.activity_cast_load_bg);
+        loadProgressBar = findViewById(R.id.activity_cast_load_progressbar);
+        showLoad();
         language = Locale.getDefault().toLanguageTag();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -145,6 +152,7 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
             btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
             btnSubscribe.setTextColor(getResources().getColor(R.color.white));
         }
+        hideLoad();
     }
 
     private void getPersonDetails(Integer personID, String language){
@@ -209,6 +217,16 @@ public class CastActivity extends AppCompatActivity implements CreditsAdapter.Cr
                 creditsAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void showLoad(){
+        loadView.setVisibility(View.VISIBLE);
+        loadProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoad(){
+        loadView.setVisibility(View.GONE);
+        loadProgressBar.setVisibility(View.GONE);
     }
 
     @Override

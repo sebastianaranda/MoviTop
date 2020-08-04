@@ -1,6 +1,5 @@
 package com.arandasebastian.movitop.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.arandasebastian.movitop.R;
 import com.arandasebastian.movitop.controller.FirestoreController;
@@ -41,6 +41,9 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
     private UpcomingMovieAdapter movieAdapter;
     private CastAdapter castAdapter;
 
+    private View loadView;
+    private ProgressBar loadProgressBar;
+
     public UserProfileFragment() {
     }
 
@@ -61,6 +64,10 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+
+        loadView = view.findViewById(R.id.fragment_user_profile_load_bg);
+        loadProgressBar = view.findViewById(R.id.fragment_user_profile_load_progressbar);
+        showLoad();
 
         movieAdapter = new UpcomingMovieAdapter(this);
         castAdapter = new CastAdapter(this);
@@ -98,7 +105,6 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
         return view;
     }
 
-
     private void getSubscribedMovies(FirebaseUser currentUser){
         firestoreController.getSubscribedMoviesList(new ResultListener<List<Movie>>() {
             @Override
@@ -106,6 +112,7 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
                 if (result.size() != 0){
                     movieAdapter.setMovieList(result);
                     movieAdapter.notifyDataSetChanged();
+                    hideLoad();
                 }
             }
         },currentUser);
@@ -118,6 +125,7 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
                 if (result.size() != 0){
                     castAdapter.setCastList(result);
                     castAdapter.notifyDataSetChanged();
+                    hideLoad();
                 }
             }
         }, currentUser);
@@ -141,6 +149,16 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
                         }
                     }
                 });
+    }
+
+    public void showLoad(){
+        loadView.setVisibility(View.VISIBLE);
+        loadProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoad(){
+        loadView.setVisibility(View.GONE);
+        loadProgressBar.setVisibility(View.GONE);
     }
 
     @Override

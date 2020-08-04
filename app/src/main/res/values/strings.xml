@@ -58,4 +58,6 @@
     <string name="activity_login_btn_aboutus">About us…</string>
     <string name="activity_register_btn_finish">Finish</string>
     <string name="txt_error">¡Sorry! - An error has occurred</string>
+
+    <string name="txt_moviedetailsactivity_overview_noavailable">Overview not available in the selected language.</string>
 </resources>

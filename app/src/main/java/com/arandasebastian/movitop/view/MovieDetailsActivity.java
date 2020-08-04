@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.arandasebastian.movitop.R;
@@ -53,10 +54,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
     private CastAdapter castAdapter;
     private FirebaseAnalytics firebaseAnalytics;
 
+    private View loadView;
+    private ProgressBar loadProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        loadView = findViewById(R.id.activity_movie_details_load_bg);
+        loadProgressBar = findViewById(R.id.activity_movie_details_load_progressbar);
+        showLoad();
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         castRecyclerView = findViewById(R.id.activity_movie_details_recyclerview_actors);
@@ -87,7 +95,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
         castRecyclerView.setAdapter(castAdapter);
         txtTitle.setText(selectedMovie.getMovieTitle());
         txtYear.setText(selectedMovie.getRelease_date().substring(0,4));
-        txtOverview.setText(selectedMovie.getOverview());
+        if (!selectedMovie.getOverview().isEmpty()){
+            txtOverview.setText(selectedMovie.getOverview());
+        } else {
+            txtOverview.setText(R.string.txt_moviedetailsactivity_overview_noavailable);
+        }
         if (selectedMovie.getGenreToShow() != null){
             txtGenre.setText(selectedMovie.getGenreToShow());
         } else {
@@ -180,6 +192,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
             btnSubscribe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
             btnSubscribe.setTextColor(getResources().getColor(R.color.white));
         }
+        hideLoad();
     }
 
     private void getCastMovie(final Movie selectedMovie){
@@ -195,6 +208,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements CastAdapt
                 }
             }
         });
+    }
+
+    public void showLoad(){
+        loadView.setVisibility(View.VISIBLE);
+        loadProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoad(){
+        loadView.setVisibility(View.GONE);
+        loadProgressBar.setVisibility(View.GONE);
     }
 
     @Override
