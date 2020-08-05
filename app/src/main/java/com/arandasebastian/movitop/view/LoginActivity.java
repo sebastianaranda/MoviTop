@@ -202,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance()
                 .collection(COLLECTION_USERS)
                 .document(currentUser.getUid())
-                .set(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                .set(newUser).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));

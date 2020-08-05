@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -45,12 +44,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 name = txtInputEditTextName.getText().toString();
                 if (checkForm(name)){
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
-                            .build();
-                    currentUser.updateProfile(profileUpdates);
-                    User newUser = new User(currentUser.getDisplayName(),currentUser.getEmail());
-                    newUser.setUserName(currentUser.getDisplayName());
+                    User newUser = new User();
+                    newUser.setUserEmail(currentUser.getEmail());
+                    newUser.setUserName(name);
                     FirebaseFirestore.getInstance()
                             .collection(COLLECTION_USERS)
                             .document(currentUser.getUid())

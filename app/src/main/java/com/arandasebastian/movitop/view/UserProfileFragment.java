@@ -112,8 +112,8 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
                 if (result.size() != 0){
                     movieAdapter.setMovieList(result);
                     movieAdapter.notifyDataSetChanged();
-                    hideLoad();
                 }
+                hideLoad();
             }
         },currentUser);
     }
@@ -125,8 +125,8 @@ public class UserProfileFragment extends Fragment implements UpcomingMovieAdapte
                 if (result.size() != 0){
                     castAdapter.setCastList(result);
                     castAdapter.notifyDataSetChanged();
-                    hideLoad();
                 }
+                hideLoad();
             }
         }, currentUser);
     }
